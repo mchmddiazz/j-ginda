@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\TableEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -8,9 +9,9 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('markable_favorites', function (Blueprint $table) {
+        Schema::create(TableEnum::MARKABLE_FAVORITES(), function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignIdFor('user_id');
             $table->morphs('markable');
             $table->string('value')->nullable();
             $table->json('metadata')->nullable();
@@ -20,6 +21,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('markable_favorites');
+        Schema::dropIfExists(TableEnum::MARKABLE_FAVORITES());
     }
 };

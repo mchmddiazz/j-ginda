@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\TableEnum;
+use App\Enums\TransactionTypeEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,18 +15,15 @@ class CreateOrderItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_items', function (Blueprint $table) {
-            $table->bigIncrements('id');
-
-            $table->unsignedBigInteger('order_id');
+        Schema::create(TableEnum::ORDER_ITEMS(), function (Blueprint $table) {
+            $table->id('id');
+            $table->unsignedBigInteger('order_id')->nullable();
             $table->unsignedBigInteger('product_id');
-            $table->unsignedInteger('quantity');
-            $table->decimal('price', 20, 6);
-
-            // $table->foreign('order_id')->references('id')->on('orders');
-            // $table->foreign('product_id')->references('id')->on('products');
-
+            $table->integer('quantity')->default(0);
+            $table->decimal('price', 20, 6)->nullable();
+            $table->enum("type", TransactionTypeEnum::values())->default(TransactionTypeEnum::OUT());
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -35,6 +34,6 @@ class CreateOrderItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_items');
+        Schema::dropIfExists(TableEnum::ORDER_ITEMS());
     }
 }

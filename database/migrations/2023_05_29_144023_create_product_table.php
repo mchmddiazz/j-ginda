@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\TableEnum;
+use App\Models\Product;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,17 +15,19 @@ class CreateProductTable extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create(TableEnum::PRODUCTS(), function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->double('price');
-            $table->double('priceDisc');
-            $table->text('description');
-            $table->integer('quantity');
-            $table->string('image');
-            $table->integer('slideActive');
-            $table->integer('status');
+            $table->double('priceDisc')->nullable();
+            $table->integer('quantity')->default(0);
+            $table->integer('quantity_threshold')->default(0);
+            $table->integer('weight')->default(0);
+            $table->string('image')->nullable();
+            $table->boolean('slideActive');
+            $table->text('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -34,6 +38,6 @@ class CreateProductTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists(TableEnum::PRODUCTS());
     }
 }
