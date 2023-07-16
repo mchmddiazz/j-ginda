@@ -10,13 +10,12 @@ var Salero = function(){
 			jQuery('.default-select,.table-responsive select').selectpicker();
 		}
 	}
-	var handlePreloader = function(){
-		setTimeout(function() {
-			jQuery('#preloader').remove();
-			$('#main-wrapper').addClass('show');
-		},800);	
-		
-	}
+	// var handlePreloader = function(){
+	// 	setTimeout(function() {
+	// 		jQuery('#preloader').remove();
+	// 		$('#main-wrapper').addClass('show');
+	// 	},800);
+	// }
 
     var handleMetisMenu = function() {
 		if(jQuery('#menu').length > 0 ){
@@ -330,20 +329,20 @@ var Salero = function(){
 		}
 	}
 	
-	var handleCkEditor = function(){
-		if(jQuery("#ckeditor").length>0) {
-			ClassicEditor
-			.create( document.querySelector( '#ckeditor' ), {
-				// toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
-			} )
-			.then( editor => {
-				window.editor = editor;
-			} )
-			.catch( err => {
-				console.error( err.stack );
-			} );
-		}
-	}
+	// var handleCkEditor = function(){
+	// 	if(jQuery("#ckeditor").length>0) {
+	// 		ClassicEditor
+	// 		.create( document.querySelector( '#ckeditor' ), {
+	// 			// toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+	// 		} )
+	// 		.then( editor => {
+	// 			window.editor = editor;
+	// 		} )
+	// 		.catch( err => {
+	// 			console.error( err.stack );
+	// 		} );
+	// 	}
+	// }
 	
 	var handleMenuPosition = function(){
 		

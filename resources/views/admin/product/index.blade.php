@@ -1,20 +1,4 @@
-@extends('layouts.admin.master')
-@push('title')
-Admin Abon Alfitri | Produk
-@endpush
-
-@push('css')
-
-<link href="{{ asset('admin/') }}/vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet">
-<link href="{{ asset('alert/css/sweetalert2.css')}} " rel="stylesheet" />
-@endpush
-
-@push('breadcrumb')
-PRODUK
-@endpush
-
-@section('content')
-<!--element-area -->
+<x-admin.layout>
 
 <div class="row">
     <!-- Column  -->
@@ -43,24 +27,41 @@ PRODUK
                                     <div class="pt-4">
 
                                         <div class="table-responsive">
-                                            <table id="example4" class="display table" style="min-width: 845px">
+                                            <table class="table">
                                                 <thead>
-                                                    <tr>
-                                                        <th></th>
-                                                        <th>#</th>
-                                                        <th>Produk</th>
-                                                        <!-- <th>Harga </th>
-                                                        <th>Harga Diskon</th> -->
-                                                        <th>Inventory</th>
-                                                        <th>Ambang Batas Kuantitas</th>
-                                                        <th>Berat (gr)</th>
-                                                        <!-- <th>Tipe Produk</th> -->
-                                                        <th>Aksi</th>
-                                                    </tr>
+                                                <tr>
+                                                    <th scope="col">No</th>
+                                                    <th scope="col">Nama Produk</th>
+                                                    <th scope="col">Kuantitas Gudang</th>
+                                                    <th scope="col">Ambang Batas Kuantitas</th>
+                                                    <th scope="col">Kondisi Stok</th>
+                                                    <th scope="col">Berat (gram)</th>
+                                                    <th scope="col">Aksi</th>
+                                                </tr>
                                                 </thead>
                                                 <tbody>
+                                                @foreach($products as $key => $product)
+                                                    <tr>
+                                                        <td>{{$products->firstItem() + $key}}</td>
+                                                        <td>{{$product->name}}</td>
+                                                        <td>{{$product->quantity . " pcs"}}</td>
+                                                        <td>{{$product->quantity_threshold . " pcs"}}</td>
+                                                        <td>
+                                                            @if($product->quantity > $product->quantity_threshold)
+                                                                <span class="badge rounded-pill bg-success">Stok Terpenuhi</span>
+                                                            @elseif($product->quantity === 0)
+                                                                <span class="badge rounded-pill bg-danger">Stok Habis</span>
+                                                            @else
+                                                                <span class="badge rounded-pill bg-warning">Stok Menipis</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>{{$product->weight. " grams"}}</td>
+                                                        <td>Aksi</td>
+                                                    </tr>
+                                                @endforeach
                                                 </tbody>
                                             </table>
+                                            {{$products->withQueryString()->links()}}
                                         </div>
                                     </div>
                                 </div>
@@ -342,390 +343,4 @@ PRODUK
         </div>
     </div>
 </div>
-@endsection
-
-@push('js')
-<!-- Datatable -->
-<script src="{{ asset('admin/') }}/vendor/datatables/js/jquery.dataTables.min.js"></script>
-<script src="{{ asset('admin/') }}/js/plugins-init/datatables.init.js"></script>
-<script src="{{ asset('alert/js/sweetalert.js') }}"></script>
-<script src="https://cdn.rawgit.com/igorescobar/jQuery-Mask-Plugin/1ef022ab/dist/jquery.mask.min.js"></script>
-<script src="{{ asset('admin/') }}/vendor/ckeditor/ckeditor.js"></script>
-<script>
-    (function () {
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.querySelectorAll('.needs-validation')
-
-        // Loop over them and prevent submission
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })()
-
-</script>
-<script>
-    function readURL(input, id) {
-        id = id || '#modal-preview';
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $(id).attr('src', e.target.result);
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    };
-
-    function readURLEdit(input, id) {
-        id = id || '#modal-previewEdit';
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $(id).attr('src', e.target.result);
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    };
-
-    function hanyaAngka(evt) {
-        var charCode = (evt.which) ? evt.which : event.keyCode
-        if (charCode > 31 && (charCode < 48 || charCode > 57))
-            return false;
-        return true;
-    }
-
-    function harusHuruf(evt) {
-        var charCode = (evt.which) ? evt.which : event.keyCode
-        if ((charCode < 65 || charCode > 90) && (charCode < 97 || charCode > 122) && charCode > 32)
-            return false;
-        return true;
-    }
-
-
-    $(document).ready(function () {
-        $('.uang').mask('000.000.000.000.000', {
-            reverse: true
-        });
-
-        function reset() {
-            $('input').val('');
-            $('select').val('');
-            $('textarea').val('');
-        }
-
-        var SITEURL = '{{URL::to('')}}';
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 10000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        });
-
-
-        var table = $('#example4').dataTable({
-            autoWidth: true,
-            processing: true,
-            serverSide: true,
-            destroy: true,
-            responsive: true,
-            dom: '<"top"<"pull-left"f><"pull-right"l>>rt<"bottom"<"pull-left"i><"pull-right"p>>',
-            columnDefs: [{
-                    responsivePriority: 1,
-                    targets: 0
-                },
-                {
-                    responsivePriority: 2,
-                    targets: 4
-                }
-            ],
-            language: {
-                processing: '<span style="color:black;">Mohon Tunggu...</span><i class="fa-solid fa-refresh fa-spin fa-3x fa-fw" style="color:#2510A3;"></i>',
-                sEmptyTable: "Tidak Ada Data Yang Tersedia Pada Tabel Ini",
-                sLengthMenu: "Tampilkan _MENU_ Baris",
-                sZeroRecords: "Tidak Ditemukan Data Yang Sesuai",
-                sInfo: "Menampilkan _START_ Sampai _END_ Dari _TOTAL_ Baris",
-                sInfoEmpty: "Menampilkan 0 Sampai 0 Dari 0 Baris",
-                sInfoFiltered: "(disaring dari _MAX_ entri keseluruhan)",
-                sInfoPostFix: "",
-                sSearch: "Cari:",
-                sUrl: "",
-            },
-            stateSave: true,
-            order: [],
-            ajax: "{{url('admin/product-list')}}",
-            deferRender: true,
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
-                },
-                {
-                    data: 'image',
-                    name: 'image'
-                },
-                {
-                    data: 'name',
-                    name: 'name'
-                },
-                {
-                    data: 'quantity',
-                    name: 'quantity'
-                },
-                {
-                    data: 'quantity_threshold',
-                    name: 'quantity_threshold'
-                },
-                {
-                    data: 'weight',
-                    name: 'weight'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                },
-            ]
-        });
-
-        $(this).on('click', '#buton_hapus', function (e) {
-            e.preventDefault();
-            let id = $(this).data('id');
-            Swal.fire({
-                title: 'Peringatan',
-                text: "Apakah anda yakin ingin menghapus produk ?",
-                icon: 'warning',
-                showCancelButton: true,
-                buttonsStyling: true,
-                confirmButtonClass: 'btn btn-danger',
-                cancelButtonClass: 'btn btn-primary',
-                confirmButtonText: 'Expired <i class="fa-solid fa-trash me-2"></i>',
-                cancelButtonText: 'Batal <i class="fa-solid fa-close me-2"> </i>'
-            }).then((result) => {
-                if (result.value) {
-                    $.ajax({
-                        type: "GET",
-                        url: `{{url('admin/product-list/delete/')}}/${id}`,
-                        data: {
-                            _token: '{{csrf_token()}}'
-                        },
-                        dataType: "json",
-                        beforeSend: function () {
-                            Swal.fire({
-                                icon: 'warning',
-                                title: 'Mohon Tunggu !',
-                                html: 'Memperbaharui...', // add html attribute if you want or remove
-                                allowOutsideClick: false,
-                                onBeforeOpen: () => {
-                                    Swal.showLoading()
-                                },
-                            });
-                        },
-                        success: function (response) {
-                            swal.close();
-                            let oTable = $('#example4').dataTable();
-                            oTable.fnDraw(false);
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: 'Produk Berhasil Dihapus !',
-                            });
-                        },
-                        error: function () {
-
-                            swal.close();
-                            Toast.fire({
-                                icon: 'error',
-                                text: 'Gagal menghapus data !'
-                            })
-                        }
-                    });
-                }
-            });
-        });
-
-        $('#data-master').on('submit', function (e) {
-            e.preventDefault();
-            $('#simpan-data').val("Tambah...");
-            $('#simpan-data').attr('disabled', true);
-            let data = $("#data-master").serialize();
-            let datax = new FormData(this);
-            $.ajax({
-                type: "post",
-                url: "{{url('/admin/product-list/store')}}",
-                data: datax,
-                dataType: "json",
-                cache: false,
-                contentType: false,
-                processData: false,
-                beforeSend: function () {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Mohon Tunggu !',
-                        html: 'Tambah Produk...', // add html attribute if you want or remove
-                        allowOutsideClick: false,
-                        onBeforeOpen: () => {
-                            Swal.showLoading()
-                        },
-                    });
-                },
-                success: function (response) {
-                    console.log(response)
-                    $('#simpan-data').val("Tambah");
-                    $('#simpan-data').removeAttr('disabled');
-                    if (response.status == 1) {
-                        swal.close();
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil',
-                            text: 'Berhasil Menambah Produk!',
-                        });
-                        reset();
-                        window.location.href = `{{ url('admin/product-list') }}`;
-                    } else if (response.status == 3) {
-                        Toast.fire({
-                            icon: 'warning',
-                            title: 'Harga Diskon Tidak Boleh Lebih Besar Dari Harga!'
-                        });
-                    } else {
-                        Toast.fire({
-                            icon: 'warning',
-                            title: 'Gagal!'
-                        });
-                    }
-                },
-                error: function (e) {
-                    console.log(e.responseText)
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Gagal !'
-                    });
-                    $('#simpan-data').val(`Tambah`);
-                    $('#simpan-data').removeAttr('disabled');
-
-                }
-            });
-        });
-
-
-        $('#data-master-edit').on('submit', function (e) {
-            e.preventDefault();
-            $('#simpan-data-edit').val("Update...");
-            $('#simpan-data-edit').attr('disabled', true);
-            let data = $("#data-master-edit").serialize();
-            let datax = new FormData(this);
-            // console.log(data[0].jenis_menu);
-            console.log(data);
-            $.ajax({
-                type: "post",
-                url: "{{url('/admin/product-list/store')}}",
-                data: datax,
-                dataType: "json",
-                cache: false,
-                contentType: false,
-                processData: false,
-                beforeSend: function () {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Mohon Tunggu !',
-                        html: 'Tambah Produk...', // add html attribute if you want or remove
-                        allowOutsideClick: false,
-                        onBeforeOpen: () => {
-                            Swal.showLoading()
-                        },
-                    });
-                },
-                success: function (response) {
-                    $('#simpan-data-edit').val("Update");
-                    $('#simpan-data-edit').removeAttr('disabled');
-                    if (response.status == 1) {
-                        let oTable = $('#example4').dataTable();
-                        oTable.fnDraw(false);
-                        swal.close();                    
-                        $("#modelId").modal('hide');
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil',
-                            text: 'Berhasil Memperbaharui!',
-                        });
-                        reset();
-                    } else if (response.status == 3) {
-                        Toast.fire({
-                            icon: 'warning',
-                            title: 'Harga Diskon Tidak Boleh Lebih Besar Dari Harga!'
-                        });
-                    } else {
-                        Toast.fire({
-                            icon: 'warning',
-                            title: 'Gagal!'
-                        });
-                    }
-                },
-                error: function (e) {
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'Gagal !'
-                    });
-                    $('#simpan-data-edit').val(`Update`);
-                    $('#simpan-data-edit').removeAttr('disabled');
-
-                }
-            });
-        });
-
-        $(this).on('click', "#buton_edit", function (e) {
-            e.preventDefault();
-            let id = $(this).data('id');
-            $.ajax({
-                type: "get",
-                url: `{{url('admin/product-list/edit')}}/${id}`,
-                dataType: "json",
-                success: function (response) {
-                    $("#product_idEdit").val(response.id);
-                    $("#nameEdit").val(response.name);
-                    $("#priceEdit").val(response.price).trigger('input');
-                    $("#priceDiscEdit").val(response.priceDisc).trigger('input');
-                    $("#quantityEdit").val(response.quantity);
-                    $("#weightEdit").val(response.weight);
-                    $("#ckeditorEdit").val(response.description);
-                    $("#slideActiveEdit").val(response.slideActive).change('change');
-                    $('#modal-previewEdit').attr('alt', 'No image available');
-                    if (response.image) {
-                        $('#modal-previewEdit').attr('src', `{{ URL::to('public/product/') }}` + response
-                            .image);
-                        $('#hidden_imageEdit').attr('src', `{{ URL::to('public/product/') }}` + response
-                            .image);
-                    }
-                },
-                error: function () {
-                    Toast.fire({
-                        type: 'error',
-                        title: 'Gagal mengambil data !'
-                    })
-                }
-            });
-            $(".modal-title").html("Ubah Data Produk");
-        });
-    });
-
-</script>
-@endpush
+</x-admin.layout>

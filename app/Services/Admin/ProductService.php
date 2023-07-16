@@ -16,10 +16,13 @@ class ProductService extends \Iqbalatma\LaravelServiceRepo\BaseService
 
 
     /**
-     * @return LengthAwarePaginator
+     * @return array
      */
-    public function getAllDataPaginated():LengthAwarePaginator
+    public function getAllDataPaginated():array
     {
-        return $this->repository->getAllDataPaginated();
+        return [
+            "products" => $this->repository->getAllDataPaginated(),
+            "title" => "Produk"
+        ];
     }
 }

@@ -10,7 +10,7 @@ use App\Http\Controllers\LandingPage\{
     HomeController
 };
 use App\Http\Controllers\Product\{
-    ProductController,
+    ProductController as ExternalProductController,
     OrderController,
     CartController,
     CityController
@@ -26,7 +26,7 @@ use App\Http\Controllers\Payment\{
 use App\Http\Controllers\Admin\{DashboardController,
     OrdersController,
     OrderTransactionController,
-    ProductsController,
+    ProductController,
     AboutUsController,
     UsersController};
 
@@ -53,9 +53,9 @@ Route::get('/shop', [HomeController::class, 'shop'])->name('landingPage.shop');
 Route::get('/story', [HomeController::class, 'about'])->name('landingPage.about');
 Route::get('/virtualOutlet', [HomeController::class, 'virtualOutlet'])->name('landingPage.virtual');
 
-Route::get('/product/modal/{id}', [ProductController::class, 'getData']);
-Route::get('/product/getProduct/details/{id}', [ProductController::class, 'getProductDetail']);
-Route::get('search', [ProductController::class, 'search']);
+Route::get('/product/modal/{id}', [ExternalProductController::class, 'getData']);
+Route::get('/product/getProduct/details/{id}', [ExternalProductController::class, 'getProductDetail']);
+Route::get('search', [ExternalProductController::class, 'search']);
 
 
 Route::get('/getKabupaten/{id}', [CityController::class, 'getKabupaten']);
@@ -91,10 +91,10 @@ Route::group(['middleware' => ['admin']], function () {
         Route::get('orders/updateAccept/{id}', [OrdersController::class, 'updateAccept']);
         Route::post('orders/shipping', [OrdersController::class, 'shipping']);
         
-        Route::get('product-list', [ProductsController::class, 'index']);
-        Route::get('product-list/edit/{id}', [ProductsController::class, 'edit']);
-        Route::post('product-list/store', [ProductsController::class, 'store']);
-        Route::get('product-list/delete/{id}', [ProductsController::class, 'destroy']);
+        Route::get('product-list', [ProductController::class, 'index']);
+        Route::get('product-list/edit/{id}', [ProductController::class, 'edit']);
+        Route::post('product-list/store', [ProductController::class, 'store']);
+        Route::get('product-list/delete/{id}', [ProductController::class, 'destroy']);
 
         Route::get('aboutus-list', [AboutUsController::class, 'index']);
         Route::get('aboutus-list/edit/{id}', [AboutUsController::class, 'edit']);

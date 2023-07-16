@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\OrderItem;
+use App\Services\Admin\ProductService;
 use Exception;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -16,40 +18,19 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 
-class ProductsController extends Controller
+class ProductController extends Controller
 {
-    function index(Request $request)
+
+    /**
+     * @param ProductService $service
+     * @return Response
+     */
+    public function index(ProductService $service):Response
     {
-//        if (request()->ajax()) {
-//            $data = Product::orderBy('id', 'DESC')
-//                ->get();
-//
-//            return DataTables()->of($data)
-//                ->addColumn('action', function ($data) {
-//                    return '<a href="#" class="btn btn-info" data-id="' . $data->id . '" data-bs-toggle="modal" data-bs-target="#modelId" id="buton_edit"><i class="fa-solid fa-edit me-2"></i> Edit</a> ' .
-//                        '<a href="#" class="btn btn-danger" data-id="' . $data->id . '" id="buton_hapus"><i class="fa-solid fa-trash me-2"></i> Hapus</a>';
-//                })
-//                ->addColumn('quantity', function ($data) {
-//                    $quantity = $data->quantity <= $data->quantity_threshold ?
-//                        "Stok rendah, tersisa $data->quantity stok" :
-//                        "$data->quantity stok tersedia";
-//
-//                    return $quantity;
-//                })
-//                ->addColumn("quantity_threshold", function ($data) {
-//                    return "$data->quantity_threshold pcs";
-//                })
-//                ->addColumn("weight", function ($data) {
-//                    return "$data->weight grams";
-//                })
-//                ->addColumn('image', function ($data) {
-//                    return '<img src="' . asset('product') . '/' . $data->image . '" alt="Site Logo" style="height: 95px;">';
-//                })
-//                ->rawColumns(['action', 'image'])
-//                ->addIndexColumn()
-//                ->make(true);
-//        }
-        return view('admin.product.index');
+        $response = $service->getAllDataPaginated();
+
+        viewShare($response);
+        return response()->view("admin.product.index");
     }
 
 
