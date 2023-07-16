@@ -52,6 +52,7 @@ PRODUK
                                                         <!-- <th>Harga </th>
                                                         <th>Harga Diskon</th> -->
                                                         <th>Inventory</th>
+                                                        <th>Ambang Batas Kuantitas</th>
                                                         <th>Berat (gr)</th>
                                                         <!-- <th>Tipe Produk</th> -->
                                                         <th>Aksi</th>
@@ -89,7 +90,7 @@ PRODUK
                                                     <div class="input-group transparent-append">
                                                         <span class="input-group-text"> Rp.
                                                         </span>
-                                                        <input type="text" name="price"
+                                                        <input type="number" name="price"
                                                             onkeypress="return hanyaAngka(event)"
                                                             oninput="setCustomValidity('')" class="form-control uang"
                                                             id="price" placeholder="Enter a price product.." required>
@@ -105,7 +106,7 @@ PRODUK
                                                     <div class="input-group transparent-append">
                                                         <span class="input-group-text"> Rp.
                                                         </span>
-                                                        <input type="text" name="priceDisc"
+                                                        <input type="number" name="priceDisc"
                                                             onkeypress="return hanyaAngka(event)"
                                                             oninput="setCustomValidity('')" class="form-control uang"
                                                             id="priceDisc" placeholder="Enter a price product.."
@@ -121,7 +122,23 @@ PRODUK
                                                     <div class="input-group transparent-append">
                                                         <span class="input-group-text"> Qty.
                                                         </span>
-                                                        <input type="text" name="quantity"
+                                                        <input type="number" name="quantity"
+                                                            onkeypress="return hanyaAngka(event)"
+                                                            oninput="setCustomValidity('')" class="form-control uang"
+                                                            id="quantity" placeholder="Enter a quantity product.."
+                                                            required>
+                                                        <div class="invalid-feedback">
+                                                            Please Enter a Quantity Product.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="text-label form-label" for="price">Ambang Batas Kuantitas
+                                                        *</label>
+                                                    <div class="input-group transparent-append">
+                                                        <span class="input-group-text"> Qty.
+                                                        </span>
+                                                        <input type="number" name="quantity_threshold"
                                                             onkeypress="return hanyaAngka(event)"
                                                             oninput="setCustomValidity('')" class="form-control uang"
                                                             id="quantity" placeholder="Enter a quantity product.."
@@ -137,7 +154,7 @@ PRODUK
                                                     <div class="input-group transparent-append">
                                                         <span class="input-group-text"> Gr.
                                                         </span>
-                                                        <input type="text" name="weight"
+                                                        <input type="number" name="weight"
                                                             onkeypress="return hanyaAngka(event)"
                                                             oninput="setCustomValidity('')" class="form-control"
                                                             id="weight" placeholder="Enter a weight Product.."
@@ -229,7 +246,7 @@ PRODUK
                         <div class="input-group transparent-append">
                             <span class="input-group-text"> Rp.
                             </span>
-                            <input type="text" name="price" onkeypress="return hanyaAngka(event)"
+                            <input type="number" name="price" onkeypress="return hanyaAngka(event)"
                                 oninput="setCustomValidity('')" class="form-control uang" id="priceEdit"
                                 placeholder="Enter a price product.." required>
                             <div class="invalid-feedback">
@@ -244,7 +261,7 @@ PRODUK
                         <div class="input-group transparent-append">
                             <span class="input-group-text"> Rp.
                             </span>
-                            <input type="text" name="priceDisc" onkeypress="return hanyaAngka(event)"
+                            <input type="number" name="priceDisc" onkeypress="return hanyaAngka(event)"
                                 oninput="setCustomValidity('')" class="form-control uang" id="priceDiscEdit"
                                 placeholder="Enter a price product.." required>
                             <div class="invalid-feedback">
@@ -253,26 +270,26 @@ PRODUK
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="text-label form-label" for="price">Jumlah
+                        <label class="text-label form-label" for="price">Jumlah Ambang Batas
                             *</label>
                         <div class="input-group transparent-append">
                             <span class="input-group-text"> Qty.
                             </span>
-                            <input type="text" name="quantity" onkeypress="return hanyaAngka(event)"
+                            <input type="number" name="quantity_threshold" onkeypress="return hanyaAngka(event)"
                                 oninput="setCustomValidity('')" class="form-control uang" id="quantityEdit"
                                 placeholder="Enter a quantity product.." required>
                             <div class="invalid-feedback">
                                 Please Enter a Quantity Product.
                             </div>
                         </div>
-                    </div>  
+                    </div>
                     <div class="mb-3">
                         <label class="text-label form-label" for="price">Berat ( GRAM )
                             *</label>
                         <div class="input-group transparent-append">
                             <span class="input-group-text"> Gr.
                             </span>
-                            <input type="text" name="weight"
+                            <input type="number" name="weight"
                                 onkeypress="return hanyaAngka(event)"
                                 oninput="setCustomValidity('')" class="form-control"
                                 id="weightEdit" placeholder="Enter a weight Product.."
@@ -469,26 +486,18 @@ PRODUK
                     data: 'name',
                     name: 'name'
                 },
-                // {
-                //     data: 'price',
-                //     name: 'price'
-                // },
-                // {
-                //     data: 'priceDisc',
-                //     name: 'priceDisc'
-                // },
                 {
                     data: 'quantity',
                     name: 'quantity'
                 },
                 {
+                    data: 'quantity_threshold',
+                    name: 'quantity_threshold'
+                },
+                {
                     data: 'weight',
                     name: 'weight'
                 },
-                // {
-                //     data: 'slideActive',
-                //     name: 'slideActive'
-                // },
                 {
                     data: 'action',
                     name: 'action',
@@ -560,8 +569,6 @@ PRODUK
             $('#simpan-data').attr('disabled', true);
             let data = $("#data-master").serialize();
             let datax = new FormData(this);
-            // console.log(data[0].jenis_menu);
-            console.log(data);
             $.ajax({
                 type: "post",
                 url: "{{url('/admin/product-list/store')}}",
@@ -582,6 +589,7 @@ PRODUK
                     });
                 },
                 success: function (response) {
+                    console.log(response)
                     $('#simpan-data').val("Tambah");
                     $('#simpan-data').removeAttr('disabled');
                     if (response.status == 1) {
@@ -606,6 +614,7 @@ PRODUK
                     }
                 },
                 error: function (e) {
+                    console.log(e.responseText)
                     Toast.fire({
                         icon: 'error',
                         title: 'Gagal !'

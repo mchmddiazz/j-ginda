@@ -30,7 +30,6 @@
                     <li><a class="has-arrow" href="javascript:void(0);" aria-expanded="false">Shop</a>
                         <ul aria-expanded="false">
                             <li><a href="{{ url('admin/orders') }}">Order</a></li>
-                            <li><a href="{{ url('admin/orders/transactions') }}">Order List Transaction</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -51,6 +50,7 @@
                     <li><a href="{{ url('admin/users-list') }}" class="{{ request()->is('admin/users-list') ? 'active' : '' }}">Users</a></li>
                     <li><a class="has-arrow" href="javascript:void(0);" aria-expanded="false">Content</a>
                         <ul aria-expanded="false">
+                            <li><a href="{{ url('admin/orders/transactions') }}">Order List Transaction</a></li>
                             <li><a href="{{ url('admin/product-list') }}" class="{{ request()->is('admin/product-list') ? 'active' : '' }}">Product</a></li>
                             <li><a href="{{ url('admin/aboutus-list') }}" class="{{ request()->is('admin/aboutus-list') ? 'active' : '' }}">About Us</a></li>
                         </ul>

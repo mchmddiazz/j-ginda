@@ -11,7 +11,7 @@ class OrderTransactionController extends Controller
     public function index()
     {
         $data = [
-            "transactions" => OrderItem::paginate(15)
+            "transactions" => OrderItem::orderBy("created_at", "desc")->paginate(15)
         ];
         return response()->view("admin.order-transactions.index", $data);
     }
