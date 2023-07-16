@@ -30,6 +30,7 @@
                     <li><a class="has-arrow" href="javascript:void(0);" aria-expanded="false">Shop</a>
                         <ul aria-expanded="false">
                             <li><a href="{{ url('admin/orders') }}">Order</a></li>
+                            <li><a href="{{ url('admin/orders/transactions') }}">Order List Transaction</a></li>
                         </ul>
                     </li>
                 </ul>

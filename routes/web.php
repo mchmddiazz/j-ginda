@@ -23,13 +23,12 @@ use App\Http\Controllers\Payment\{
     CheckOngkirController
 };
 
-use App\Http\Controllers\Admin\{
-    DashboardController,
+use App\Http\Controllers\Admin\{DashboardController,
     OrdersController,
+    OrderTransactionController,
     ProductsController,
     AboutUsController,
-    UsersController
-};
+    UsersController};
 
 /*
 |--------------------------------------------------------------------------
@@ -84,6 +83,8 @@ Route::group(['middleware' => ['admin']], function () {
     Route::prefix('admin')->group(function() {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
         Route::get('/orders', [OrdersController::class, 'index']);
+        Route::get('/orders/transactions', [OrderTransactionController::class, 'index']);
+
         Route::get('orders/show/{id}', [OrdersController::class, 'show']);
         Route::get('orders/updateStatus/{id}', [OrdersController::class, 'updateStatus']);
         Route::get('orders/updateCancel/{id}', [OrdersController::class, 'updateCancel']);

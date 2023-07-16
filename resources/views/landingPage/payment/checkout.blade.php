@@ -476,6 +476,7 @@ Abon Alfitri | Checkout
                     });
                 },
                 success: function (response) {
+                    console.log(response);
                     $("#jenis_menuHelp").html("");
                     $('#checkoutBTN').val("Checkout");
                     $('#checkoutBTN').removeAttr('disabled');
@@ -500,6 +501,7 @@ Abon Alfitri | Checkout
                     }
                 },
                 error: function (e) {
+                    console.log(e.responseText)
                     Toast.fire({
                         icon: 'error',
                         title: 'Gagal !'

@@ -65,7 +65,31 @@ class CheckoutController extends Controller
                 $phone_number   = $request->phone_number2;
                 $email          = $request->email2;
             }
-            
+
+
+//            return response()->json([
+//                'order_number'      =>  'ORD-'.strtoupper(uniqid()),
+//                'user_id'           => auth()->user()->id,
+//                'status'            =>  'pending',
+//                'grand_total'       =>  $request->totalpayment,
+//                'item_count'        =>  Cart::session(Auth::user()->id)->getTotalQuantity(),
+//                'payment_status'    =>  $payment_status,
+//                'payment_method'    =>  $request->payment,
+//                'first_name'        =>  $request->first_name,
+//                'last_name'         =>  $request->last_name,
+//                'email'             =>  $email,
+//                'company'           =>  $request->company,
+//                'address'           =>  $address,
+//                'address2'          =>  $address2,
+//                'province_id'       =>  $province_id,
+//                'regency_id'        =>  $regency_id,
+//                'post_code'         =>  $post_code,
+//                'phone_number'      =>  $phone_number,
+//                'notes'             =>  $request->notes,
+//                'expedisi'          =>  $request->expedisi,
+//                'weight'            =>  $request->weight,
+//                'ongkir'            =>  $request->ongkir
+//            ]);
             $order = Order::create([
                 'order_number'      =>  'ORD-'.strtoupper(uniqid()),
                 'user_id'           => auth()->user()->id,
