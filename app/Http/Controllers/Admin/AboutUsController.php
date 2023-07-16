@@ -18,7 +18,6 @@ class AboutUsController extends Controller
     {
         if(request()->ajax()) {
             $data = AboutUs::orderBy('id', 'DESC')
-            ->where('status', 1)
             ->get();
             return DataTables()->of($data)
                 ->addColumn('action', function($data){

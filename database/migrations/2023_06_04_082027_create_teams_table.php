@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\TableEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,12 +14,13 @@ class CreateTeamsTable extends Migration
      */
     public function up()
     {
-        Schema::create('teams', function (Blueprint $table) {
+        Schema::create(TableEnum::TEAMS(), function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->text('image');
+            $table->string('name')->nullable();
+            $table->string('description')->nullable();
+            $table->text('image')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,6 +31,6 @@ class CreateTeamsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teams');
+        Schema::dropIfExists(TableEnum::TEAMS());
     }
 }

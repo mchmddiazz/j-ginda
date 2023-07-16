@@ -24,7 +24,7 @@ class CreateProductTable extends Migration
             $table->integer('quantity_threshold')->default(0);
             $table->integer('weight')->default(0);
             $table->string('image')->nullable();
-            $table->boolean('slideActive');
+            $table->boolean('slideActive')->default(0);
             $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();

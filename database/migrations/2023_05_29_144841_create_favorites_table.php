@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::create(TableEnum::MARKABLE_FAVORITES(), function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor('user_id');
+            $table->unsignedInteger('user_id');
             $table->morphs('markable');
             $table->string('value')->nullable();
             $table->json('metadata')->nullable();

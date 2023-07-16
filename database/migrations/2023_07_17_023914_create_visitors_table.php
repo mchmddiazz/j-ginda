@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCitySecondsTable extends Migration
+class CreateVisitorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +14,13 @@ class CreateCitySecondsTable extends Migration
      */
     public function up()
     {
-        Schema::create(TableEnum::CITY_SECONDS(), function (Blueprint $table) {
+        Schema::create(TableEnum::VISITORS(), function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('province_id');
-            $table->unsignedInteger('city_id');
-            $table->string('name');
+            $table->string("address_id")->nullable();
+            $table->string("browser")->nullable();
+            $table->string("operating_system")->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -30,6 +31,6 @@ class CreateCitySecondsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(TableEnum::CITY_SECONDS());
+        Schema::dropIfExists(TableEnum::VISITORS());
     }
 }

@@ -29,7 +29,7 @@ class CreateOrdersTable extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->double("ongkir")->default(0);
-            $table->int("weight")->default(0);
+            $table->integer("weight")->default(0);
             $table->string('email')->nullable();
             $table->string("company")->nullable();
             $table->text('address')->nullable();
