@@ -9,8 +9,13 @@
 				<div class="card-body pt-0">
 					<div class="pt-4">
 						<div class="table-responsive">
-							<form action="{{route('admin.request.production.store')}}" method="POST">
+							<form action="{{route('admin.request.production.update')}}" method="POST">
 								@csrf
+								@method('PATCH')
+								<div class="d-grid gap-2 d-md-block">
+									<button class="btn btn-info" type="reset">Reset</button>
+									<button class="btn btn-primary" type="submit">Simpan</button>
+								</div>
 								<table class="table">
 									<thead>
 									<tr>
@@ -18,19 +23,28 @@
 										<th scope="col">Nama Produk</th>
 										<th scope="col">Kuantitas Gudang</th>
 										<th scope="col">Ambang Batas Kuantitas</th>
-										<th scope="col">Kondisi Stok</th>
+										<th scope="col">Permintaan Produksi</th>
 										<th scope="col">Berat (gram)</th>
 									</tr>
 									</thead>
 									<tbody>
 									@foreach($requestProductions as $key => $requestProduction)
 										<tr>
-											<td scope="col">No</td>
-											<td scope="col">Nama Produk</td>
-											<td scope="col">Kuantitas Gudang</td>
-											<td scope="col">Ambang Batas Kuantitas</td>
-											<td scope="col">Kondisi Stok</td>
-											<td scope="col">Berat (gram)</td>
+											<td>
+												<div class="d-grid gap-2 d-md-block">
+													<input class="form-check-input request-production-id"
+													       type="checkbox" name="product_ids[]"
+													       value="{{$requestProduction->id}}">
+													<input type="number"
+													       class="form-control-sm d-none request-production-quantity"
+													       name="actual_quantities[]" disabled>
+												</div>
+											</td>
+											<td>{{$requestProduction->product?->name??"-"}}</td>
+											<td>{{($requestProduction->product?->quantity??0) . " pcs"}}</td>
+											<td>{{($requestProduction->product?->quantity_threshold??0) . " pcs"}}</td>
+											<td>{{ ($requestProduction->request_quantity) . " pcs"}}</td>
+											<td>{{ ($requestProduction->product?->weight??0) . " grams"}}</td>
 										</tr>
 									@endforeach
 									</tbody>
@@ -42,5 +56,22 @@
 			</div>
 		</div>
 	</div>
-	</div>
+
+
+	@push("js")
+		<script>
+            $(".request-production-id").on("click", function () {
+                const quantity = $(this).siblings();
+                const isChecked = $(this).is(":checked");
+
+                if(isChecked){
+                    quantity.removeClass("d-none")
+                    quantity.removeAttr("disabled")
+                }else{
+                    quantity.addClass("d-none")
+                    quantity.prop("disabled", true)
+                }
+            });
+		</script>
+	@endpush
 </x-admin.layout>

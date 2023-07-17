@@ -83,9 +83,9 @@ Route::prefix('cart')->group(function() {
 
 Route::group(['middleware' => ['admin']], function () {
     Route::prefix('admin')->name("admin.")->group(function() {
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-        Route::get('/orders', [OrdersController::class, 'index']);
-        Route::get('/orders/transactions', [OrderTransactionController::class, 'index']);
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/orders', [OrdersController::class, 'index'])->name("orders.index");
+        Route::get('/orders/transactions', [OrderTransactionController::class, 'index'])->name("orders.transactions");
 
         Route::get('orders/show/{id}', [OrdersController::class, 'show']);
         Route::get('orders/updateStatus/{id}', [OrdersController::class, 'updateStatus']);
@@ -106,6 +106,7 @@ Route::group(['middleware' => ['admin']], function () {
         Route::controller(RequestProductionController::class)->prefix("request-production")->name("request.production.")->group(function (){
             Route::get("/", "index")->name("index");
             Route::post("/", "store")->name("store");
+            Route::patch("/", "update")->name("update");
         });
 
 

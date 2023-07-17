@@ -38,13 +38,6 @@
 															       value="{{$product->id}}">
 															<input type="number" class="form-control-sm d-none request-production-quantity" name="quantities[]" disabled>
 														</div>
-														<div class="row">
-															<div class="col-8">
-
-															</div>
-															<div class="col-auto">
-															</div>
-														</div>
 													</td>
 													<td>{{$product->name}}</td>
 													<td>{{$product->quantity . " pcs"}}</td>

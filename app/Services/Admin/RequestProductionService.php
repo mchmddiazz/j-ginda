@@ -3,6 +3,9 @@
 namespace App\Services\Admin;
 
 use App\Enums\ProductionStatus;
+use App\Enums\TransactionTypeEnum;
+use App\Repositories\OrderItemRepository;
+use App\Repositories\ProductRepository;
 use App\Repositories\RequestProductionRepository;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -12,10 +15,14 @@ use Iqbalatma\LaravelServiceRepo\BaseService;
 class RequestProductionService extends BaseService
 {
     protected $repository;
+    protected OrderItemRepository $orderItemRepository;
+    protected ProductRepository $productRepository;
 
     public function __construct()
     {
         $this->repository = new RequestProductionRepository();
+        $this->orderItemRepository = new OrderItemRepository();
+        $this->productRepository = new ProductRepository();
     }
 
 
@@ -57,4 +64,40 @@ class RequestProductionService extends BaseService
     }
 
 
+    /**
+     * @param array $requestedData
+     * @return array
+     */
+    public function productionDone(array $requestedData): array
+    {
+        try {
+            DB::beginTransaction();
+            foreach ($requestedData["product_ids"] as $key => $productId) {
+                if ($requestedData["actual_quantities"][$key]) {
+                    $requestProduction = $this->repository->getDataById($productId);
+                    if ($requestProduction) {
+                        $requestProduction->fill([
+                            "status" => ProductionStatus::DONE(),
+                            "actual_quantity" => $requestedData["actual_quantities"][$key],
+                        ])->save();
+
+                        $this->orderItemRepository->addNewData([
+                            "product_id" => $productId,
+                            "type" => TransactionTypeEnum::IN(),
+                            "quantity" => $requestedData["actual_quantities"][$key],
+                        ]);
+
+
+                    }
+                }
+            }
+            $response = ["success" => true];
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            $response = getDefaultErrorResponse($e);
+        }
+
+        return $response;
+    }
 }

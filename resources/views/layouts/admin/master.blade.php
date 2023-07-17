@@ -55,7 +55,7 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-		@include('layouts.admin.sidebar')
+	    <x-admin.sidebar></x-admin.sidebar>
 		
         <!--**********************************
             Sidebar end
