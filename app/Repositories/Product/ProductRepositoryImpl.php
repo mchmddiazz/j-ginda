@@ -8,8 +8,7 @@ class ProductRepositoryImpl implements ProductRepository
 {
     public function findAll()
     {
-        return Product::where('status', 1)
-        ->orderBy('priceDisc', 'DESC')
+        return Product::orderBy('priceDisc', 'DESC')
         ->limit(8)->get();
     }
 

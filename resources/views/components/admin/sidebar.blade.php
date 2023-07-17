@@ -51,7 +51,7 @@
                     <li><a class="has-arrow" href="javascript:void(0);" aria-expanded="false">Content</a>
                         <ul aria-expanded="false">
                             <li><a href="{{ url('admin/orders/transactions') }}">Order List Transaction</a></li>
-                            <li><a href="{{ url('admin/product-list') }}" class="{{ request()->is('admin/product-list') ? 'active' : '' }}">Product</a></li>
+                            <li><a href="{{ route("admin.products.index") }}" class="{{ request()->is(route("admin.products.index")) ? 'active' : '' }}">Product</a></li>
                             <li><a href="{{ url('admin/aboutus-list') }}" class="{{ request()->is('admin/aboutus-list') ? 'active' : '' }}">About Us</a></li>
                         </ul>
                     </li>

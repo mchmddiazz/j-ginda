@@ -80,7 +80,7 @@ Route::prefix('cart')->group(function() {
 });
 
 Route::group(['middleware' => ['admin']], function () {
-    Route::prefix('admin')->group(function() {
+    Route::prefix('admin')->name("admin.")->group(function() {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
         Route::get('/orders', [OrdersController::class, 'index']);
         Route::get('/orders/transactions', [OrderTransactionController::class, 'index']);
@@ -90,8 +90,14 @@ Route::group(['middleware' => ['admin']], function () {
         Route::get('orders/updateCancel/{id}', [OrdersController::class, 'updateCancel']);
         Route::get('orders/updateAccept/{id}', [OrdersController::class, 'updateAccept']);
         Route::post('orders/shipping', [OrdersController::class, 'shipping']);
-        
-        Route::get('product-list', [ProductController::class, 'index']);
+
+
+        Route::controller(ProductController::class)->prefix("products")->name("products.")->group(function (){
+            Route::get("/", "index")->name("index");
+            Route::get("/{id}/edit", "edit")->name("edit");
+            Route::post("/", "store")->name("store");
+            Route::patch("/{id}", "update")->name("update");
+        });
         Route::get('product-list/edit/{id}', [ProductController::class, 'edit']);
         Route::post('product-list/store', [ProductController::class, 'store']);
         Route::get('product-list/delete/{id}', [ProductController::class, 'destroy']);

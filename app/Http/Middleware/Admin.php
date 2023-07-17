@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Admin
 {
-    /**
+    /**e
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request

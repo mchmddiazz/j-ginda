@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Products\StoreProductRequest;
+use App\Http\Requests\Admin\Products\UpdateProductRequest;
 use App\Models\OrderItem;
 use App\Services\Admin\ProductService;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Http\Response;
@@ -34,7 +37,51 @@ class ProductController extends Controller
     }
 
 
-    function store(Request $request)
+    /**
+     * @param ProductService $service
+     * @param StoreProductRequest $request
+     * @return RedirectResponse
+     */
+    public function store(ProductService $service, StoreProductRequest $request):RedirectResponse
+    {
+        $response = $service->addNewData($request->validated());
+        if ($this->isError($response)) return $this->getErrorResponse();
+
+        return redirect()->route("admin.products.index")->with("success", ucfirst("Tambah data produk berhasil !"));
+    }
+
+
+    /**
+     * @param ProductService $service
+     * @param int $id
+     * @return Response|RedirectResponse
+     */
+    public function edit(ProductService $service, int $id):Response|RedirectResponse
+    {
+        $response = $service->getEditData($id);
+
+        if ($this->isError($response)) return $this->getErrorResponse();
+        viewShare($response);
+        return response()->view("admin.product.edit");
+    }
+
+
+    /**
+     * @param ProductService $service
+     * @param UpdateProductRequest $request
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function update(ProductService $service, UpdateProductRequest $request, int $id):RedirectResponse
+    {
+        $response = $service->updateDataById($id, $request->validated());
+
+        if ($this->isError($response)) return $this->getErrorResponse();
+
+        return redirect()->route("admin.products.index")->with("success", ucfirst("Edit data produk berhasil !"));
+    }
+
+    function store2(Request $request)
     {
         if (str_replace(".", "", $request->price) < str_replace(".", "", $request->priceDisc)) {
             return response()->json(['status' => 3], 201);
@@ -88,7 +135,7 @@ class ProductController extends Controller
         }
     }
 
-    function edit($id)
+    function edit2($id)
     {
         $where = array('id' => $id);
         $product = Product::where($where)->first();

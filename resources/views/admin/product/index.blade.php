@@ -5,7 +5,7 @@
     <div class="col-lg-12">
         <div class="card dz-card">
             <div class="card-header flex-wrap border-0" id="default-tab">
-                <h4 class="card-title">Produk</h4>
+                <h4 class="card-title">{{$cardTitle ?? "Produk"}}</h4>
             </div>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="DefaultTab" role="tabpanel" aria-labelledby="home-tab">
@@ -14,18 +14,17 @@
                         <div class="default-tab">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-bs-toggle="tab" href="#home"><i
+                                    <a class="nav-link active" data-bs-toggle="tab" href="#product"><i
                                             class="la la-table me-2"></i> List Produk</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#profile"><i
+                                    <a class="nav-link" data-bs-toggle="tab" href="#add-product"><i
                                             class="la la-plus me-2"></i> Tambah Produk</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane fade show active" id="home" role="tabpanel">
+                                <div class="tab-pane fade show active" id="product" role="tabpanel">
                                     <div class="pt-4">
-
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <thead>
@@ -56,7 +55,12 @@
                                                             @endif
                                                         </td>
                                                         <td>{{$product->weight. " grams"}}</td>
-                                                        <td>Aksi</td>
+                                                        <td>
+                                                            <div class="d-grid gap-2 d-md-block">
+                                                                <a href="{{route('admin.products.edit', $product->id)}}" class="btn btn-success btn-sm" type="button">Sunting</a>
+                                                                <button class="btn btn-danger btn-sm" type="button">Hapus</button>
+                                                            </div>
+                                                        </td>
                                                     </tr>
                                                 @endforeach
                                                 </tbody>
@@ -65,11 +69,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="profile">
+                                <div class="tab-pane fade" id="add-product">
                                     <div class="pt-4">
                                         <div class="basic-form">
                                             <form class="form-valide-with-icon needs-validation"
-                                                enctype="multipart/form-data" novalidate id="data-master">
+                                                enctype="multipart/form-data" novalidate id="data-master" method="POST" action="{{route('admin.products.store')}}">
                                                 @csrf
                                                 <div class="mb-3">
                                                     <label class="text-label form-label"

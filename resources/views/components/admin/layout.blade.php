@@ -79,6 +79,7 @@
 	***********************************-->
 	<div class="content-body">
 		<div class="container">
+			<x-admin.alert></x-admin.alert>
 			{{ $slot }}
 		</div>
 	</div>

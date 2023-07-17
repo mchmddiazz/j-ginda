@@ -16,9 +16,9 @@ class CreateVisitorsTable extends Migration
     {
         Schema::create(TableEnum::VISITORS(), function (Blueprint $table) {
             $table->id();
-            $table->string("address_id")->nullable();
+            $table->string("address_ip")->nullable();
             $table->string("browser")->nullable();
-            $table->string("operating_system")->nullable();
+            $table->string("operation_system")->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
