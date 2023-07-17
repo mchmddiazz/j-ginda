@@ -24,10 +24,12 @@ use App\Http\Controllers\Payment\{
 };
 
 use App\Http\Controllers\Admin\{DashboardController,
+    LowQuantityProductController,
     OrdersController,
     OrderTransactionController,
     ProductController,
     AboutUsController,
+    RequestProductionController,
     UsersController};
 
 /*
@@ -98,10 +100,15 @@ Route::group(['middleware' => ['admin']], function () {
             Route::post("/", "store")->name("store");
             Route::patch("/{id}", "update")->name("update");
             Route::delete("/{id}", "destroy")->name("destroy");
+            Route::get("/low-quantity", LowQuantityProductController::class)->name("low.quantity");
         });
-        Route::get('product-list/edit/{id}', [ProductController::class, 'edit']);
-        Route::post('product-list/store', [ProductController::class, 'store']);
-        Route::get('product-list/delete/{id}', [ProductController::class, 'destroy']);
+
+        Route::controller(RequestProductionController::class)->prefix("request-production")->name("request.production.")->group(function (){
+            Route::get("/", "index")->name("index");
+            Route::post("/", "store")->name("store");
+        });
+
+
 
         Route::get('aboutus-list', [AboutUsController::class, 'index']);
         Route::get('aboutus-list/edit/{id}', [AboutUsController::class, 'edit']);

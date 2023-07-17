@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Models\Product;
 use App\Repositories\ProductRepository;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -110,5 +111,18 @@ class ProductService extends \Iqbalatma\LaravelServiceRepo\BaseService
         }
         
         return $response;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getLowQuantityProduct():array
+    {
+        return [
+            "products" => $this->repository->whereColumn("quantity", "<=", "quantity_threshold")->getAllDataPaginated(),
+            "title" => "Low Quantity Product",
+            "cardTitle" => "Low Quantity Product"
+        ];
     }
 }

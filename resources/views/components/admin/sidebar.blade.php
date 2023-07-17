@@ -52,6 +52,7 @@
                         <ul aria-expanded="false">
                             <li><a href="{{ url('admin/orders/transactions') }}">Order List Transaction</a></li>
                             <li><a href="{{ route("admin.products.index") }}" class="{{ request()->is(route("admin.products.index")) ? 'active' : '' }}">Product</a></li>
+                            <li><a href="{{ route("admin.products.low.quantity") }}" class="{{ request()->is(route("admin.products.low.quantity")) ? 'active' : '' }}">Low Quantity Product</a></li>
                             <li><a href="{{ url('admin/aboutus-list') }}" class="{{ request()->is('admin/aboutus-list') ? 'active' : '' }}">About Us</a></li>
                         </ul>
                     </li>
