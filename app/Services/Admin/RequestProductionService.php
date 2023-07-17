@@ -11,7 +11,6 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Iqbalatma\LaravelServiceRepo\BaseService;
-use Iqbalatma\LaravelServiceRepo\Exceptions\EmptyDataException;
 
 class RequestProductionService extends BaseService
 {
@@ -32,8 +31,9 @@ class RequestProductionService extends BaseService
      */
     public function getAllDataPaginated(): array
     {
+        $status = request()->query("status") ?? "waiting";
         return [
-            "requestProductions" => $this->repository->getAllDataPaginated(),
+            "requestProductions" => $this->repository->getAllDataPaginated(["status" => $status]),
             "title" => "Permintaan Produksi",
             "cardTitle" => "Permintaan Produksi",
         ];
@@ -94,7 +94,7 @@ class RequestProductionService extends BaseService
                         ]);
 
                         $product = $this->productRepository->getDataById($requestProduction->product_id);
-                        if($product){
+                        if ($product) {
                             $product->quantity += $requestedData["actual_quantities"][$key];
                             $product->save();
                         }
