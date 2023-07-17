@@ -33,7 +33,7 @@ class RequestProductionService extends BaseService
     {
         $status = request()->query("status") ?? "waiting";
         return [
-            "requestProductions" => $this->repository->getAllDataPaginated(["status" => $status]),
+            "requestProductions" => $this->repository->orderBy(columns: "created_at", direction: "desc")->getAllDataPaginated(["status" => $status]),
             "title" => "Permintaan Produksi",
             "cardTitle" => "Permintaan Produksi",
         ];

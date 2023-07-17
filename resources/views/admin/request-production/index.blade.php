@@ -7,6 +7,20 @@
 					<h4 class="card-title">{{$cardTitle ?? "Produk"}}</h4>
 				</div>
 				<div class="card-body pt-0">
+					<ul class="nav nav-tabs mb-4">
+						<li class="nav-item">
+{{--							{{ dd(request()->is(route("admin.request.production.index", ["status" => "waiting"])) ? 'active' : '') }}--}}
+{{--							{{dd(request()->getRequestUri())}}--}}
+{{--{{ dd(request()->is(route('admin.request.production.index', ['status' => 'waiting'])))}}--}}
+							<a class="nav-link {{ request()->fullUrl() === route('admin.request.production.index', ['status' => 'waiting']) ? 'active' : '' }}" aria-current="page" href="{{route('admin.request.production.index', ['status' => 'waiting'])}}">Menunggu Produksi</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link {{ request()->fullUrl() === route('admin.request.production.index', ['status' => 'done']) ? 'active' : '' }}" href="{{route('admin.request.production.index', ['status' => 'done'])}}">Sudah Diproduksi</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link {{  request()->fullUrl() === route('admin.request.production.index', ['status' => 'cancel']) ? 'active' : '' }}" href="{{route('admin.request.production.index', ['status' => 'cancel'])}}">Batal Produksi</a>
+						</li>
+					</ul>
 					@if($requestProductions->count() === 0)
 						<x-admin.empty-data></x-admin.empty-data>
 					@else
@@ -33,6 +47,7 @@
 											<th scope="col">Permintaan Produksi</th>
 											<th scope="col">Berat (gram)</th>
 											<th scope="col">Status</th>
+											<th scope="col">Tanggal Permintaan</th>
 										</tr>
 										</thead>
 										<tbody>
@@ -65,6 +80,7 @@
 														<span class="badge bg-danger">Batal</span>
 													@endif
 												</td>
+												<td>{{$requestProduction->created_at}}</td>
 											</tr>
 										@endforeach
 										</tbody>
