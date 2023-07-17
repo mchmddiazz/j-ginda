@@ -81,6 +81,19 @@ class ProductController extends Controller
         return redirect()->route("admin.products.index")->with("success", ucfirst("Edit data produk berhasil !"));
     }
 
+    /**
+     * @param ProductService $service
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function destroy(ProductService $service, int $id):RedirectResponse
+    {
+        $response = $service->deleteById($id);
+        if ($this->isError($response)) return $this->getErrorResponse();
+
+        return redirect()->route("admin.products.index")->with("success", ucfirst("Hapus data produk berhasil !"));
+    }
+
     function store2(Request $request)
     {
         if (str_replace(".", "", $request->price) < str_replace(".", "", $request->priceDisc)) {
@@ -143,7 +156,7 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
-    function destroy($id)
+    function destroy2($id)
     {
         $data = Product::where('id', $id)->first(['image']);
         \File::delete('product/' . $data->image);

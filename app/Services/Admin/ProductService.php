@@ -83,13 +83,32 @@ class ProductService extends \Iqbalatma\LaravelServiceRepo\BaseService
 
             $response = [
                 "success" => true,
-                "title"=> "Edit Produk",
-                "cardTitle" => "Produk",
-                "product"=> $product
             ];
         } catch (Exception $e) {
             $response = getDefaultErrorResponse($e);
         }
+        return $response;
+    }
+
+
+    /**
+     * @param int $id
+     * @return true[]
+     */
+    public function deleteById(int $id):array
+    {
+        try {
+            $this->checkData($id);
+            $product = $this->getServiceEntity();
+            $product->delete();
+
+            $response = [
+                "success" => true,
+            ];
+        } catch (Exception $e) {
+            $response = getDefaultErrorResponse($e);
+        }
+        
         return $response;
     }
 }

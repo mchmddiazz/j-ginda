@@ -97,6 +97,7 @@ Route::group(['middleware' => ['admin']], function () {
             Route::get("/{id}/edit", "edit")->name("edit");
             Route::post("/", "store")->name("store");
             Route::patch("/{id}", "update")->name("update");
+            Route::delete("/{id}", "destroy")->name("destroy");
         });
         Route::get('product-list/edit/{id}', [ProductController::class, 'edit']);
         Route::post('product-list/store', [ProductController::class, 'store']);
