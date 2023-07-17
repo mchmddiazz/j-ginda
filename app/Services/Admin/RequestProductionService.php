@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Iqbalatma\LaravelServiceRepo\BaseService;
+use Iqbalatma\LaravelServiceRepo\Exceptions\EmptyDataException;
 
 class RequestProductionService extends BaseService
 {
@@ -38,6 +39,11 @@ class RequestProductionService extends BaseService
         ];
     }
 
+
+    /**
+     * @param array $requestedData
+     * @return true[]
+     */
     public function addNewData(array $requestedData): array
     {
         try {
@@ -72,9 +78,9 @@ class RequestProductionService extends BaseService
     {
         try {
             DB::beginTransaction();
-            foreach ($requestedData["product_ids"] as $key => $productId) {
+            foreach ($requestedData["request_production_ids"] as $key => $requestProductionId) {
                 if ($requestedData["actual_quantities"][$key]) {
-                    $requestProduction = $this->repository->getDataById($productId);
+                    $requestProduction = $this->repository->getDataById($requestProductionId);
                     if ($requestProduction) {
                         $requestProduction->fill([
                             "status" => ProductionStatus::DONE(),
@@ -82,12 +88,16 @@ class RequestProductionService extends BaseService
                         ])->save();
 
                         $this->orderItemRepository->addNewData([
-                            "product_id" => $productId,
+                            "product_id" => $requestProduction->product_id,
                             "type" => TransactionTypeEnum::IN(),
                             "quantity" => $requestedData["actual_quantities"][$key],
                         ]);
 
-
+                        $product = $this->productRepository->getDataById($requestProduction->product_id);
+                        if($product){
+                            $product->quantity += $requestedData["actual_quantities"][$key];
+                            $product->save();
+                        }
                     }
                 }
             }

@@ -33,7 +33,7 @@
 											<td>
 												<div class="d-grid gap-2 d-md-block">
 													<input class="form-check-input request-production-id"
-													       type="checkbox" name="product_ids[]"
+													       type="checkbox" name="request_production_ids[]"
 													       value="{{$requestProduction->id}}">
 													<input type="number"
 													       class="form-control-sm d-none request-production-quantity"
