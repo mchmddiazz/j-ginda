@@ -3,17 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\Admin\OrderService;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Validator,Redirect,Response,File;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Product;
 class OrdersController extends Controller
 {
-    function index(Request $request)
+    public function index(OrderService $service):Response
+    {
+        $response = $service->getAllDataPaginated();
+
+        viewShare($response);
+        return response()->view('admin.orders.index');
+    }
+    function index2(Request $request)
     {
         if(request()->ajax()) {
             $data = Order::orderBy('id', 'DESC')

@@ -30,7 +30,8 @@ use App\Http\Controllers\Admin\{DashboardController,
     ProductController,
     AboutUsController,
     RequestProductionController,
-    UsersController};
+    UsersController
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -69,11 +70,11 @@ Route::get('/admin/login', function () {
     return view('admin.auth.login');
 });
 
-Route::prefix('cart')->group(function() {
+Route::prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'index']);
     Route::get('/index', [CartController::class, 'index']);
     Route::post('/buy/{id}', [CartController::class, 'buy']);
-    Route::get('/buy/view/{id}', [CartController::class, 'buyView']); 
+    Route::get('/buy/view/{id}', [CartController::class, 'buyView']);
     Route::post('/buyButton', [CartController::class, 'buyButton']);
     Route::get('/remove/{id}', [CartController::class, 'remove']);
     Route::get('/removeTroli/{id}', [CartController::class, 'removeTroli']);
@@ -82,19 +83,25 @@ Route::prefix('cart')->group(function() {
 });
 
 Route::group(['middleware' => ['admin']], function () {
-    Route::prefix('admin')->name("admin.")->group(function() {
+    Route::prefix('admin')->name("admin.")->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        Route::get('/orders', [OrdersController::class, 'index'])->name("orders.index");
 
+
+        Route::prefix("orders")->name("orders.")->group(function () {
+            Route::get('/transactions', OrderTransactionController::class)->name("transactions");
+            Route::controller(OrdersController::class)->group(function (){
+                Route::get('/', 'index')->name("index");
+            });
+
+        });
         Route::get('orders/show/{id}', [OrdersController::class, 'show']);
         Route::get('orders/updateStatus/{id}', [OrdersController::class, 'updateStatus']);
         Route::get('orders/updateCancel/{id}', [OrdersController::class, 'updateCancel']);
         Route::get('orders/updateAccept/{id}', [OrdersController::class, 'updateAccept']);
         Route::post('orders/shipping', [OrdersController::class, 'shipping']);
 
-        Route::get('/orders/transactions', OrderTransactionController::class)->name("orders.transactions");
 
-        Route::controller(ProductController::class)->prefix("products")->name("products.")->group(function (){
+        Route::controller(ProductController::class)->prefix("products")->name("products.")->group(function () {
             Route::get("/", "index")->name("index");
             Route::get("/{id}/edit", "edit")->name("edit");
             Route::post("/", "store")->name("store");
@@ -103,12 +110,11 @@ Route::group(['middleware' => ['admin']], function () {
             Route::get("/low-quantity", LowQuantityProductController::class)->name("low.quantity");
         });
 
-        Route::controller(RequestProductionController::class)->prefix("request-production")->name("request.production.")->group(function (){
+        Route::controller(RequestProductionController::class)->prefix("request-production")->name("request.production.")->group(function () {
             Route::get("/", "index")->name("index");
             Route::post("/", "store")->name("store");
             Route::patch("/", "update")->name("update");
         });
-
 
 
         Route::get('aboutus-list', [AboutUsController::class, 'index']);
@@ -117,7 +123,7 @@ Route::group(['middleware' => ['admin']], function () {
         Route::get('aboutus-list/delete/{id}', [AboutUsController::class, 'destroy']);
 
         Route::get('/invoice/generate/{idOrder}', [InvoiceController::class, 'generateAdmin']);
-        
+
         Route::get('users-list', [UsersController::class, 'index']);
         Route::get('users-list/edit/{id}', [UsersController::class, 'edit']);
         Route::post('users-list/store', [UsersController::class, 'store']);
@@ -132,14 +138,14 @@ Route::group(['middleware' => ['web', 'auth', 'has_login']], function () {
     // Route::post('favorite-add/{id}', [WishlistController::class, 'favoriteAdd'])->name('favorite.add');
     // Route::delete('favorite-remove/{id}', [WishlistController::class, 'favoriteRemove'])->name('favorite.remove');
 
-    Route::prefix('account')->group(function() {
+    Route::prefix('account')->group(function () {
         Route::get('/', [AuthController::class, 'account']);
         Route::post('change-password', [AuthController::class, 'changePassword'])->name('change.password');
         Route::get('/invoice/generate/{idOrder}', [InvoiceController::class, 'generate']);
-        
+
     });
 
-    Route::prefix('checkout')->group(function() {
+    Route::prefix('checkout')->group(function () {
         Route::get('/', [CheckoutController::class, 'checkout']);
         Route::post('/postCheckout', [CheckoutController::class, 'postCheckout']);
     });

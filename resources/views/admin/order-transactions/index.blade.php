@@ -11,7 +11,7 @@
 				@else
 					<div class="card-body pt-0">
 						<div class="table-responsive">
-							<table id="example4" class="table" width="100%">
+							<table class="table" width="100%">
 								<thead>
 								<tr>
 									<th>Nomor</th>

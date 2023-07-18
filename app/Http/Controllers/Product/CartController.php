@@ -25,8 +25,7 @@ class CartController extends Controller
             $data = [
                 'cart' => \Cart::session(Auth::user()->id)->getContent(),
                 'product' => $this->productRepository->findAll(),
-                'about_us' =>  AboutUs::limit(1)->orderBy('created_at', 'DESC')
-                ->where('status', 1)->get()
+                'about_us' =>  AboutUs::limit(1)->orderBy('created_at', 'DESC')->get()
             ];
             return view('landingPage/cart')->with($data);
         } else {

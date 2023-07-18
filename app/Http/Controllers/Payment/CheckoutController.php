@@ -125,6 +125,7 @@ class CheckoutController extends Controller
                     $product = Product::where('name', $item->name)->first();
         
                     $orderItem = new OrderItem([
+                        "code" =>strtoupper(uniqid("OUT-")),
                         'product_id'    =>  $product->id,
                         'quantity'      =>  $item->quantity,
                         'price'         =>  $item->getPriceSum()

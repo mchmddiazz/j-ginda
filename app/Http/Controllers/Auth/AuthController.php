@@ -21,14 +21,14 @@ class AuthController extends Controller
     {
         
         $data['about_us'] = AboutUs::limit(1)->orderBy('created_at', 'DESC')
-        ->where('status', 1)->get();
+        ->get();
         return view('auth.login', $data);
     }
 
     function register()
     {
         $data['about_us'] = AboutUs::limit(1)->orderBy('created_at', 'DESC')
-        ->where('status', 1)->get();
+        ->get();
 
         return view('auth.register', $data);
     }
@@ -182,7 +182,7 @@ class AuthController extends Controller
         $data['orders'] = Order::where('user_id', Auth::user()->id)->get();
 
         $data['about_us'] = AboutUs::limit(1)->orderBy('created_at', 'DESC')
-        ->where('status', 1)->get();
+        ->get();
         return view('landingPage.account.index', $data);
     }
 }

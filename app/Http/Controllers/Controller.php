@@ -110,7 +110,7 @@ class Controller extends BaseController
     function aboutUsGlobal()
     {
         $data = [
-            'cart' => AboutUs::limit(1)->where('status', 1)->orderBy('id', 'DESC')->get(),
+            'cart' => AboutUs::limit(1)->orderBy('id', 'DESC')->get(),
         ];
 
         return $data;
