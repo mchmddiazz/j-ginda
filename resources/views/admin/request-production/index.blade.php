@@ -9,9 +9,6 @@
 				<div class="card-body pt-0">
 					<ul class="nav nav-tabs mb-4">
 						<li class="nav-item">
-{{--							{{ dd(request()->is(route("admin.request.production.index", ["status" => "waiting"])) ? 'active' : '') }}--}}
-{{--							{{dd(request()->getRequestUri())}}--}}
-{{--{{ dd(request()->is(route('admin.request.production.index', ['status' => 'waiting'])))}}--}}
 							<a class="nav-link {{ request()->fullUrl() === route('admin.request.production.index', ['status' => 'waiting']) ? 'active' : '' }}" aria-current="page" href="{{route('admin.request.production.index', ['status' => 'waiting'])}}">Menunggu Produksi</a>
 						</li>
 						<li class="nav-item">
@@ -45,6 +42,7 @@
 											<th scope="col">Kuantitas Gudang</th>
 											<th scope="col">Ambang Batas Kuantitas</th>
 											<th scope="col">Permintaan Produksi</th>
+											<th scope="col">Produksi Terpenuhi</th>
 											<th scope="col">Berat (gram)</th>
 											<th scope="col">Status</th>
 											<th scope="col">Tanggal Permintaan</th>
@@ -69,7 +67,8 @@
 												<td>{{$requestProduction->product?->name??"-"}}</td>
 												<td>{{($requestProduction->product?->quantity??0) . " pcs"}}</td>
 												<td>{{($requestProduction->product?->quantity_threshold??0) . " pcs"}}</td>
-												<td>{{ ($requestProduction->request_quantity) . " pcs"}}</td>
+												<td><span class="badge bg-warning">{{ ($requestProduction->request_quantity) . " pcs"}}</span></td>
+												<td><span class="badge bg-success">{{ ($requestProduction->actual_quantity) . " pcs"}}</span></td>
 												<td>{{ ($requestProduction->product?->weight??0) . " grams"}}</td>
 												<td>
 													@if($requestProduction->status === "waiting")

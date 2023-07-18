@@ -10,6 +10,7 @@ use App\Repositories\RequestProductionRepository;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Iqbalatma\LaravelServiceRepo\BaseService;
 
 class RequestProductionService extends BaseService
@@ -88,6 +89,7 @@ class RequestProductionService extends BaseService
                         ])->save();
 
                         $this->orderItemRepository->addNewData([
+                            "code" => strtoupper(uniqid("IN-")),
                             "product_id" => $requestProduction->product_id,
                             "type" => TransactionTypeEnum::IN(),
                             "quantity" => $requestedData["actual_quantities"][$key],

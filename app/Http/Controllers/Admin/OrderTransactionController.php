@@ -8,10 +8,14 @@ use Illuminate\Http\Request;
 
 class OrderTransactionController extends Controller
 {
-    public function index()
+    /**
+     * @return \Illuminate\Http\Response
+     */
+    public function __invoke()
     {
+        $type = request()->query("type", "in");
         $data = [
-            "transactions" => OrderItem::orderBy("created_at", "desc")->paginate(15)
+            "transactions" => OrderItem::where("type", $type)->orderBy("created_at", "desc")->paginate(15)
         ];
         return response()->view("admin.order-transactions.index", $data);
     }

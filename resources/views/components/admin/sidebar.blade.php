@@ -13,6 +13,17 @@
 					<span class="nav-text">Dashboard</span>
 				</a>
 			</li>
+			<li><a href="{{ url('admin/aboutus-list') }}" class="{{ request()->is('admin/aboutus-list') ? 'active' : '' }}"
+			       aria-expanded="false">
+					<div class="menu-icon">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M9.13478 20.7733V17.7156C9.13478 16.9351 9.77217 16.3023 10.5584 16.3023H13.4326C13.8102 16.3023 14.1723 16.4512 14.4393 16.7163C14.7063 16.9813 14.8563 17.3408 14.8563 17.7156V20.7733C14.8539 21.0978 14.9821 21.4099 15.2124 21.6402C15.4427 21.8705 15.756 22 16.0829 22H18.0438C18.9596 22.0024 19.8388 21.6428 20.4872 21.0008C21.1356 20.3588 21.5 19.487 21.5 18.5778V9.86686C21.5 9.13246 21.1721 8.43584 20.6046 7.96467L13.934 2.67587C12.7737 1.74856 11.1111 1.7785 9.98539 2.74698L3.46701 7.96467C2.87274 8.42195 2.51755 9.12064 2.5 9.86686V18.5689C2.5 20.4639 4.04738 22 5.95617 22H7.87229C8.55123 22 9.103 21.4562 9.10792 20.7822L9.13478 20.7733Z"
+							      fill="#90959F"/>
+						</svg>
+					</div>
+					<span class="nav-text">About Us</span>
+				</a>
+			</li>
 			<li class="menu-title">OUR FEATURES</li>
 
 			{{-- PRODUK --}}
@@ -41,15 +52,6 @@
 					       class="{{ request()->is(route("admin.products.low.quantity")) ? 'active' : '' }}">Low
 							Quantity Product</a></li>
 				</ul>
-				{{--                    <li><a href="{{ url('admin/users-list') }}" class="{{ request()->is('admin/users-list') ? 'active' : '' }}">Users</a></li>--}}
-				{{--                    <li><a class="has-arrow" href="javascript:void(0);" aria-expanded="false">Produk</a>--}}
-				{{--                        <ul aria-expanded="false">--}}
-				{{--                            <li><a href="{{ url('admin/orders/transactions') }}">Order List Transaction</a></li>--}}
-				{{--                            <li><a href="{{ route("admin.products.low.quantity") }}" class="{{ request()->is(route("admin.products.low.quantity")) ? 'active' : '' }}">Low Quantity Product</a></li>--}}
-				{{--                            <li><a href="{{ route("admin.request.production.index") }}" class="{{ request()->is(route("admin.request.production.index")) ? 'active' : '' }}">Permintaan Produksi</a></li>--}}
-				{{--                            <li><a href="{{ url('admin/aboutus-list') }}" class="{{ request()->is('admin/aboutus-list') ? 'active' : '' }}">About Us</a></li>--}}
-				{{--                        </ul>--}}
-				{{--                    </li>--}}
 			</li>
 
 			{{-- TRANSAKSI --}}
@@ -74,9 +76,10 @@
 				<ul aria-expanded="false">
 					<li><a href="{{ route('admin.orders.index') }}"
 					       class="{{ request()->is(route("admin.orders.index")) ? 'active' : '' }}">Order</a></li>
-					<li><a href="{{ route('admin.orders.transactions') }}"
-					       class="{{ request()->is(route("admin.orders.transactions")) ? 'active' : '' }}">Transaction
-							Produk</a></li>
+					<li><a href="{{ route('admin.orders.transactions', ['type' => 'in']) }}"
+					       class="{{ request()->is(route("admin.orders.transactions",['type' => 'in'])) ? 'active' : '' }}">Transaksi Produk Masuk</a></li>
+					<li><a href="{{ route('admin.orders.transactions', ['type' => 'out']) }}"
+					       class="{{ request()->is(route("admin.orders.transactions",['type' => 'out'])) ? 'active' : '' }}">Transaksi Produk Keluar</a></li>
 				</ul>
 			</li>
 

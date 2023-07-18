@@ -17,6 +17,7 @@ class CreateOrderItemsTable extends Migration
     {
         Schema::create(TableEnum::ORDER_ITEMS(), function (Blueprint $table) {
             $table->id('id');
+            $table->string("code")->nullable();
             $table->unsignedBigInteger('order_id')->nullable();
             $table->unsignedBigInteger('product_id');
             $table->integer('quantity')->default(0);

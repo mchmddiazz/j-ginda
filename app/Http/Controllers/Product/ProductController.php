@@ -171,8 +171,7 @@ class ProductController extends Controller
             $data = $this->cartProductGlobalNonUSer();
         }
 
-        $data['about_us'] = AboutUs::limit(1)->orderBy('created_at', 'DESC')
-        ->where('status', 1)->get();
+        $data['about_us'] = AboutUs::limit(1)->orderBy('created_at', 'DESC')->get();
         $data['productDetail'] = Product::whereId(base64_decode($id))->first();
         return view('landingPage.product.show', $data);
     }

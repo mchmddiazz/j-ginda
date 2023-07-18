@@ -19,7 +19,7 @@ class CheckoutController extends Controller
     {
         $data = $this->cartProductGlobal();
         $data['provinces'] = ProvinceSecond::pluck('name', 'province_id');
-        $data['about_us'] = AboutUs::limit(1)->orderBy('created_at', 'DESC')->where('status', 1)->get();
+        $data['about_us'] = AboutUs::limit(1)->orderBy('created_at', 'DESC')->get();
         $cart = \Cart::session(Auth::user()->id)->getContent();
         $totalWeight = 0;
         foreach ($cart as $item) {

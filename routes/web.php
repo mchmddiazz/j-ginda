@@ -85,7 +85,6 @@ Route::group(['middleware' => ['admin']], function () {
     Route::prefix('admin')->name("admin.")->group(function() {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/orders', [OrdersController::class, 'index'])->name("orders.index");
-        Route::get('/orders/transactions', [OrderTransactionController::class, 'index'])->name("orders.transactions");
 
         Route::get('orders/show/{id}', [OrdersController::class, 'show']);
         Route::get('orders/updateStatus/{id}', [OrdersController::class, 'updateStatus']);
@@ -93,6 +92,7 @@ Route::group(['middleware' => ['admin']], function () {
         Route::get('orders/updateAccept/{id}', [OrdersController::class, 'updateAccept']);
         Route::post('orders/shipping', [OrdersController::class, 'shipping']);
 
+        Route::get('/orders/transactions', OrderTransactionController::class)->name("orders.transactions");
 
         Route::controller(ProductController::class)->prefix("products")->name("products.")->group(function (){
             Route::get("/", "index")->name("index");
