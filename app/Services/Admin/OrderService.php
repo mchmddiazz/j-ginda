@@ -19,6 +19,9 @@ class OrderService extends \Iqbalatma\LaravelServiceRepo\BaseService
      */
     public function getAllDataPaginated():array
     {
+        if(request()->query("status") && request()->query("status")!== "all" ){
+            $this->repository->where("status", request()->query("status"));
+        }
         return [
             "title" => "Order",
             "cardTitle" => "Order",

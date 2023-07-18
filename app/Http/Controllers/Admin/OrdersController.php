@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\Product;
 class OrdersController extends Controller
 {
+
+    /**
+     * @param OrderService $service
+     * @return Response
+     */
     public function index(OrderService $service):Response
     {
         $response = $service->getAllDataPaginated();
