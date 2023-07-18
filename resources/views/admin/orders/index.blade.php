@@ -59,6 +59,13 @@
 											<td>{{"$order->item_count order"}}</td>
 											<td>{{$order->status}}</td>
 											<td>{{$order->created_at}}</td>
+											<td>
+												<div class="d-grid gap-2 d-md-block">
+													<a href="{{route('admin.orders.show', $order->id)}}" class="btn btn-primary btn-sm" type="button">Detail</a>
+													<button class="btn btn-primary" type="button">Button</button>
+													<button class="btn btn-primary" type="button">Button</button>
+												</div>
+											</td>
 										</tr>
 									@endforeach
 									</tbody>

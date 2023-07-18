@@ -3,6 +3,7 @@
 namespace App\Services\Admin;
 
 use App\Repositories\OrderRepository;
+use Exception;
 
 class OrderService extends \Iqbalatma\LaravelServiceRepo\BaseService
 {
@@ -27,5 +28,26 @@ class OrderService extends \Iqbalatma\LaravelServiceRepo\BaseService
             "cardTitle" => "Order",
             "orders" => $this->repository->getAllDataPaginated(),
         ];
+    }
+
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function getDataById(int $id):array
+    {
+        try {
+            $this->checkData($id);
+
+            $response = [
+                "success" => true,
+                "order"=> $this->getServiceEntity()
+            ];
+        }catch (Exception $e){
+            $response = getDefaultErrorResponse($e);
+        }
+
+        return $response;
     }
 }
