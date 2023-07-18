@@ -36,9 +36,21 @@
 							</div>
 							<div class="col-md-6">
 								<label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-								<input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+								<input type="password" class="form-control" id="password_confirmation"
+								       name="password_confirmation">
+							</div>
+							<div class="col-md-6">
+								@foreach($roles as $key => $role)
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" id="role" name="roles[]" value="{{$role->id}}">
+										<label class="form-check-label" for="role">
+											{{$role->name}}
+										</label>
+									</div>
+								@endforeach
 							</div>
 							<div class="col-12">
+								<a href="{{route('admin.users.index')}}" class="btn btn-secondary">Kembali</a>
 								<button type="submit" class="btn btn-primary">Tambah Data User</button>
 							</div>
 						</form>

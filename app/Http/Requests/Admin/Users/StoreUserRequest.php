@@ -29,7 +29,8 @@ class StoreUserRequest extends FormRequest
             "password" => "required|confirmed",
             "phone" => "",
             "address" => "",
-            "postal_code" => ""
+            "postal_code" => "",
+            "roles" => "array"
         ];
     }
 }

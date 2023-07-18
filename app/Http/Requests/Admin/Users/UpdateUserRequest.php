@@ -28,7 +28,8 @@ class UpdateUserRequest extends FormRequest
             "postal_code" => "",
             "phone" => "",
             "address" => "",
-            "password" => "confirmed"
+            "password" => "confirmed",
+            "roles" => "array"
         ];
     }
 }

@@ -2,16 +2,19 @@
 
 namespace App\Services\Admin;
 
+use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
 use Exception;
 
 class UserService extends \Iqbalatma\LaravelServiceRepo\BaseService
 {
     protected $repository;
+    protected RoleRepository $roleRepository;
 
     public function __construct()
     {
         $this->repository = new UserRepository();
+        $this->roleRepository = new RoleRepository();
     }
 
 
@@ -35,7 +38,8 @@ class UserService extends \Iqbalatma\LaravelServiceRepo\BaseService
     {
         return [
             "title" => "Users",
-            "cardTitle" => "Users"
+            "cardTitle" => "Users",
+            "roles" => $this->roleRepository->getAllData()
         ];
     }
 
@@ -47,7 +51,13 @@ class UserService extends \Iqbalatma\LaravelServiceRepo\BaseService
     public function addNewData(array $requestedData): array
     {
         try {
-            $this->repository->addNewData($requestedData);
+            $roles = [];
+            if(isset($requestedData["roles"])){
+                $roles = $requestedData["roles"];
+            }
+            unset($requestedData["roles"]);
+            $user = $this->repository->addNewData($requestedData);
+            $user->roles()->sync($roles);
             $response = [
                 "success" => true
             ];
@@ -71,7 +81,8 @@ class UserService extends \Iqbalatma\LaravelServiceRepo\BaseService
 
             $response = [
                 "success" => true,
-                "user" => $this->getServiceEntity()
+                "user" => $this->getServiceEntity(),
+                "roles" => $this->roleRepository->getAllData()
             ];
         } catch (Exception $e) {
             $response = getDefaultErrorResponse($e);
@@ -91,10 +102,17 @@ class UserService extends \Iqbalatma\LaravelServiceRepo\BaseService
         try {
             $this->checkData($id);
 
+            $roles = [];
+            if(isset($requestedData["roles"])){
+                $roles = $requestedData["roles"];
+            }
+            unset($requestedData["roles"]);
+
             if ($requestedData["password"] === null) {
                 unset($requestedData["password"]);
             }
             $this->getServiceEntity()->fill($requestedData)->save();
+            $this->getServiceEntity()->roles()->sync($roles);
 
             $response = [
                 "success" => true,
@@ -111,7 +129,7 @@ class UserService extends \Iqbalatma\LaravelServiceRepo\BaseService
      * @param int $id
      * @return array|true[]
      */
-    public function deleteDataById(int $id):array
+    public function deleteDataById(int $id): array
     {
         try {
             $this->checkData($id);

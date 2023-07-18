@@ -45,7 +45,6 @@ class UsersController extends Controller
 
 
     /**
-     * //todo: assign role to this user ``;
      * @param UserService $service
      * @param StoreUserRequest $request
      * @return RedirectResponse
@@ -53,7 +52,6 @@ class UsersController extends Controller
     public function store(UserService $service, StoreUserRequest $request):RedirectResponse
     {
         $response = $service->addNewData($request->validated());
-
 
         if ($this->isError($response)) return $this->getErrorResponse();
 
@@ -79,7 +77,6 @@ class UsersController extends Controller
 
 
     /**
-     * @todo User update role
      * @param UserService $service
      * @param UpdateUserRequest $request
      * @param int $id
