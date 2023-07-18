@@ -34,6 +34,12 @@
 													{{"$role->name,"}}
 												@endforeach
 											</td>
+											<td>
+												<div class="d-grid gap-2 d-md-block">
+													<a href="{{route('admin.users.edit', $user->id)}}" class="btn btn-success btn-sm" type="button">Edit</a>
+													<button class="btn btn-primary" type="button">Button</button>
+												</div>
+											</td>
 										</tr>
 									@endforeach
 									</tbody>

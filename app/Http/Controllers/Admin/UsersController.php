@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Users\StoreUserRequest;
+use App\Http\Requests\Admin\Users\UpdateUserRequest;
 use App\Services\Admin\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -44,6 +45,7 @@ class UsersController extends Controller
 
 
     /**
+     * //todo: assign role to this user ``;
      * @param UserService $service
      * @param StoreUserRequest $request
      * @return RedirectResponse
@@ -57,6 +59,38 @@ class UsersController extends Controller
 
         return redirect()->route("admin.users.index")->with("success", ucfirst("Tambah data user berhasil !"));
 
+    }
+
+
+    /**
+     * @param UserService $service
+     * @param int $id
+     * @return Response
+     */
+    public function edit(UserService $service, int $id):Response|RedirectResponse
+    {
+        $response = $service->getEditData($id);
+
+        if ($this->isError($response)) return $this->getErrorResponse();
+
+        viewShare($response);
+        return response()->view("admin.users.edit");
+    }
+
+
+    /**
+     * @param UserService $service
+     * @param UpdateUserRequest $request
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function update(UserService $service, UpdateUserRequest $request,int $id):RedirectResponse
+    {
+        (array) $response = $service->updateDataById($id, $request->validated());
+
+        if ($this->isError($response)) return $this->getErrorResponse();
+
+        return redirect()->route("admin.users.index")->with("success", ucfirst("Update data user berhasil !"));
     }
 
     function store2(Request $request)
@@ -89,7 +123,7 @@ class UsersController extends Controller
         }
     }
 
-    function edit($id)
+    function edit2($id)
     {
         $where = array('users.id' => $id);
 

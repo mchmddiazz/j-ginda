@@ -135,11 +135,9 @@ Route::group(['middleware' => ['admin']], function () {
             Route::get("/", "index")->name("index");
             Route::get("/create", "create")->name("create");
             Route::post("/", "store")->name("store");
+            Route::get("/{id}/edit", "edit")->name("edit");
+            Route::patch("/{id}", "update")->name("update");
         });
-        Route::get('users-list', [UsersController::class, 'index']);
-        Route::get('users-list/edit/{id}', [UsersController::class, 'edit']);
-        Route::post('users-list/store', [UsersController::class, 'store']);
-        Route::get('users-list/delete/{id}', [UsersController::class, 'destroy']);
     });
 });
 
