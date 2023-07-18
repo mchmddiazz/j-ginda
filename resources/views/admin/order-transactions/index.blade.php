@@ -47,6 +47,7 @@
 								@endforeach
 								</tbody>
 							</table>
+							{{$transactions->withQueryString()->links()}}
 						</div>
 					</div>
 				@endif

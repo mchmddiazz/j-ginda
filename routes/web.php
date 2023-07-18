@@ -45,23 +45,30 @@ use App\Http\Controllers\Admin\{DashboardController,
 */
 
 // Auth
-Route::get('/login', [AuthController::class, 'index'])->name('login');
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/postLogin', [AuthController::class, 'postLogin']);
-Route::post('/postRegister', [AuthController::class, 'postRegister']);
-Route::get('/logout', [AuthController::class, 'logout']);
-
-Route::get('/', [HomeController::class, 'index'])->name('landingPage.home');
-Route::get('/shop', [HomeController::class, 'shop'])->name('landingPage.shop');
-Route::get('/story', [HomeController::class, 'about'])->name('landingPage.about');
-Route::get('/virtualOutlet', [HomeController::class, 'virtualOutlet'])->name('landingPage.virtual');
-
-Route::get('/product/modal/{id}', [ExternalProductController::class, 'getData']);
-Route::get('/product/getProduct/details/{id}', [ExternalProductController::class, 'getProductDetail']);
-Route::get('search', [ExternalProductController::class, 'search']);
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/login', 'index')->name('login');
+    Route::get('/register', 'register')->name('register');
+    Route::post('/postLogin', 'postLogin');
+    Route::post('/postRegister', 'postRegister');
+    Route::get('/logout', 'logout');
+});
 
 
-Route::get('/getKabupaten/{id}', [CityController::class, 'getKabupaten']);
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', 'index')->name('landingPage.home');
+    Route::get('/shop', 'shop')->name('landingPage.shop');
+    Route::get('/story', 'about')->name('landingPage.about');
+    Route::get('/virtualOutlet', 'virtualOutlet')->name('landingPage.virtual');
+});
+
+Route::controller(ExternalProductController::class)->group(function () {
+    Route::get('/product/modal/{id}', 'getData');
+    Route::get('/product/getProduct/details/{id}', 'getProductDetail');
+    Route::get('search', 'search');
+});
+
+
+Route::get('/getKabupaten/{id}', CityController::class);
 Route::post('/ongkir', [CheckOngkirController::class, 'get_ongkir']);
 Route::post('/getTotalOngkir', [CheckOngkirController::class, 'getTotalOngkir']);
 
@@ -70,36 +77,30 @@ Route::get('/admin/login', function () {
     return view('admin.auth.login');
 });
 
-Route::prefix('cart')->group(function () {
-    Route::get('/', [CartController::class, 'index']);
-    Route::get('/index', [CartController::class, 'index']);
-    Route::post('/buy/{id}', [CartController::class, 'buy']);
-    Route::get('/buy/view/{id}', [CartController::class, 'buyView']);
-    Route::post('/buyButton', [CartController::class, 'buyButton']);
-    Route::get('/remove/{id}', [CartController::class, 'remove']);
-    Route::get('/removeTroli/{id}', [CartController::class, 'removeTroli']);
-    Route::post('/update', [CartController::class, 'update']);
-    Route::get('/clearAll', [CartController::class, 'clearAll']);
+Route::prefix('cart')->name("cart.")->controller(CartController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/index', 'index');
+    Route::post('/buy/{id}', 'buy');
+    Route::get('/buy/view/{id}', 'buyView');
+    Route::post('/buyButton', 'buyButton');
+    Route::get('/remove/{id}', 'remove');
+    Route::get('/removeTroli/{id}', 'removeTroli');
+    Route::post('/update', 'update');
+    Route::get('/clearAll', 'clearAll');
 });
 
 Route::group(['middleware' => ['admin']], function () {
     Route::prefix('admin')->name("admin.")->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-
         Route::prefix("orders")->name("orders.")->group(function () {
             Route::get('/transactions', OrderTransactionController::class)->name("transactions");
-            Route::controller(OrdersController::class)->group(function (){
+            Route::controller(OrdersController::class)->group(function () {
                 Route::get('/', 'index')->name("index");
                 Route::get('/{id}', 'show')->name("show");
                 Route::patch('/{id}/{status}', 'updatePaymentStatus')->name("update.payment.status");
             });
         });
-        Route::get('orders/updateStatus/{id}', [OrdersController::class, 'updateStatus']);
-        Route::get('orders/updateCancel/{id}', [OrdersController::class, 'updateCancel']);
-        Route::get('orders/updateAccept/{id}', [OrdersController::class, 'updateAccept']);
-        Route::post('orders/shipping', [OrdersController::class, 'shipping']);
-
 
         Route::controller(ProductController::class)->prefix("products")->name("products.")->group(function () {
             Route::get("/", "index")->name("index");
@@ -117,6 +118,12 @@ Route::group(['middleware' => ['admin']], function () {
         });
 
 
+        Route::prefix("about-us")->name("about.us.")->controller(AboutUsController::class)->group(function () {
+            Route::get('', 'index');
+            Route::get('edit/{id}', 'edit');
+            Route::post('store', 'store');
+            Route::get('delete/{id}', 'destroy');
+        });
         Route::get('aboutus-list', [AboutUsController::class, 'index']);
         Route::get('aboutus-list/edit/{id}', [AboutUsController::class, 'edit']);
         Route::post('aboutus-list/store', [AboutUsController::class, 'store']);

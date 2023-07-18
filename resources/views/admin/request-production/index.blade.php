@@ -84,6 +84,7 @@
 										@endforeach
 										</tbody>
 									</table>
+									{{$requestProductions->withQueryString()->links()}}
 								</form>
 							</div>
 						</div>

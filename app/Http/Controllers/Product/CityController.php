@@ -18,7 +18,7 @@ use App\Models\ProvinceSecond;
 use App\Models\CitySecond;
 class CityController extends Controller
 {
-    public function getKabupaten($id)
+    public function __invoke($id)
     {
         $data = CitySecond::where('province_id', $id)->pluck('name', 'city_id');
 

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\Admin\AboutUsService;
 use Illuminate\Http\Request;
 use App\Models\AboutUs;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
@@ -14,7 +16,18 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 class AboutUsController extends Controller
 {
-    function index(Request $request)
+    /**
+     * @param AboutUsService $service
+     * @param Request $request
+     * @return Response
+     */
+    public function index(AboutUsService $service, Request $request):Response
+    {
+        $response = $service->getAllData();
+        viewShare($response);
+        return response()->view('admin.about-us.index');
+    }
+    function index2(Request $request)
     {
         if(request()->ajax()) {
             $data = AboutUs::orderBy('id', 'DESC')
