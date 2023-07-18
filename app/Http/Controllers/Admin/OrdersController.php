@@ -45,6 +45,20 @@ class OrdersController extends Controller
     }
 
 
+    /**
+     * @param OrderService $service
+     * @param int $id
+     * @param string $status
+     * @return RedirectResponse
+     */
+    public function updatePaymentStatus(OrderService $service, int $id, string $status):RedirectResponse
+    {
+        $response = $service->updateStatusPayment($id, $status);
+        if ($this->isError($response)) return $this->getErrorResponse();
+
+        return redirect()->route("admin.orders.index")->with("success", ucfirst("Update status pembayaran berhasil !"));
+    }
+
 
     function updateStatus($id)
     {

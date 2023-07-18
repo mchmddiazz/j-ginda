@@ -92,6 +92,7 @@ Route::group(['middleware' => ['admin']], function () {
             Route::controller(OrdersController::class)->group(function (){
                 Route::get('/', 'index')->name("index");
                 Route::get('/{id}', 'show')->name("show");
+                Route::patch('/{id}/{status}', 'updatePaymentStatus')->name("update.payment.status");
             });
         });
         Route::get('orders/updateStatus/{id}', [OrdersController::class, 'updateStatus']);

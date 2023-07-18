@@ -50,4 +50,29 @@ class OrderService extends \Iqbalatma\LaravelServiceRepo\BaseService
 
         return $response;
     }
+
+
+    /**
+     * @param int $id
+     * @param string $status
+     * @return array
+     */
+    public function updateStatusPayment(int $id, string $status):array
+    {
+        try {
+            $this->checkData($id);
+
+            $this->getServiceEntity()->fill([
+                "status" => $status
+            ])->save();
+
+            $response = [
+                "success" => true,
+            ];
+        }catch (Exception $e){
+            $response = getDefaultErrorResponse($e);
+        }
+
+        return $response;
+    }
 }

@@ -67,14 +67,22 @@
 													<span class="badge bg-primary">Diproses</span>
 												@elseif($order->status === PaymentStatusEnum::COMPLETED())
 													<span class="badge bg-success">Selesai</span>
-												@endif
+											@endif
 											<td>{{$order->created_at}}</td>
 											<td>
 												<div class="d-grid gap-2 d-md-block">
 													<a href="{{route('admin.orders.show', $order->id)}}"
 													   class="btn btn-primary btn-sm" type="button">Detail</a>
-													<button class="btn btn-primary" type="button">Button</button>
-													<button class="btn btn-primary" type="button">Button</button>
+													@if($order->status === PaymentStatusEnum::PENDING())
+														<button class="btn btn-success btn-sm btn-accept"
+														        data-id="{{$order->id}}" data-status="processing"
+														        type="button">Terima Pembayaran
+														</button>
+														<button class="btn btn-danger btn-sm btn-decline"
+														        data-id="{{$order->id}}" data-status="decline"
+														        type="button">Tolak Pesanan
+														</button>
+													@endif
 												</div>
 											</td>
 										</tr>
@@ -88,5 +96,65 @@
 			</div>
 		</div>
 	</div>
+
+	<form id="form-update-status-payment" action="{{route('admin.orders.update.payment.status', [':id', ':status']) }}"
+	      class="d-none" method="POST">
+		@csrf
+		@method("PATCH")
+	</form>
+
+	@push("js")
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+		<script>
+            function alertConfirm(successCallback, newConfig) {
+                let config = {
+                    title: 'Apakah anda yakin ?',
+                    text: "Aksi tidak dapat dibatalkan !",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, konfirmasi !',
+                    cancelButtonText: 'Batalkan !'
+                };
+
+                if (newConfig != undefined) {
+                    config = {...config, ...newConfig}
+                }
+
+                Swal.fire(config).then((result) => {
+                    if (result.isConfirmed && typeof successCallback == "function") {
+                        successCallback();
+                    }
+                })
+            }
+
+            let defaultUpdateStatusPaymentUrl = $("#form-update-status-payment").attr("action");
+
+            $(".btn-accept").on("click", function () {
+                const id = $(this).data("id");
+                const status = $(this).data("status");
+                let newUrl = defaultUpdateStatusPaymentUrl.replace(":id", id).replace(":status", status);
+                $("#form-update-status-payment").attr("action", newUrl);
+
+                alertConfirm(() => {
+                    $("#form-update-status-payment").trigger("submit");
+                })
+            });
+
+            $(".btn-decline").on("click", function () {
+                const id = $(this).data("id");
+                const status = $(this).data("status");
+                let newUrl = defaultUpdateStatusPaymentUrl.replace(":id", id).replace(":status", status);
+                $("#form-update-status-payment").attr("action", newUrl);
+
+                alertConfirm(() => {
+                    $("#form-update-status-payment").trigger("submit");
+                })
+            });
+
+
+		</script>
+	@endpush
 
 </x-admin.layout>
