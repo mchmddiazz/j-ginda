@@ -36,8 +36,10 @@
 										<td>
 											@if($transaction->type === "in")
 												<span class="badge bg-success">Masuk</span>
-											@else
+											@elseif($transaction->type === "out")
 												<span class="badge bg-danger">Keluar</span>
+											@else
+												<span class="badge bg-warning">Transaksi Dibatalkan</span>
 											@endif
 										</td>
 										<td>{{$transaction->created_at??"-"}}</td>

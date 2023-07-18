@@ -12,4 +12,5 @@ enum TransactionTypeEnum:string
 
     case OUT = "out";
     case IN = "in";
+    case DECLINE = "decline";
 }

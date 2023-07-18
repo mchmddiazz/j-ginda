@@ -80,6 +80,8 @@
 					       class="{{ request()->is(route("admin.orders.transactions",['type' => 'in'])) ? 'active' : '' }}">Transaksi Produk Masuk</a></li>
 					<li><a href="{{ route('admin.orders.transactions', ['type' => 'out']) }}"
 					       class="{{ request()->is(route("admin.orders.transactions",['type' => 'out'])) ? 'active' : '' }}">Transaksi Produk Keluar</a></li>
+					<li><a href="{{ route('admin.orders.transactions', ['type' => 'decline']) }}"
+					       class="{{ request()->is(route("admin.orders.transactions",['type' => 'decline'])) ? 'active' : '' }}">Transaksi Produk Ditolak</a></li>
 				</ul>
 			</li>
 

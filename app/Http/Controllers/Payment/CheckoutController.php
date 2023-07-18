@@ -132,6 +132,9 @@ class CheckoutController extends Controller
                     ]);
                     
                     $order->items()->save($orderItem);
+
+                    $product->quantity -= $item->quantity;
+                    $product->save();
                 }
                  
                 \Cart::session(Auth::user()->id)->clear();

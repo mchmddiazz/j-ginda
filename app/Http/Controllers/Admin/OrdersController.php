@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Orders\UpdateStatusPaymentRequest;
 use App\Services\Admin\OrderService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -51,9 +52,9 @@ class OrdersController extends Controller
      * @param string $status
      * @return RedirectResponse
      */
-    public function updatePaymentStatus(OrderService $service, int $id, string $status):RedirectResponse
+    public function updatePaymentStatus(OrderService $service, int $id, string $status, UpdateStatusPaymentRequest $request):RedirectResponse
     {
-        $response = $service->updateStatusPayment($id, $status);
+        $response = $service->updateStatusPayment($id, $status, $request->validated());
         if ($this->isError($response)) return $this->getErrorResponse();
 
         return redirect()->route("admin.orders.index")->with("success", ucfirst("Update status pembayaran berhasil !"));
