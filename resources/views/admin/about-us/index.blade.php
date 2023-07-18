@@ -30,7 +30,9 @@
 										<tr>
 											<td>{{$aboutUs->firstItem()+$key}}</td>
 											<td>{{$about->name}}</td>
-											<td>{{$about->image}}</td>
+											<td>
+												<img src='{{asset("about/$about->image")}}' alt="Site Logo" style="height: 95px;">
+											</td>
 											<td>{{$about->address}}</td>
 											<td>{{$about->email}}</td>
 											<td>{{$about->phone_number}}</td>
