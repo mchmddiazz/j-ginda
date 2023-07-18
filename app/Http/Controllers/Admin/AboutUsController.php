@@ -27,25 +27,6 @@ class AboutUsController extends Controller
         viewShare($response);
         return response()->view('admin.about-us.index');
     }
-    function index2(Request $request)
-    {
-        if(request()->ajax()) {
-            $data = AboutUs::orderBy('id', 'DESC')
-            ->get();
-            return DataTables()->of($data)
-                ->addColumn('action', function($data){
-                    return '<a href="#" class="btn btn-info" data-id="'.$data->id.'" data-bs-toggle="modal" data-bs-target="#modelId" id="buton_edit"><i class="fa-solid fa-edit me-2"></i> Edit</a> '.
-                    '<a href="#" class="btn btn-danger" data-id="'.$data->id.'" id="buton_hapus"><i class="fa-solid fa-trash me-2"></i> Hapus</a>';
-                })
-                ->addColumn('image', function($data){
-                    return '<img src="'.asset('about/', $data->image).'" alt="Site Logo" style="height: 95px;">';
-                })
-                ->rawColumns(['action', 'image'])
-                ->addIndexColumn()
-                ->make(true);
-        }
-        return view('admin.aboutus.index');
-    }
 
     function store(Request $request)
     {

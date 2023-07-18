@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\Admin\UserService;
 use Illuminate\Http\Request;
 use App\Models\Role;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
@@ -15,7 +17,17 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 class UsersController extends Controller
 {
-    function index(Request $request)
+
+    /**
+     * @return Response
+     */
+    public function index(UserService $service):Response
+    {
+        $response = $service->getAllDataPaginated();
+        viewShare($response);
+        return response()->view("admin.users.index");
+    }
+    function index2(Request $request)
     {
         if(request()->ajax()) {
             $data = DB::table('role_users')
