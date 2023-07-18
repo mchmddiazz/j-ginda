@@ -45,6 +45,7 @@ class OrdersController extends Controller
     }
 
 
+
     function updateStatus($id)
     {
         $order = Order::where('id', $id)->first();

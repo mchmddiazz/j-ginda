@@ -1,3 +1,4 @@
+@php use App\Enums\PaymentStatusEnum; @endphp
 <x-admin.layout>
 
 	<div class="row">
@@ -57,11 +58,21 @@
 											<td>{{$order->user?->name}}</td>
 											<td>{{ formatToRupiah($order->grand_total)}}</td>
 											<td>{{"$order->item_count order"}}</td>
-											<td>{{$order->status}}</td>
+											<td>
+												@if($order->status === PaymentStatusEnum::PENDING())
+													<span class="badge bg-warning">Tertunda</span>
+												@elseif($order->status === PaymentStatusEnum::DECLINE())
+													<span class="badge bg-danger">Ditolak</span>
+												@elseif($order->status === PaymentStatusEnum::PROCESSING())
+													<span class="badge bg-primary">Diproses</span>
+												@elseif($order->status === PaymentStatusEnum::COMPLETED())
+													<span class="badge bg-success">Selesai</span>
+												@endif
 											<td>{{$order->created_at}}</td>
 											<td>
 												<div class="d-grid gap-2 d-md-block">
-													<a href="{{route('admin.orders.show', $order->id)}}" class="btn btn-primary btn-sm" type="button">Detail</a>
+													<a href="{{route('admin.orders.show', $order->id)}}"
+													   class="btn btn-primary btn-sm" type="button">Detail</a>
 													<button class="btn btn-primary" type="button">Button</button>
 													<button class="btn btn-primary" type="button">Button</button>
 												</div>
