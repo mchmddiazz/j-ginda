@@ -79,6 +79,7 @@ class UsersController extends Controller
 
 
     /**
+     * @todo User update role
      * @param UserService $service
      * @param UpdateUserRequest $request
      * @param int $id
@@ -93,60 +94,18 @@ class UsersController extends Controller
         return redirect()->route("admin.users.index")->with("success", ucfirst("Update data user berhasil !"));
     }
 
-    function store2(Request $request)
-    {
-		date_default_timezone_set('Asia/Jakarta');
-        if ($request->password == $request->confirm_password) 
-        { 
-            $users_id = $request->user_id;
-            $details = [
-                'name'          => $request->name,
-                'email'         => $request->email,
-                'password'      => Hash::make($request->password),
-                'api_token'     => 0,
-                'is_active'     => 1,
-                'avatar'        => 'default.png',
-                'alredy_login'  => 0,
-                'last_login'    => null
-            ];
-            $users   =   User::updateOrCreate(['id' => $users_id], $details);  
-    
-            if ($request->role == 1) {    
-                $users->roles()->attach(Role::where('name', 'admin')->first());
-            } else {
-                $users->roles()->attach(Role::where('name', 'user')->first());
-            }
-    
-            return response()->json($users);
-        } else {
-            return response()->json(['status' => 2, 'error' => 'Password Tidak Sama'], 201);
-        }
-    }
 
-    function edit2($id)
+    /**
+     * @param UserService $service
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function destroy(UserService $service, int $id):RedirectResponse
     {
-        $where = array('users.id' => $id);
+        (array) $response = $service->deleteDataById($id);
 
-        $users  = DB::table('role_users')
-        ->join('users', 'role_users.user_id', '=', 'users.id')
-        ->join('roles', 'role_users.role_id', '=', 'roles.id')
-        ->select(
-            'users.*',
-            'roles.id as roles_id',
-            'users.id as id_user',
-            'roles.name as role'
-            )
-        ->where($where)->first();
-    
-        return response()->json($users);
-    }
+        if ($this->isError($response)) return $this->getErrorResponse();
 
-    function destroy($id)
-    {
-        $users              = User::where('id', $id)->first();
-        $users->is_active   = 0;
-        $users->save();
-    
-        return response()->json($users);
+        return redirect()->route("admin.users.index")->with("success", ucfirst("Hapus data user berhasil !"));
     }
 }

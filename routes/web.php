@@ -137,6 +137,7 @@ Route::group(['middleware' => ['admin']], function () {
             Route::post("/", "store")->name("store");
             Route::get("/{id}/edit", "edit")->name("edit");
             Route::patch("/{id}", "update")->name("update");
+            Route::delete("/{id}", "destroy")->name("destroy");
         });
     });
 });
