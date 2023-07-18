@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Users\StoreUserRequest;
 use App\Services\Admin\UserService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use Illuminate\Http\Response;
@@ -27,46 +29,37 @@ class UsersController extends Controller
         viewShare($response);
         return response()->view("admin.users.index");
     }
-    function index2(Request $request)
+
+    /**
+     * @param UserService $service
+     * @return Response
+     */
+    public function create(UserService $service):Response
     {
-        if(request()->ajax()) {
-            $data = DB::table('role_users')
-            ->join('users', 'role_users.user_id', '=', 'users.id')
-            ->join('roles', 'role_users.role_id', '=', 'roles.id')
-            ->select(
-                'users.*',
-                'users.id as id_user',
-                'roles.name as role'
-                )
-            ->where('users.is_active', 1)
-            ->get(); 
-            return DataTables()->of($data)
-                ->addColumn('action', function($data){
-                    return '<a href="#" class="btn btn-info" data-id="'.$data->id_user.'" data-bs-toggle="modal" data-bs-target="#modelId" id="buton_edit"><i class="fa-solid fa-edit me-2"></i> Edit</a> '.
-                    '<a href="#" class="btn btn-danger" data-id="'.$data->id_user.'" id="buton_hapus"><i class="fa-solid fa-trash me-2"></i> Hapus</a>';
-                })
-                ->addColumn('created_at', function($data){
-                    return Carbon::parse($data->created_at)->isoFormat('dddd, D MMMM Y');
-                 })
-                 ->addColumn('last_login', function($data){
-                    return Carbon::parse($data->last_login)->isoFormat('dddd, D MMMM Y');
-                 })
-                 ->addColumn('role', function($data){
-                    if ($data->role == 'user') {
-                        return '<span class="badge badge-info">User</span>';
-                    } elseif($data->role == 'admin') {
-                        return ' <span class="badge badge-success">Admin</span>';
-                    }
-                })
-                 
-                ->rawColumns(['action', 'created_at', 'last_login', 'role'])
-                ->addIndexColumn()
-                ->make(true);
-        }
-        return view('admin.users.index');
+        $response = $service->getCreateData();
+
+        viewShare($response);
+        return response()->view("admin.users.create");
     }
 
-    function store(Request $request)
+
+    /**
+     * @param UserService $service
+     * @param StoreUserRequest $request
+     * @return RedirectResponse
+     */
+    public function store(UserService $service, StoreUserRequest $request):RedirectResponse
+    {
+        $response = $service->addNewData($request->validated());
+
+
+        if ($this->isError($response)) return $this->getErrorResponse();
+
+        return redirect()->route("admin.users.index")->with("success", ucfirst("Tambah data user berhasil !"));
+
+    }
+
+    function store2(Request $request)
     {
 		date_default_timezone_set('Asia/Jakarta');
         if ($request->password == $request->confirm_password) 

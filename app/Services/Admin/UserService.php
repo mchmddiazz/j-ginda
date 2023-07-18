@@ -3,6 +3,7 @@
 namespace App\Services\Admin;
 
 use App\Repositories\UserRepository;
+use Exception;
 
 class UserService extends \Iqbalatma\LaravelServiceRepo\BaseService
 {
@@ -24,6 +25,38 @@ class UserService extends \Iqbalatma\LaravelServiceRepo\BaseService
             "cardTitle" => "Users",
             "users" => $this->repository->getAllDataPaginated()
         ];
+    }
+
+
+    /**
+     * @return string[]
+     */
+    public function getCreateData():array
+    {
+        return [
+            "title" => "Users",
+            "cardTitle" => "Users"
+        ];
+    }
+
+
+    /**
+     * @param array $requestedData
+     * @return true[]
+     */
+    public function addNewData(array $requestedData):array
+    {
+        try {
+            $this->repository->addNewData($requestedData);
+            $response = [
+                "success" => true
+            ];
+        }catch (Exception $e){
+            $response = getDefaultErrorResponse($e);
+        }
+
+
+        return $response;
     }
 
 }

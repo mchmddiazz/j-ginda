@@ -133,6 +133,8 @@ Route::group(['middleware' => ['admin']], function () {
 
         Route::prefix("users")->name("users.")->controller(UsersController::class)->group(function (){
             Route::get("/", "index")->name("index");
+            Route::get("/create", "create")->name("create");
+            Route::post("/", "store")->name("store");
         });
         Route::get('users-list', [UsersController::class, 'index']);
         Route::get('users-list/edit/{id}', [UsersController::class, 'edit']);
