@@ -6,6 +6,8 @@
 				<div class="card-header flex-wrap border-0" id="default-tab">
 					<h4 class="card-title">{{$cardTitle ?? "About Us"}}</h4>
 				</div>
+
+				<button type="button" class="btn btn-primary">Primary</button>
 				@if($aboutUs->count() === 0)
 					<x-admin.empty-data></x-admin.empty-data>
 				@else

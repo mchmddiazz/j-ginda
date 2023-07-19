@@ -26,4 +26,15 @@ class AboutUsService extends \Iqbalatma\LaravelServiceRepo\BaseService
         ];
     }
 
+    /**
+     * @return string[]
+     */
+    public function getCreateData():array
+    {
+        return [
+            "title" => "About Us",
+            "cardTitle" => "About Us",
+        ];
+    }
+
 }
