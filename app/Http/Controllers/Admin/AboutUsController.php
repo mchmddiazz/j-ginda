@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AboutUs\StoreAboutUsRequest;
+use App\Http\Requests\Admin\AboutUs\UpdateAboutUsRequest;
 use App\Services\Admin\AboutUsService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
+
 class AboutUsController extends Controller
 {
     /**
@@ -23,7 +25,7 @@ class AboutUsController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function index(AboutUsService $service):Response
+    public function index(AboutUsService $service): Response
     {
         $response = $service->getAllData();
         viewShare($response);
@@ -35,7 +37,7 @@ class AboutUsController extends Controller
      * @param AboutUsService $service
      * @return Response
      */
-    public function create(AboutUsService $service):Response
+    public function create(AboutUsService $service): Response
     {
         $response = $service->getCreateData();
 
@@ -48,66 +50,54 @@ class AboutUsController extends Controller
      * @param AboutUsService $service
      * @return RedirectResponse
      */
-    public function store(AboutUsService $service, StoreAboutUsRequest $request):RedirectResponse
+    public function store(AboutUsService $service, StoreAboutUsRequest $request): RedirectResponse
     {
         $response = $service->addNewData($request->validated());
 
         if ($this->isError($response)) return $this->getErrorResponse();
 
-        return redirect()->route("admin.about.us.store")->with("success", ucfirst("Tambah data about us berhasil !"));
+        return redirect()->route("admin.about.us.index")->with("success", ucfirst("Tambah data about us berhasil !"));
     }
 
 
-    function store2(Request $request)
+    /**
+     * @param AboutUsService $service
+     * @param int $id
+     * @return Response|RedirectResponse
+     */
+    public function edit(AboutUsService $service, int $id): Response|RedirectResponse
     {
-		date_default_timezone_set('Asia/Jakarta');
+        $response = $service->getEditData($id);
+        if ($this->isError($response)) return $this->getErrorResponse();
 
-        request()->validate([
-                'image' => 'image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-
-        $about_id = $request->about_id;
-        $details = [
-            'name'          => $request->name,
-            'description'   => $request->description,
-            'address'       => $request->address,
-            'email'         => $request->email,
-            'phone_number'  => $request->phone_number,
-            'status'        => 1
-        ];
-
-        if ($files = $request->file('image')) {
-            //delete old file
-            \File::delete('public/about/'.$request->hidden_image);
-          
-            //insert new file
-            $destinationPath = 'public/about/'; // upload path
-            $profileImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
-            $files->move($destinationPath, $profileImage);
-            $details['image'] = "$profileImage";
-         }
-         $AboutUs   =   AboutUs::updateOrCreate(['id' => $about_id], $details);  
-           
-         return response()->json($AboutUs);
+        viewShare($response);
+        return response()->view('admin.about-us.edit');
     }
 
-    function edit($id)
+
+    /**
+     * @param AboutUsService $service
+     * @param UpdateAboutUsRequest $request
+     * @return RedirectResponse
+     */
+    public function update(AboutUsService $service, UpdateAboutUsRequest $request, int $id): RedirectResponse
     {
-        $where = array('id' => $id);
-        $AboutUs  = AboutUs::where($where)->first();
-    
-        return response()->json($AboutUs);
+        $response = $service->updateDataById($id, $request->validated());
+        if ($this->isError($response)) return $this->getErrorResponse();
+
+        return redirect()->route("admin.about.us.index")->with("success", ucfirst("Tambah data about us berhasil !"));
     }
+
 
     function destroy($id)
     {
-        $data = AboutUs::where('id',$id)->first(['image']);
-        \File::delete('public/about/'.$data->image);
-       
+        $data = AboutUs::where('id', $id)->first(['image']);
+        \File::delete('public/about/' . $data->image);
+
         $AboutUs = AboutUs::where('id', $id)->first();
         $AboutUs->status = 0;
         $AboutUs->save();
-    
+
         return response()->json($AboutUs);
     }
 }

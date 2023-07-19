@@ -39,11 +39,17 @@
 											<td>{{$about->email}}</td>
 											<td>{{$about->phone_number}}</td>
 											<td>{{$about->created_at}}</td>
-											<td>Aksi</td>
+											<td>
+												<div class="d-grid gap-2 d-md-block">
+													<a href="{{route('admin.about.us.edit', $about->id)}}"  class="btn btn-success btn-sm">Edit</a>
+													<button class="btn btn-primary" type="button">Button</button>
+												</div>
+											</td>
 										</tr>
 									@endforeach
 									</tbody>
 								</table>
+								{{$aboutUs->withQueryString()->links()}}
 							</div>
 						</div>
 					@endif

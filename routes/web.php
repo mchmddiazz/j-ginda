@@ -122,6 +122,8 @@ Route::group(['middleware' => ['admin']], function () {
             Route::get('', 'index')->name("index");
             Route::get('/create', 'create')->name("create");
             Route::post('/', 'store')->name("store");
+            Route::get('/{id}/edit', 'edit')->name("edit");
+            Route::patch('/{id}', 'update')->name("update");
 //            Route::get('edit/{id}', 'edit');
 //            Route::post('store', 'store');
 //            Route::get('delete/{id}', 'destroy');

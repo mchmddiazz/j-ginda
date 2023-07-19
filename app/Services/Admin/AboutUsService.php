@@ -20,7 +20,7 @@ class AboutUsService extends \Iqbalatma\LaravelServiceRepo\BaseService
     /**
      * @return array
      */
-    public function getAllData():array
+    public function getAllData(): array
     {
         return [
             "title" => "About Us",
@@ -32,7 +32,7 @@ class AboutUsService extends \Iqbalatma\LaravelServiceRepo\BaseService
     /**
      * @return string[]
      */
-    public function getCreateData():array
+    public function getCreateData(): array
     {
         return [
             "title" => "About Us",
@@ -40,10 +40,10 @@ class AboutUsService extends \Iqbalatma\LaravelServiceRepo\BaseService
         ];
     }
 
-    public function addNewData(array $requestedData):array
+    public function addNewData(array $requestedData): array
     {
         try {
-            if(request()->hasFile("image")){
+            if (request()->hasFile("image")) {
                 $file = request()->file("image");
                 $requestedData["image"] = Str::random(10) . $file->getClientOriginalName();
                 Storage::putFileAs("public/about-us", $file, $requestedData["image"]);
@@ -53,11 +53,56 @@ class AboutUsService extends \Iqbalatma\LaravelServiceRepo\BaseService
             $response = [
                 "success" => true
             ];
-        }catch (Exception $e){
+        } catch (Exception $e) {
             $response = getDefaultErrorResponse($e);
         }
 
         return $response;
     }
 
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function getEditData(int $id): array
+    {
+        try {
+            $this->checkData($id);
+            $response = [
+                "success" => true,
+                "aboutUs" => $this->getServiceEntity()
+            ];
+        } catch (Exception $e) {
+            $response = getDefaultErrorResponse($e);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param int $id
+     * @param array $requestedData
+     * @return array
+     */
+    public function updateDataById(int $id, array $requestedData): array
+    {
+        try {
+            $this->checkData($id);
+            if (request()->hasFile("image")) {
+                $file = request()->file("image");
+                $requestedData["image"] = Str::random(10) . $file->getClientOriginalName();
+                Storage::putFileAs("public/about-us", $file, $requestedData["image"]);
+            }
+
+            $this->getServiceEntity()->fill($requestedData)->save();
+            $response = [
+                "success" => true,
+            ];
+        } catch (Exception $e) {
+            $response = getDefaultErrorResponse($e);
+        }
+
+        return $response;
+    }
 }
