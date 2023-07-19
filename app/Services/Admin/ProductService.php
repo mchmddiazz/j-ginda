@@ -6,6 +6,8 @@ use App\Models\Product;
 use App\Repositories\ProductRepository;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductService extends \Iqbalatma\LaravelServiceRepo\BaseService
 {
@@ -36,6 +38,11 @@ class ProductService extends \Iqbalatma\LaravelServiceRepo\BaseService
     public function addNewData(array $requestedData): array
     {
         try {
+            if(request()->hasFile("image")){
+                $file = request()->file("image");
+                $requestedData["image"] = Str::random(10) . $file->getClientOriginalName();
+                Storage::putFileAs("public/products", $file, $requestedData["image"]);
+            }
             $this->repository->addNewData($requestedData);
 
             $response = [
@@ -56,6 +63,7 @@ class ProductService extends \Iqbalatma\LaravelServiceRepo\BaseService
     {
         try {
             $this->checkData($id);
+
 
             $response = [
                 "success" => true,
@@ -80,6 +88,13 @@ class ProductService extends \Iqbalatma\LaravelServiceRepo\BaseService
         try {
             $this->checkData($id);
             $product = $this->getServiceEntity();
+
+            if(request()->hasFile("image")){
+                $file = request()->file("image");
+                $requestedData["image"] = Str::random(10) . $file->getClientOriginalName();
+                Storage::putFileAs("public/products", $file, $requestedData["image"]);
+            }
+
             $product->fill($requestedData)->save();
 
             $response = [

@@ -119,22 +119,26 @@ Route::group(['middleware' => ['admin']], function () {
 
 
         Route::prefix("about-us")->name("about.us.")->controller(AboutUsController::class)->group(function () {
-            Route::get('', 'index');
-            Route::get('edit/{id}', 'edit');
-            Route::post('store', 'store');
-            Route::get('delete/{id}', 'destroy');
+            Route::get('', 'index')->name("index");
+//            Route::get('edit/{id}', 'edit');
+//            Route::post('store', 'store');
+//            Route::get('delete/{id}', 'destroy');
         });
-        Route::get('aboutus-list', [AboutUsController::class, 'index']);
-        Route::get('aboutus-list/edit/{id}', [AboutUsController::class, 'edit']);
-        Route::post('aboutus-list/store', [AboutUsController::class, 'store']);
-        Route::get('aboutus-list/delete/{id}', [AboutUsController::class, 'destroy']);
+//        Route::get('aboutus-list', [AboutUsController::class, 'index']);
+//        Route::get('aboutus-list/edit/{id}', [AboutUsController::class, 'edit']);
+//        Route::post('aboutus-list/store', [AboutUsController::class, 'store']);
+//        Route::get('aboutus-list/delete/{id}', [AboutUsController::class, 'destroy']);
 
         Route::get('/invoice/generate/{idOrder}', [InvoiceController::class, 'generateAdmin']);
 
-        Route::get('users-list', [UsersController::class, 'index']);
-        Route::get('users-list/edit/{id}', [UsersController::class, 'edit']);
-        Route::post('users-list/store', [UsersController::class, 'store']);
-        Route::get('users-list/delete/{id}', [UsersController::class, 'destroy']);
+        Route::prefix("users")->name("users.")->controller(UsersController::class)->group(function (){
+            Route::get("/", "index")->name("index");
+            Route::get("/create", "create")->name("create");
+            Route::post("/", "store")->name("store");
+            Route::get("/{id}/edit", "edit")->name("edit");
+            Route::patch("/{id}", "update")->name("update");
+            Route::delete("/{id}", "destroy")->name("destroy");
+        });
     });
 });
 

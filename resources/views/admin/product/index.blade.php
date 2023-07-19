@@ -24,51 +24,67 @@
 								</ul>
 								<div class="tab-content">
 									<div class="tab-pane fade show active" id="product" role="tabpanel">
-										<div class="pt-4">
-											<div class="table-responsive">
-												<table class="table">
-													<thead>
-													<tr>
-														<th scope="col">No</th>
-														<th scope="col">Nama Produk</th>
-														<th scope="col">Kuantitas Gudang</th>
-														<th scope="col">Ambang Batas Kuantitas</th>
-														<th scope="col">Kondisi Stok</th>
-														<th scope="col">Berat (gram)</th>
-														<th scope="col">Aksi</th>
-													</tr>
-													</thead>
-													<tbody>
-													@foreach($products as $key => $product)
+										@if($products->count()===0)
+											<x-admin.empty-data></x-admin.empty-data>
+										@else
+											<div class="pt-4">
+												<div class="table-responsive">
+													<table class="table">
+														<thead>
 														<tr>
-															<td>{{$products->firstItem() + $key}}</td>
-															<td>{{$product->name}}</td>
-															<td>{{$product->quantity . " pcs"}}</td>
-															<td>{{$product->quantity_threshold . " pcs"}}</td>
-															<td>
-																@if($product->quantity > $product->quantity_threshold)
-																	<span class="badge rounded-pill bg-success">Stok Terpenuhi</span>
-																@elseif($product->quantity === 0)
-																	<span class="badge rounded-pill bg-danger">Stok Habis</span>
-																@else
-																	<span class="badge rounded-pill bg-warning">Stok Menipis</span>
-																@endif
-															</td>
-															<td>{{$product->weight. " grams"}}</td>
-															<td>
-																<div class="d-grid gap-2 d-md-block">
-																	<a href="{{route('admin.products.edit', $product->id)}}"
-																	   class="btn btn-success btn-sm" type="button">Sunting</a>
-																	<button type="button" class="btn btn-danger btn-sm btn-delete" data-id="{{ $product->id }}">Hapus</button>
-																</div>
-															</td>
+															<th scope="col">No</th>
+															<th scope="col">Nama Produk</th>
+															<th scope="col">Kuantitas Gudang</th>
+															<th scope="col">Ambang Batas Kuantitas</th>
+															<th scope="col">Kondisi Stok</th>
+															<th scope="col">Berat (gram)</th>
+															<th scope="col">Gambar</th>
+															<th scope="col">Aksi</th>
 														</tr>
-													@endforeach
-													</tbody>
-												</table>
-												{{$products->withQueryString()->links()}}
+														</thead>
+														<tbody>
+														@foreach($products as $key => $product)
+															<tr>
+																<td>{{$products->firstItem() + $key}}</td>
+																<td>{{$product->name}}</td>
+																<td>{{$product->quantity . " pcs"}}</td>
+																<td>{{$product->quantity_threshold . " pcs"}}</td>
+																<td>
+																	@if($product->quantity > $product->quantity_threshold)
+																		<span class="badge rounded-pill bg-success">Stok Terpenuhi</span>
+																	@elseif($product->quantity === 0)
+																		<span class="badge rounded-pill bg-danger">Stok Habis</span>
+																	@else
+																		<span class="badge rounded-pill bg-warning">Stok Menipis</span>
+																	@endif
+																</td>
+																<td>{{$product->weight. " grams"}}</td>
+																<td>
+																	@if($product->image && $product->image!== '')
+																		<img height="100px"
+																		     src="{{asset('storage/products/'.$product->image)}}">
+																	@else
+																		<img src="https://via.placeholder.com/150" height="100px">
+																	@endif
+																</td>
+																<td>
+																	<div class="d-grid gap-2 d-md-block">
+																		<a href="{{route('admin.products.edit', $product->id)}}"
+																		   class="btn btn-success btn-sm" type="button">Sunting</a>
+																		<button type="button"
+																		        class="btn btn-danger btn-sm btn-delete"
+																		        data-id="{{ $product->id }}">Hapus
+																		</button>
+																	</div>
+																</td>
+															</tr>
+														@endforeach
+														</tbody>
+													</table>
+													{{$products->withQueryString()->links()}}
+												</div>
 											</div>
-										</div>
+										@endif
 									</div>
 									<div class="tab-pane fade" id="add-product">
 										<div class="pt-4">
@@ -209,7 +225,6 @@
 														</div>
 
 													</div>
-													<input type="hidden" name="product_id" id="product_id">
 													<div class="mb-3">
 														<img id="modal-preview" src="https://via.placeholder.com/150"
 														     alt="Preview" class="form-group hidden" width="100"
@@ -239,11 +254,12 @@
 	@push("js")
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 		<script>
-            function changeFormUrlWithId(id, defaultUrl, formSelector){
+            function changeFormUrlWithId(id, defaultUrl, formSelector) {
                 const newUrl = defaultUrl.replace(":id", id);
                 $(formSelector).attr("action", newUrl);
             }
-            function alertConfirm(successCallback, newConfig){
+
+            function alertConfirm(successCallback, newConfig) {
                 let config = {
                     title: 'Apakah anda yakin ?',
                     text: "Ketika dihapus anda tidak dapat membatalkannya !",
@@ -255,22 +271,23 @@
                     cancelButtonText: 'Batalkan !'
                 };
 
-                if(newConfig != undefined){
+                if (newConfig != undefined) {
                     config = {...config, ...newConfig}
                 }
 
                 Swal.fire(config).then((result) => {
-                    if (result.isConfirmed &&  typeof successCallback == "function" ) {
+                    if (result.isConfirmed && typeof successCallback == "function") {
                         successCallback();
                     }
                 })
             }
+
             let defaultDeleteUrl = $("#form-delete").attr("action");
 
-            $(".btn-delete").on("click", function(){
+            $(".btn-delete").on("click", function () {
                 changeFormUrlWithId($(this).data("id"), defaultDeleteUrl, "#form-delete");
 
-                alertConfirm(()=>{
+                alertConfirm(() => {
                     $("#form-delete").trigger("submit");
                 })
             });

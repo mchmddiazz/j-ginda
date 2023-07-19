@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Products;
+namespace App\Http\Requests\Admin\Users;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProductRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,14 +25,12 @@ class StoreProductRequest extends FormRequest
     {
         return [
             "name" => "required",
-            "price" => "numeric",
-            "priceDisc" => "numeric",
-            "quantity" => "numeric",
-            "quantity_threshold" => "numeric",
-            "weight" => "numeric",
-            "description" => "max:1000",
-            "slideActive" => "boolean",
-            "image"=> "image|mimes:jpeg,png,jpg|max:2048"
+            "email" => "email|required",
+            "password" => "required|confirmed",
+            "phone" => "",
+            "address" => "",
+            "postal_code" => "",
+            "roles" => "array"
         ];
     }
 }
