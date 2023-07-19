@@ -118,7 +118,7 @@
 				<ul aria-expanded="false">
 					<li><a href="{{ route('admin.request.production.index', ["status" => "waiting"]) }}" class="{{ request()->is(route("admin.request.production.index", ["status" => "waiting"])) ? 'active' : '' }}">Menunggu Produksi</a></li>
 					<li><a href="{{ route('admin.request.production.index',["status" => "done"]) }}" class="{{ request()->is(route("admin.request.production.index",["status" => "done"])) ? 'active' : '' }}">Sudah Diproduksi</a></li>
-					<li><a href="{{ route('admin.request.production.index',["status" => "pending"]) }}" class="{{ request()->is(route("admin.request.production.index",["status" => "pending"])) ? 'active' : '' }}">Batal Produksi</a></li>
+					<li><a href="{{ route('admin.request.production.index',["status" => "cancel"]) }}" class="{{ request()->is(route("admin.request.production.index",["status" => "cancel"])) ? 'active' : '' }}">Batal Produksi</a></li>
 				</ul>
 			</li>
 		</ul>
