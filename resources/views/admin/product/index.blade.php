@@ -38,6 +38,7 @@
 															<th scope="col">Ambang Batas Kuantitas</th>
 															<th scope="col">Kondisi Stok</th>
 															<th scope="col">Berat (gram)</th>
+															<th scope="col">Gambar</th>
 															<th scope="col">Aksi</th>
 														</tr>
 														</thead>
@@ -58,6 +59,14 @@
 																	@endif
 																</td>
 																<td>{{$product->weight. " grams"}}</td>
+																<td>
+																	@if($product->image && $product->image!== '')
+																		<img height="100px"
+																		     src="{{asset('storage/products/'.$product->image)}}">
+																	@else
+																		<img src="https://via.placeholder.com/150" height="100px">
+																	@endif
+																</td>
 																<td>
 																	<div class="d-grid gap-2 d-md-block">
 																		<a href="{{route('admin.products.edit', $product->id)}}"
@@ -216,7 +225,6 @@
 														</div>
 
 													</div>
-													<input type="hidden" name="product_id" id="product_id">
 													<div class="mb-3">
 														<img id="modal-preview" src="https://via.placeholder.com/150"
 														     alt="Preview" class="form-group hidden" width="100"
