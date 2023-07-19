@@ -89,56 +89,55 @@ Route::prefix('cart')->name("cart.")->controller(CartController::class)->group(f
     Route::get('/clearAll', 'clearAll');
 });
 
-Route::group(['middleware' => ['admin']], function () {
-    Route::prefix('admin')->name("admin.")->group(function () {
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::prefix('admin')->name("admin.")->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::prefix("orders")->name("orders.")->group(function () {
-            Route::get('/transactions', OrderTransactionController::class)->name("transactions");
-            Route::controller(OrdersController::class)->group(function () {
-                Route::get('/', 'index')->name("index");
-                Route::get('/{id}', 'show')->name("show");
-                Route::patch('/{id}/{status}', 'updatePaymentStatus')->name("update.payment.status");
-            });
-        });
-
-        Route::controller(ProductController::class)->prefix("products")->name("products.")->group(function () {
-            Route::get("/", "index")->name("index");
-            Route::get("/{id}/edit", "edit")->name("edit");
-            Route::post("/", "store")->name("store");
-            Route::patch("/{id}", "update")->name("update");
-            Route::delete("/{id}", "destroy")->name("destroy");
-            Route::get("/low-quantity", LowQuantityProductController::class)->name("low.quantity");
-        });
-
-        Route::controller(RequestProductionController::class)->prefix("request-production")->name("request.production.")->group(function () {
-            Route::get("/", "index")->name("index");
-            Route::post("/", "store")->name("store");
-            Route::patch("/", "update")->name("update");
-        });
-
-
-        Route::prefix("about-us")->name("about.us.")->controller(AboutUsController::class)->group(function () {
-            Route::get('', 'index')->name("index");
-            Route::get('/create', 'create')->name("create");
-            Route::post('/', 'store')->name("store");
-            Route::get('/{id}/edit', 'edit')->name("edit");
-            Route::patch('/{id}', 'update')->name("update");
-            Route::delete('/{id}', 'destroy')->name("destroy");
-        });
-
-        Route::get('/invoice/generate/{idOrder}', [InvoiceController::class, 'generateAdmin']);
-
-        Route::prefix("users")->name("users.")->controller(UsersController::class)->group(function (){
-            Route::get("/", "index")->name("index");
-            Route::get("/create", "create")->name("create");
-            Route::post("/", "store")->name("store");
-            Route::get("/{id}/edit", "edit")->name("edit");
-            Route::patch("/{id}", "update")->name("update");
-            Route::delete("/{id}", "destroy")->name("destroy");
+    Route::prefix("orders")->name("orders.")->group(function () {
+        Route::get('/transactions', OrderTransactionController::class)->name("transactions");
+        Route::controller(OrdersController::class)->group(function () {
+            Route::get('/', 'index')->name("index");
+            Route::get('/{id}', 'show')->name("show");
+            Route::patch('/{id}/{status}', 'updatePaymentStatus')->name("update.payment.status");
         });
     });
+
+    Route::controller(ProductController::class)->prefix("products")->name("products.")->group(function () {
+        Route::get("/", "index")->name("index");
+        Route::get("/{id}/edit", "edit")->name("edit");
+        Route::post("/", "store")->name("store");
+        Route::patch("/{id}", "update")->name("update");
+        Route::delete("/{id}", "destroy")->name("destroy");
+        Route::get("/low-quantity", LowQuantityProductController::class)->name("low.quantity");
+    });
+
+    Route::controller(RequestProductionController::class)->prefix("request-production")->name("request.production.")->group(function () {
+        Route::get("/", "index")->name("index");
+        Route::post("/", "store")->name("store");
+        Route::patch("/", "update")->name("update");
+    });
+
+
+    Route::prefix("about-us")->name("about.us.")->controller(AboutUsController::class)->group(function () {
+        Route::get('', 'index')->name("index");
+        Route::get('/create', 'create')->name("create");
+        Route::post('/', 'store')->name("store");
+        Route::get('/{id}/edit', 'edit')->name("edit");
+        Route::patch('/{id}', 'update')->name("update");
+        Route::delete('/{id}', 'destroy')->name("destroy");
+    });
+
+    Route::get('/invoice/generate/{idOrder}', [InvoiceController::class, 'generateAdmin']);
+
+    Route::prefix("users")->name("users.")->controller(UsersController::class)->group(function () {
+        Route::get("/", "index")->name("index");
+        Route::get("/create", "create")->name("create");
+        Route::post("/", "store")->name("store");
+        Route::get("/{id}/edit", "edit")->name("edit");
+        Route::patch("/{id}", "update")->name("update");
+        Route::delete("/{id}", "destroy")->name("destroy");
+    });
 });
+
 
 Route::group(['middleware' => ['web', 'auth', 'has_login']], function () {
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\RequestProduction\StoreRequestProductionRequest;
 use App\Http\Requests\Admin\RequestProduction\UpdateRequestProductionRequest;
@@ -17,6 +18,9 @@ class RequestProductionController extends Controller
      */
     public function index(RequestProductionService $service):Response
     {
+        if(!auth()->user()->hasRole(RoleEnum::ADMINISTRATOR())){
+            abort(403);
+        }
         $response = $service->getAllDataPaginated();
 
         viewShare($response);
@@ -44,6 +48,9 @@ class RequestProductionController extends Controller
      */
     public function update(RequestProductionService $service, UpdateRequestProductionRequest $request)
     {
+        if(!auth()->user()->hasRole(RoleEnum::ADMINISTRATOR())){
+            abort(403);
+        }
         $response = $service->productionDone($request->validated());
         if ($this->isError($response)) return $this->getErrorResponse();
 

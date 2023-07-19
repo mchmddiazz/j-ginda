@@ -1,3 +1,4 @@
+@php use App\Enums\RoleEnum; @endphp
 <div class="deznav">
 	<div class="deznav-scroll">
 		<ul class="metismenu" id="menu">
@@ -13,7 +14,10 @@
 					<span class="nav-text">Dashboard</span>
 				</a>
 			</li>
-			<li><a href="{{ route("admin.about.us.index") }}" class="{{ request()->is('admin/aboutus-list') ? 'active' : '' }}"
+			@if(auth()->user()->hasRole(RoleEnum::ADMINISTRATOR()))
+
+			<li><a href="{{ route("admin.about.us.index") }}"
+			       class="{{ request()->is('admin/aboutus-list') ? 'active' : '' }}"
 			       aria-expanded="false">
 					<div class="menu-icon">
 						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,7 +28,8 @@
 					<span class="nav-text">About Us</span>
 				</a>
 			</li>
-			<li><a href="{{ route('admin.users.index') }}" class="{{ request()->is('admin/aboutus-list') ? 'active' : '' }}"
+			<li><a href="{{ route('admin.users.index') }}"
+			       class="{{ request()->is('admin/aboutus-list') ? 'active' : '' }}"
 			       aria-expanded="false">
 					<div class="menu-icon">
 						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -35,6 +40,7 @@
 					<span class="nav-text">User</span>
 				</a>
 			</li>
+			@endif
 			<li class="menu-title">OUR FEATURES</li>
 
 			{{-- PRODUK --}}
@@ -59,11 +65,14 @@
 				<ul aria-expanded="false">
 					<li><a href="{{ route("admin.products.index") }}"
 					       class="{{ request()->is(route("admin.products.index")) ? 'active' : '' }}">Product</a></li>
-					<li><a href="{{ route("admin.products.low.quantity") }}"
-					       class="{{ request()->is(route("admin.products.low.quantity")) ? 'active' : '' }}">Low
-							Quantity Product</a></li>
+					@if(auth()->user()->hasRole(RoleEnum::GUDANG()))
+						<li><a href="{{ route("admin.products.low.quantity") }}"
+						       class="{{ request()->is(route("admin.products.low.quantity")) ? 'active' : '' }}">Low
+								Quantity Product</a></li>
+					@endif
 				</ul>
 			</li>
+			@if(auth()->user()->hasRole(RoleEnum::ADMINISTRATOR()))
 
 			{{-- TRANSAKSI --}}
 			<li>
@@ -88,13 +97,17 @@
 					<li><a href="{{ route('admin.orders.index') }}"
 					       class="{{ request()->is(route("admin.orders.index")) ? 'active' : '' }}">Order</a></li>
 					<li><a href="{{ route('admin.orders.transactions', ['type' => 'in']) }}"
-					       class="{{ request()->is(route("admin.orders.transactions",['type' => 'in'])) ? 'active' : '' }}">Transaksi Produk Masuk</a></li>
+					       class="{{ request()->is(route("admin.orders.transactions",['type' => 'in'])) ? 'active' : '' }}">Transaksi
+							Produk Masuk</a></li>
 					<li><a href="{{ route('admin.orders.transactions', ['type' => 'out']) }}"
-					       class="{{ request()->is(route("admin.orders.transactions",['type' => 'out'])) ? 'active' : '' }}">Transaksi Produk Keluar</a></li>
+					       class="{{ request()->is(route("admin.orders.transactions",['type' => 'out'])) ? 'active' : '' }}">Transaksi
+							Produk Keluar</a></li>
 					<li><a href="{{ route('admin.orders.transactions', ['type' => 'decline']) }}"
-					       class="{{ request()->is(route("admin.orders.transactions",['type' => 'decline'])) ? 'active' : '' }}">Transaksi Produk Ditolak</a></li>
+					       class="{{ request()->is(route("admin.orders.transactions",['type' => 'decline'])) ? 'active' : '' }}">Transaksi
+							Produk Ditolak</a></li>
 				</ul>
 			</li>
+
 
 			{{--PERMINTAAN PRODUKSI--}}
 			<li>
@@ -116,11 +129,19 @@
 					<span class="nav-text">Permintaan Produksi</span>
 				</a>
 				<ul aria-expanded="false">
-					<li><a href="{{ route('admin.request.production.index', ["status" => "waiting"]) }}" class="{{ request()->is(route("admin.request.production.index", ["status" => "waiting"])) ? 'active' : '' }}">Menunggu Produksi</a></li>
-					<li><a href="{{ route('admin.request.production.index',["status" => "done"]) }}" class="{{ request()->is(route("admin.request.production.index",["status" => "done"])) ? 'active' : '' }}">Sudah Diproduksi</a></li>
-					<li><a href="{{ route('admin.request.production.index',["status" => "cancel"]) }}" class="{{ request()->is(route("admin.request.production.index",["status" => "cancel"])) ? 'active' : '' }}">Batal Produksi</a></li>
+					<li><a href="{{ route('admin.request.production.index', ["status" => "waiting"]) }}"
+					       class="{{ request()->is(route("admin.request.production.index", ["status" => "waiting"])) ? 'active' : '' }}">Menunggu
+							Produksi</a></li>
+					<li><a href="{{ route('admin.request.production.index',["status" => "done"]) }}"
+					       class="{{ request()->is(route("admin.request.production.index",["status" => "done"])) ? 'active' : '' }}">Sudah
+							Diproduksi</a></li>
+					<li><a href="{{ route('admin.request.production.index',["status" => "cancel"]) }}"
+					       class="{{ request()->is(route("admin.request.production.index",["status" => "cancel"])) ? 'active' : '' }}">Batal
+							Produksi</a></li>
 				</ul>
 			</li>
+			@endif
+
 		</ul>
 		<div class="copyright">
 			<p class="fs-14"><strong>Abon Alfitri</strong> © 2023 All Rights Reserved</p>
@@ -128,3 +149,5 @@
 		</div>
 	</div>
 </div>
+
+{{--{{dd(auth()->user()->hasRole("administrator"))}}--}}

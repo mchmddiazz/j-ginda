@@ -18,7 +18,7 @@ class Admin
     function handle(Request $request, Closure $next)
     {
         if (!empty($request->user())) {
-            if ($request->user()->hasRole('admin')) {
+            if ($request->user()->hasRole('administrator')) {
                 return $next($request);
             } else {
                 abort(403);

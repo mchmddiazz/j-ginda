@@ -167,6 +167,7 @@
                         $('#button_login').attr('disabled', true);
                     },
                     success: function (response) {
+                        console.log(response)
                         $('#button_login').html("Masuk");
                         $('#button_login').removeAttr('disabled');
 
@@ -211,6 +212,9 @@
                         reset();
                         $('#button_login').removeAttr('disabled');
                         $('#button_login').html("Masuk");
+                    },
+                    error: function (response){
+                        console.log(response)
                     }
                 });
             });
