@@ -105,4 +105,25 @@ class AboutUsService extends \Iqbalatma\LaravelServiceRepo\BaseService
 
         return $response;
     }
+
+
+    /**
+     * @param int $id
+     * @return true[]
+     */
+    public function deleteDataById(int $id):array
+    {
+        try {
+            $this->checkData($id);
+
+            $this->getServiceEntity()->delete();
+            $response = [
+                "success" => true,
+            ];
+        } catch (Exception $e) {
+            $response = getDefaultErrorResponse($e);
+        }
+
+        return $response;
+    }
 }

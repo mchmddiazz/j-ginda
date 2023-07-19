@@ -42,7 +42,7 @@
 											<td>
 												<div class="d-grid gap-2 d-md-block">
 													<a href="{{route('admin.about.us.edit', $about->id)}}"  class="btn btn-success btn-sm">Edit</a>
-													<button class="btn btn-primary" type="button">Button</button>
+													<button class="btn btn-danger btn-sm" type="button">Hapus</button>
 												</div>
 											</td>
 										</tr>

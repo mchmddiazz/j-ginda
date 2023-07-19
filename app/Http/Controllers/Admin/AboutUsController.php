@@ -89,15 +89,17 @@ class AboutUsController extends Controller
     }
 
 
-    function destroy($id)
+    /**
+     * @param AboutUsService $service
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function destroy(AboutUsService $service, int $id):RedirectResponse
     {
-        $data = AboutUs::where('id', $id)->first(['image']);
-        \File::delete('public/about/' . $data->image);
+        $response = $service->deleteDataById($id);
+        if ($this->isError($response)) return $this->getErrorResponse();
 
-        $AboutUs = AboutUs::where('id', $id)->first();
-        $AboutUs->status = 0;
-        $AboutUs->save();
+        return redirect()->route("admin.about.us.index")->with("success", ucfirst("Tambah data about us berhasil !"));
 
-        return response()->json($AboutUs);
     }
 }
