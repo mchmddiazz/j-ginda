@@ -120,6 +120,8 @@ Route::group(['middleware' => ['admin']], function () {
 
         Route::prefix("about-us")->name("about.us.")->controller(AboutUsController::class)->group(function () {
             Route::get('', 'index')->name("index");
+            Route::get('/create', 'create')->name("create");
+            Route::post('/', 'store')->name("store");
 //            Route::get('edit/{id}', 'edit');
 //            Route::post('store', 'store');
 //            Route::get('delete/{id}', 'destroy');

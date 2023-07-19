@@ -6,12 +6,11 @@
 				<div class="card-header flex-wrap border-0" id="default-tab">
 					<h4 class="card-title">{{$cardTitle ?? "About Us"}}</h4>
 				</div>
-
-				<button type="button" class="btn btn-primary">Primary</button>
-				@if($aboutUs->count() === 0)
-					<x-admin.empty-data></x-admin.empty-data>
-				@else
-					<div class="card-body pt-0">
+				<div class="card-body pt-0">
+					<a href="{{route('admin.about.us.create')}}" class="btn btn-primary btn-sm">Tambah About Us</a>
+					@if($aboutUs->count() === 0)
+						<x-admin.empty-data></x-admin.empty-data>
+					@else
 						<div class="pt-4">
 							<div class="table-responsive">
 								<table class="table">
@@ -33,7 +32,8 @@
 											<td>{{$aboutUs->firstItem()+$key}}</td>
 											<td>{{$about->name}}</td>
 											<td>
-												<img src='{{asset("about/$about->image")}}' alt="Site Logo" style="height: 95px;">
+												<img src='{{asset("storage/about-us/$about->image")}}' alt="Site Logo"
+												     style="height: 95px;">
 											</td>
 											<td>{{$about->address}}</td>
 											<td>{{$about->email}}</td>
@@ -46,8 +46,8 @@
 								</table>
 							</div>
 						</div>
-					</div>
-				@endif
+					@endif
+				</div>
 			</div>
 		</div>
 	</div>

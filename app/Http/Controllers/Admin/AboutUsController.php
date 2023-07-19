@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\AboutUs\StoreAboutUsRequest;
 use App\Services\Admin\AboutUsService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\AboutUs;
 use Illuminate\Http\Response;
@@ -41,7 +43,22 @@ class AboutUsController extends Controller
         return response()->view('admin.about-us.create');
     }
 
-    function store(Request $request)
+
+    /**
+     * @param AboutUsService $service
+     * @return RedirectResponse
+     */
+    public function store(AboutUsService $service, StoreAboutUsRequest $request):RedirectResponse
+    {
+        $response = $service->addNewData($request->validated());
+
+        if ($this->isError($response)) return $this->getErrorResponse();
+
+        return redirect()->route("admin.about.us.store")->with("success", ucfirst("Tambah data about us berhasil !"));
+    }
+
+
+    function store2(Request $request)
     {
 		date_default_timezone_set('Asia/Jakarta');
 

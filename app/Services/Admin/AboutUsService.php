@@ -3,6 +3,9 @@
 namespace App\Services\Admin;
 
 use App\Repositories\AboutUsRepository;
+use Exception;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class AboutUsService extends \Iqbalatma\LaravelServiceRepo\BaseService
 {
@@ -35,6 +38,26 @@ class AboutUsService extends \Iqbalatma\LaravelServiceRepo\BaseService
             "title" => "About Us",
             "cardTitle" => "About Us",
         ];
+    }
+
+    public function addNewData(array $requestedData):array
+    {
+        try {
+            if(request()->hasFile("image")){
+                $file = request()->file("image");
+                $requestedData["image"] = Str::random(10) . $file->getClientOriginalName();
+                Storage::putFileAs("public/about-us", $file, $requestedData["image"]);
+            }
+            $this->repository->addNewData($requestedData);
+
+            $response = [
+                "success" => true
+            ];
+        }catch (Exception $e){
+            $response = getDefaultErrorResponse($e);
+        }
+
+        return $response;
     }
 
 }
