@@ -31,6 +31,7 @@ class UpdateProductRequest extends FormRequest
             "weight" => "numeric",
             "description" => "max:1000",
             "slideActive" => "boolean",
+            "image"=> "image|mimes:jpeg,png,jpg|max:2048"
         ];
     }
 }

@@ -64,6 +64,7 @@ class ProductService extends \Iqbalatma\LaravelServiceRepo\BaseService
         try {
             $this->checkData($id);
 
+
             $response = [
                 "success" => true,
                 "title"=> "Edit Produk",
@@ -87,6 +88,13 @@ class ProductService extends \Iqbalatma\LaravelServiceRepo\BaseService
         try {
             $this->checkData($id);
             $product = $this->getServiceEntity();
+
+            if(request()->hasFile("image")){
+                $file = request()->file("image");
+                $requestedData["image"] = Str::random(10) . $file->getClientOriginalName();
+                Storage::putFileAs("public/products", $file, $requestedData["image"]);
+            }
+
             $product->fill($requestedData)->save();
 
             $response = [
