@@ -124,14 +124,8 @@ Route::group(['middleware' => ['admin']], function () {
             Route::post('/', 'store')->name("store");
             Route::get('/{id}/edit', 'edit')->name("edit");
             Route::patch('/{id}', 'update')->name("update");
-//            Route::get('edit/{id}', 'edit');
-//            Route::post('store', 'store');
-//            Route::get('delete/{id}', 'destroy');
+            Route::delete('/{id}', 'destroy')->name("destroy");
         });
-//        Route::get('aboutus-list', [AboutUsController::class, 'index']);
-//        Route::get('aboutus-list/edit/{id}', [AboutUsController::class, 'edit']);
-//        Route::post('aboutus-list/store', [AboutUsController::class, 'store']);
-//        Route::get('aboutus-list/delete/{id}', [AboutUsController::class, 'destroy']);
 
         Route::get('/invoice/generate/{idOrder}', [InvoiceController::class, 'generateAdmin']);
 

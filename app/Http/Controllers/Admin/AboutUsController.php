@@ -100,6 +100,5 @@ class AboutUsController extends Controller
         if ($this->isError($response)) return $this->getErrorResponse();
 
         return redirect()->route("admin.about.us.index")->with("success", ucfirst("Tambah data about us berhasil !"));
-
     }
 }
