@@ -39,4 +39,18 @@ enum PermissionEnum: string
     case ABOUT_US_UPDATE = "about.us.update";
     #[Description("can delete data about us")] #[FeatureGroup("about us")]
     case ABOUT_US_DESTROY = "about.us.destroy";
+
+
+    #[Description("can show all data user")] #[FeatureGroup("users")]
+    case USERS_INDEX = "users.index";
+    #[Description("can show form add new data user")] #[FeatureGroup("users")]
+    case USERS_CREATE = "users.create";
+    #[Description("can add new data user")] #[FeatureGroup("users")]
+    case USERS_STORE = "users.store";
+    #[Description("can show form edit data user")] #[FeatureGroup("users")]
+    case USERS_EDIT = "users.edit";
+    #[Description("can update data user")] #[FeatureGroup("users")]
+    case USERS_UPDATE = "users.update";
+    #[Description("can delete data user")] #[FeatureGroup("users")]
+    case USERS_DESTROY = "users.destroy";
 }

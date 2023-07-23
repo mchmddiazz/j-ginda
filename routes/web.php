@@ -140,12 +140,12 @@ Route::prefix('admin')->name("admin.")->middleware("auth")->group(function () {
     Route::get('/invoice/generate/{idOrder}', [InvoiceController::class, 'generateAdmin']);
 
     Route::prefix("users")->name("users.")->controller(UsersController::class)->group(function () {
-        Route::get("/", "index")->name("index");
-        Route::get("/create", "create")->name("create");
-        Route::post("/", "store")->name("store");
-        Route::get("/{id}/edit", "edit")->name("edit");
-        Route::patch("/{id}", "update")->name("update");
-        Route::delete("/{id}", "destroy")->name("destroy");
+        Route::get("/", "index")->name("index")->middleware("permission:".PermissionEnum::USERS_INDEX());
+        Route::get("/create", "create")->name("create")->middleware("permission:".PermissionEnum::USERS_CREATE());
+        Route::post("/", "store")->name("store")->middleware("permission:".PermissionEnum::USERS_STORE());
+        Route::get("/{id}/edit", "edit")->name("edit")->middleware("permission:".PermissionEnum::USERS_EDIT());
+        Route::patch("/{id}", "update")->name("update")->middleware("permission:".PermissionEnum::USERS_UPDATE());
+        Route::delete("/{id}", "destroy")->name("destroy")->middleware("permission:".PermissionEnum::USERS_DESTROY());
     });
 
 

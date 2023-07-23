@@ -1,3 +1,4 @@
+@php use App\Enums\PermissionEnum; @endphp
 <x-admin.layout>
 	<div class="row">
 		<!-- Column  -->
@@ -7,8 +8,11 @@
 					<h4 class="card-title">USERS</h4>
 				</div>
 				<div class="card-body pt-0">
-					<a href="{{route('admin.users.create')}}" type="button" class="btn btn-primary btn-sm">Tambah Data
-						User</a>
+					@can(PermissionEnum::USERS_CREATE())
+						<a href="{{route('admin.users.create')}}" type="button" class="btn btn-primary btn-sm">Tambah
+							Data
+							User</a>
+					@endcan
 					@if($users->count()===0)
 						<x-admin.empty-data></x-admin.empty-data>
 					@else
@@ -21,7 +25,9 @@
 										<th>Nama</th>
 										<th>Email</th>
 										<th>Role</th>
-										<th>Aksi</th>
+										@canany([PermissionEnum::USERS_EDIT(), PermissionEnum::USERS_DESTROY()])
+											<th>Aksi</th>
+										@endcanany
 									</tr>
 									</thead>
 									<tbody>
@@ -35,15 +41,24 @@
 													{{"$role->name,"}}
 												@endforeach
 											</td>
-											<td>
-												<div class="d-grid gap-2 d-md-block">
-													<a href="{{route('admin.users.edit', $user->id)}}"
-													   class="btn btn-success btn-sm" type="button">Edit</a>
-													<button data-id="{{$user->id}}"
-													        class="btn btn-danger btn-sm btn-delete" type="button">Hapus
-													</button>
-												</div>
-											</td>
+											@canany([PermissionEnum::USERS_EDIT(), PermissionEnum::USERS_DESTROY()])
+												<td>
+													<div class="d-grid gap-2 d-md-block">
+														@can(PermissionEnum::USERS_EDIT())
+															<a href="{{route('admin.users.edit', $user->id)}}"
+															   class="btn btn-success btn-sm" type="button">Edit</a>
+														@endcan
+
+														@can(PermissionEnum::USERS_DESTROY())
+															<button data-id="{{$user->id}}"
+															        class="btn btn-danger btn-sm btn-delete"
+															        type="button">
+																Hapus
+															</button>
+														@endcan
+													</div>
+												</td>
+											@endcanany
 										</tr>
 									@endforeach
 									</tbody>
@@ -94,6 +109,7 @@
                     }
                 })
             }
+
             let defaultDeleteUrl = $("#form-delete").attr("action");
 
             $(".btn-delete").on("click", function () {

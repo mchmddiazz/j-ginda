@@ -27,9 +27,6 @@ class UsersController extends Controller
      */
     public function index(UserService $service):Response
     {
-        if(!auth()->user()->hasRole(RoleEnum::ADMINISTRATOR())){
-            abort(403);
-        }
         $response = $service->getAllDataPaginated();
         viewShare($response);
         return response()->view("admin.users.index");
@@ -41,9 +38,6 @@ class UsersController extends Controller
      */
     public function create(UserService $service):Response
     {
-        if(!auth()->user()->hasRole(RoleEnum::ADMINISTRATOR())){
-            abort(403);
-        }
         $response = $service->getCreateData();
 
         viewShare($response);
@@ -58,9 +52,6 @@ class UsersController extends Controller
      */
     public function store(UserService $service, StoreUserRequest $request):RedirectResponse
     {
-        if(!auth()->user()->hasRole(RoleEnum::ADMINISTRATOR())){
-            abort(403);
-        }
         $response = $service->addNewData($request->validated());
 
         if ($this->isError($response)) return $this->getErrorResponse();
@@ -77,9 +68,6 @@ class UsersController extends Controller
      */
     public function edit(UserService $service, int $id):Response|RedirectResponse
     {
-        if(!auth()->user()->hasRole(RoleEnum::ADMINISTRATOR())){
-            abort(403);
-        }
         $response = $service->getEditData($id);
 
         if ($this->isError($response)) return $this->getErrorResponse();
@@ -97,9 +85,6 @@ class UsersController extends Controller
      */
     public function update(UserService $service, UpdateUserRequest $request,int $id):RedirectResponse
     {
-        if(!auth()->user()->hasRole(RoleEnum::ADMINISTRATOR())){
-            abort(403);
-        }
         (array) $response = $service->updateDataById($id, $request->validated());
 
         if ($this->isError($response)) return $this->getErrorResponse();
@@ -115,9 +100,6 @@ class UsersController extends Controller
      */
     public function destroy(UserService $service, int $id):RedirectResponse
     {
-        if(!auth()->user()->hasRole(RoleEnum::ADMINISTRATOR())){
-            abort(403);
-        }
         (array) $response = $service->deleteDataById($id);
 
         if ($this->isError($response)) return $this->getErrorResponse();

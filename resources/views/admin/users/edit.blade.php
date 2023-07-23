@@ -42,8 +42,8 @@
 							<div class="col-md-6">
 								@foreach($roles as $key => $role)
 									<div class="form-check">
-										<input class="form-check-input" type="checkbox" @if($user->hasRole($role->name)) checked @endif id="role" name="roles[]" value="{{$role->id}}">
-										<label class="form-check-label" for="role">
+										<input class="form-check-input" type="checkbox" @if($user->hasRole($role->name)) checked @endif id="role-{{$role->id}}" name="roles[]" value="{{$role->id}}">
+										<label class="form-check-label" for="role-{{$role->id}}">
 											{{$role->name}}
 										</label>
 									</div>
