@@ -417,7 +417,6 @@
             let data = $("#data-cart-add").serialize();
             let datax = new FormData(this);
 
-            console.log(data);
 
             $.ajax({
                 type: "post",

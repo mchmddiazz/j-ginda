@@ -58,6 +58,11 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 
+Route::prefix("products")->name("products.")->controller(ExternalProductController::class)->group(function () {
+    Route::get('/modal/{id}', 'getData');
+    Route::get('/{id}', 'show')->name("show");
+    Route::get('search', 'search');
+});
 Route::controller(ExternalProductController::class)->group(function () {
     Route::get('/product/modal/{id}', 'getData');
     Route::get('/product/getProduct/details/{id}', 'getProductDetail');

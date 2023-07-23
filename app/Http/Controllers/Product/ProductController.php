@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\ProductRepository;
+use App\Services\CartService;
+use App\Services\ProductService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
@@ -15,9 +20,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\AboutUs;
 class ProductController extends Controller
 {
-    
-
-    function search(Request $request)
+    public function search(Request $request)
     {
         if($request->ajax())
         {
@@ -162,18 +165,27 @@ class ProductController extends Controller
         return response()->json($output);
     }
 
-    function getProductDetail($id)
+    public function getProductDetail($id)
     {
-        if(Auth::check())
-        {
-            $data = $this->cartProductGlobal();
-        } else {
-            $data = $this->cartProductGlobalNonUSer();
-        }
-
+        $data["cart"] = CartService::getCartFromSession();
+        $data["product"] = (new ProductRepository())->getAllData();
         $data['about_us'] = AboutUs::limit(1)->orderBy('created_at', 'DESC')->get();
         $data['productDetail'] = Product::whereId(base64_decode($id))->first();
         return view('landingPage.product.show', $data);
     }
-    
+
+
+    /**
+     * @param ProductService $service
+     * @param int $id
+     * @return Response|RedirectResponse
+     */
+    public function show(ProductService $service, int $id):Response|RedirectResponse
+    {
+        $response = $service->getDataById($id);
+
+        if ($this->isError($response)) return $this->getErrorResponse();
+        viewShare($response);
+        return response()->view("landing.products.show");
+    }
 }
