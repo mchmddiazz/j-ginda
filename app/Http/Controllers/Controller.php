@@ -70,7 +70,7 @@ class Controller extends BaseController
     {
         $data = [
             'cart' => \Cart::session(Auth::user()->id)->getContent(),
-            'product' => $this->productRepository->findAll()
+            'product' => (new \App\Repositories\ProductRepository())->getAllData()
         ];
 
         return $data;
@@ -80,7 +80,7 @@ class Controller extends BaseController
     {
         $data = [
             'cart' => null,
-            'product' => $this->productRepository->findAll()
+            'product' => (new \App\Repositories\ProductRepository())->getAllData()
         ];
 
         return $data;
