@@ -2,20 +2,31 @@
 
 namespace App\Http\Controllers\Payment;
 
+use App\Services\CheckoutService;
 use Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Repositories\Product\ProductRepository;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use App\Models\Product;
 use App\Models\AboutUs;
 use App\Models\ProvinceSecond;
 class CheckoutController extends Controller
 {
-    function checkout()
+
+    /**
+     * @param CheckoutService $service
+     * @return Response
+     */
+    public function create(CheckoutService $service):Response
+    {
+        $response = $service->getCreateData();
+        viewShare($response);
+        return response()->view("landing.checkout.checkout");
+    }
+    function checkout2()
     {
         $data = $this->cartProductGlobal();
         $data['provinces'] = ProvinceSecond::pluck('name', 'province_id');

@@ -154,7 +154,6 @@ Route::prefix('admin')->name("admin.")->group(function () {
 
 
 Route::group(['middleware' => ['web', 'auth', 'has_login']], function () {
-
     Route::resource('orders', OrderController::class)->only(['index', 'show']);
     // Route::get('/wishlist', [WishlistController::class, 'wishlist'])->name('landingPage.wishlist');
     // Route::post('favorite-add/{id}', [WishlistController::class, 'favoriteAdd'])->name('favorite.add');
@@ -167,8 +166,10 @@ Route::group(['middleware' => ['web', 'auth', 'has_login']], function () {
 
     });
 
-    Route::prefix('checkout')->group(function () {
-        Route::get('/', [CheckoutController::class, 'checkout']);
-        Route::post('/postCheckout', [CheckoutController::class, 'postCheckout']);
+
+    Route::prefix('checkout')->name("checkout.")->controller(CheckoutController::class)->group(function () {
+        Route::get("/", "create")->name("create");
+//        Route::get('/', [CheckoutController::class, 'checkout']);
+//        Route::post('/postCheckout', [CheckoutController::class, 'postCheckout']);
     });
 });
