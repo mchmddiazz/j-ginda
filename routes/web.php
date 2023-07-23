@@ -71,7 +71,7 @@ Route::post('/getTotalOngkir', [CheckOngkirController::class, 'getTotalOngkir'])
 
 Route::get('/admin/login', function () {
     return view('admin.auth.login');
-});
+})->name("admin.login");
 
 Route::name("landing.")->controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('home');

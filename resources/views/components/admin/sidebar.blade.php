@@ -85,46 +85,46 @@
 			{{-- PRODUK --}}
 
 			@canany([PermissionEnum::ADMIN_PRODUCTS_INDEX(), PermissionEnum::ADMIN_PRODUCTS_LOW_QUANTITY()])
-			<li>
-				<a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
-					<div class="menu-icon">
-						<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-						     xmlns="http://www.w3.org/2000/svg">
-							<g opacity="0.5">
-								<path opacity="0.4"
-								      d="M2.00018 11.0785C2.05018 13.4165 2.19018 17.4155 2.21018 17.8565C2.28118 18.7995 2.64218 19.7525 3.20418 20.4245C3.98618 21.3675 4.94918 21.7885 6.29218 21.7885C8.14818 21.7985 10.1942 21.7985 12.1812 21.7985C14.1762 21.7985 16.1122 21.7985 17.7472 21.7885C19.0712 21.7885 20.0642 21.3565 20.8362 20.4245C21.3982 19.7525 21.7592 18.7895 21.8102 17.8565C21.8302 17.4855 21.9302 13.1445 21.9902 11.0785H2.00018Z"
-								      fill="#90959F"/>
-								<path d="M11.2454 15.3842V16.6782C11.2454 17.0922 11.5814 17.4282 11.9954 17.4282C12.4094 17.4282 12.7454 17.0922 12.7454 16.6782V15.3842C12.7454 14.9702 12.4094 14.6342 11.9954 14.6342C11.5814 14.6342 11.2454 14.9702 11.2454 15.3842Z"
-								      fill="#90959F"/>
-								<path fill-rule="evenodd" clip-rule="evenodd"
-								      d="M10.2113 14.5564C10.1113 14.9194 9.7623 15.1514 9.38431 15.1014C6.8333 14.7454 4.39531 13.8404 2.33731 12.4814C2.12631 12.3434 2.00031 12.1074 2.00031 11.8554V8.3894C2.00031 6.2894 3.71231 4.5814 5.81731 4.5814H7.78431C7.97231 3.1294 9.20231 2.0004 10.7043 2.0004H13.2863C14.7873 2.0004 16.0183 3.1294 16.2063 4.5814H18.1833C20.2823 4.5814 21.9903 6.2894 21.9903 8.3894V11.8554C21.9903 12.1074 21.8633 12.3424 21.6543 12.4814C19.5923 13.8464 17.1443 14.7554 14.5763 15.1104C14.5413 15.1154 14.5073 15.1174 14.4733 15.1174C14.1343 15.1174 13.8313 14.8884 13.7463 14.5524C13.5443 13.7564 12.8213 13.1994 11.9903 13.1994C11.1483 13.1994 10.4333 13.7444 10.2113 14.5564ZM13.2863 3.5004H10.7043C10.0313 3.5004 9.46931 3.9604 9.30131 4.5814H14.6883C14.5203 3.9604 13.9583 3.5004 13.2863 3.5004Z"
-								      fill="#90959F"/>
-							</g>
-						</svg>
-					</div>
-					<span class="nav-text">Produk</span>
-				</a>
-				<ul aria-expanded="false">
-					@can(PermissionEnum::ADMIN_PRODUCTS_INDEX())
-						<li>
-							<a href="{{ route("admin.products.index") }}"
-							   class="{{ request()->is(route("admin.products.index")) ? 'active' : '' }}">Product
-							</a>
-						</li>
-					@endcan
-					@can(PermissionEnum::ADMIN_PRODUCTS_LOW_QUANTITY())
-						<li>
-							<a href="{{ route("admin.products.low.quantity") }}"
-							   class="{{ request()->is(route("admin.products.low.quantity")) ? 'active' : '' }}">Low
-								Quantity Product
-							</a>
-						</li>
-					@endcan
-				</ul>
-			</li>
+				<li>
+					<a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
+						<div class="menu-icon">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+							     xmlns="http://www.w3.org/2000/svg">
+								<g opacity="0.5">
+									<path opacity="0.4"
+									      d="M2.00018 11.0785C2.05018 13.4165 2.19018 17.4155 2.21018 17.8565C2.28118 18.7995 2.64218 19.7525 3.20418 20.4245C3.98618 21.3675 4.94918 21.7885 6.29218 21.7885C8.14818 21.7985 10.1942 21.7985 12.1812 21.7985C14.1762 21.7985 16.1122 21.7985 17.7472 21.7885C19.0712 21.7885 20.0642 21.3565 20.8362 20.4245C21.3982 19.7525 21.7592 18.7895 21.8102 17.8565C21.8302 17.4855 21.9302 13.1445 21.9902 11.0785H2.00018Z"
+									      fill="#90959F"/>
+									<path d="M11.2454 15.3842V16.6782C11.2454 17.0922 11.5814 17.4282 11.9954 17.4282C12.4094 17.4282 12.7454 17.0922 12.7454 16.6782V15.3842C12.7454 14.9702 12.4094 14.6342 11.9954 14.6342C11.5814 14.6342 11.2454 14.9702 11.2454 15.3842Z"
+									      fill="#90959F"/>
+									<path fill-rule="evenodd" clip-rule="evenodd"
+									      d="M10.2113 14.5564C10.1113 14.9194 9.7623 15.1514 9.38431 15.1014C6.8333 14.7454 4.39531 13.8404 2.33731 12.4814C2.12631 12.3434 2.00031 12.1074 2.00031 11.8554V8.3894C2.00031 6.2894 3.71231 4.5814 5.81731 4.5814H7.78431C7.97231 3.1294 9.20231 2.0004 10.7043 2.0004H13.2863C14.7873 2.0004 16.0183 3.1294 16.2063 4.5814H18.1833C20.2823 4.5814 21.9903 6.2894 21.9903 8.3894V11.8554C21.9903 12.1074 21.8633 12.3424 21.6543 12.4814C19.5923 13.8464 17.1443 14.7554 14.5763 15.1104C14.5413 15.1154 14.5073 15.1174 14.4733 15.1174C14.1343 15.1174 13.8313 14.8884 13.7463 14.5524C13.5443 13.7564 12.8213 13.1994 11.9903 13.1994C11.1483 13.1994 10.4333 13.7444 10.2113 14.5564ZM13.2863 3.5004H10.7043C10.0313 3.5004 9.46931 3.9604 9.30131 4.5814H14.6883C14.5203 3.9604 13.9583 3.5004 13.2863 3.5004Z"
+									      fill="#90959F"/>
+								</g>
+							</svg>
+						</div>
+						<span class="nav-text">Produk</span>
+					</a>
+					<ul aria-expanded="false">
+						@can(PermissionEnum::ADMIN_PRODUCTS_INDEX())
+							<li>
+								<a href="{{ route("admin.products.index") }}"
+								   class="{{ request()->is(route("admin.products.index")) ? 'active' : '' }}">Product
+								</a>
+							</li>
+						@endcan
+						@can(PermissionEnum::ADMIN_PRODUCTS_LOW_QUANTITY())
+							<li>
+								<a href="{{ route("admin.products.low.quantity") }}"
+								   class="{{ request()->is(route("admin.products.low.quantity")) ? 'active' : '' }}">Low
+									Quantity Product
+								</a>
+							</li>
+						@endcan
+					</ul>
+				</li>
 			@endcanany
-			@if(auth()->user()->hasRole(RoleEnum::ADMINISTRATOR()))
 
+			@canany([PermissionEnum::ADMIN_ORDERS_INDEX(), PermissionEnum::ADMIN_ORDER_TRANSACTIONS(),PermissionEnum::ADMIN_EXPENSES_CREATE()])
 				{{-- TRANSAKSI --}}
 				<li>
 					<a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
@@ -146,44 +146,55 @@
 						<span class="nav-text">Transaksi</span>
 					</a>
 					<ul aria-expanded="false">
-						<li><a href="{{ route('admin.orders.index') }}"
-						       class="{{ request()->is(route("admin.orders.index")) ? 'active' : '' }}">Order</a>
-						</li>
-						<li><a href="{{ route('admin.orders.transactions', ['type' => 'in']) }}"
-						       class="{{ request()->is(route("admin.orders.transactions",['type' => 'in'])) ? 'active' : '' }}">Transaksi
-								Produk Masuk</a></li>
-						<li><a href="{{ route('admin.orders.transactions', ['type' => 'out']) }}"
-						       class="{{ request()->is(route("admin.orders.transactions",['type' => 'out'])) ? 'active' : '' }}">Transaksi
-								Produk Keluar</a></li>
-						<li><a href="{{ route('admin.orders.transactions', ['type' => 'decline']) }}"
-						       class="{{ request()->is(route("admin.orders.transactions",['type' => 'decline'])) ? 'active' : '' }}">Transaksi
-								Produk Ditolak</a></li>
-						<li><a href="{{ route('admin.expenses.create') }}"
-						       class="{{ request()->is(route('admin.expenses.create')) ? 'active' : '' }}">Pengeluaran</a>
-						</li>
+						@can(PermissionEnum::ADMIN_ORDERS_INDEX())
+							<li><a href="{{ route('admin.orders.index') }}"
+							       class="{{ request()->is(route("admin.orders.index")) ? 'active' : '' }}">Order</a>
+							</li>
+						@endcan
+
+						@can(PermissionEnum::ADMIN_ORDER_TRANSACTIONS())
+							<li><a href="{{ route('admin.orders.transactions', ['type' => 'in']) }}"
+							       class="{{ request()->is(route("admin.orders.transactions",['type' => 'in'])) ? 'active' : '' }}">Transaksi
+									Produk Masuk</a></li>
+							<li><a href="{{ route('admin.orders.transactions', ['type' => 'out']) }}"
+							       class="{{ request()->is(route("admin.orders.transactions",['type' => 'out'])) ? 'active' : '' }}">Transaksi
+									Produk Keluar</a></li>
+							<li><a href="{{ route('admin.orders.transactions', ['type' => 'decline']) }}"
+							       class="{{ request()->is(route("admin.orders.transactions",['type' => 'decline'])) ? 'active' : '' }}">Transaksi
+									Produk Ditolak</a></li>
+						@endcan
+
+						@can(PermissionEnum::ADMIN_EXPENSES_CREATE())
+							<li><a href="{{ route('admin.expenses.create') }}"
+							       class="{{ request()->is(route('admin.expenses.create')) ? 'active' : '' }}">Pengeluaran</a>
+							</li>
+						@endcan
 					</ul>
 				</li>
+			@endcanany
 
-				<li>
-					<a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
-						<div class="menu-icon">
-							<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-							     xmlns="http://www.w3.org/2000/svg">
-								<g opacity="0.5">
-									<path opacity="0.4"
-									      d="M2.00018 11.0785C2.05018 13.4165 2.19018 17.4155 2.21018 17.8565C2.28118 18.7995 2.64218 19.7525 3.20418 20.4245C3.98618 21.3675 4.94918 21.7885 6.29218 21.7885C8.14818 21.7985 10.1942 21.7985 12.1812 21.7985C14.1762 21.7985 16.1122 21.7985 17.7472 21.7885C19.0712 21.7885 20.0642 21.3565 20.8362 20.4245C21.3982 19.7525 21.7592 18.7895 21.8102 17.8565C21.8302 17.4855 21.9302 13.1445 21.9902 11.0785H2.00018Z"
-									      fill="#90959F"/>
-									<path d="M11.2454 15.3842V16.6782C11.2454 17.0922 11.5814 17.4282 11.9954 17.4282C12.4094 17.4282 12.7454 17.0922 12.7454 16.6782V15.3842C12.7454 14.9702 12.4094 14.6342 11.9954 14.6342C11.5814 14.6342 11.2454 14.9702 11.2454 15.3842Z"
-									      fill="#90959F"/>
-									<path fill-rule="evenodd" clip-rule="evenodd"
-									      d="M10.2113 14.5564C10.1113 14.9194 9.7623 15.1514 9.38431 15.1014C6.8333 14.7454 4.39531 13.8404 2.33731 12.4814C2.12631 12.3434 2.00031 12.1074 2.00031 11.8554V8.3894C2.00031 6.2894 3.71231 4.5814 5.81731 4.5814H7.78431C7.97231 3.1294 9.20231 2.0004 10.7043 2.0004H13.2863C14.7873 2.0004 16.0183 3.1294 16.2063 4.5814H18.1833C20.2823 4.5814 21.9903 6.2894 21.9903 8.3894V11.8554C21.9903 12.1074 21.8633 12.3424 21.6543 12.4814C19.5923 13.8464 17.1443 14.7554 14.5763 15.1104C14.5413 15.1154 14.5073 15.1174 14.4733 15.1174C14.1343 15.1174 13.8313 14.8884 13.7463 14.5524C13.5443 13.7564 12.8213 13.1994 11.9903 13.1994C11.1483 13.1994 10.4333 13.7444 10.2113 14.5564ZM13.2863 3.5004H10.7043C10.0313 3.5004 9.46931 3.9604 9.30131 4.5814H14.6883C14.5203 3.9604 13.9583 3.5004 13.2863 3.5004Z"
-									      fill="#90959F"/>
-								</g>
-							</svg>
-						</div>
-						<span class="nav-text">Keuangan</span>
-					</a>
-					<ul aria-expanded="false">
+
+			<li>
+				<a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
+					<div class="menu-icon">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+						     xmlns="http://www.w3.org/2000/svg">
+							<g opacity="0.5">
+								<path opacity="0.4"
+								      d="M2.00018 11.0785C2.05018 13.4165 2.19018 17.4155 2.21018 17.8565C2.28118 18.7995 2.64218 19.7525 3.20418 20.4245C3.98618 21.3675 4.94918 21.7885 6.29218 21.7885C8.14818 21.7985 10.1942 21.7985 12.1812 21.7985C14.1762 21.7985 16.1122 21.7985 17.7472 21.7885C19.0712 21.7885 20.0642 21.3565 20.8362 20.4245C21.3982 19.7525 21.7592 18.7895 21.8102 17.8565C21.8302 17.4855 21.9302 13.1445 21.9902 11.0785H2.00018Z"
+								      fill="#90959F"/>
+								<path d="M11.2454 15.3842V16.6782C11.2454 17.0922 11.5814 17.4282 11.9954 17.4282C12.4094 17.4282 12.7454 17.0922 12.7454 16.6782V15.3842C12.7454 14.9702 12.4094 14.6342 11.9954 14.6342C11.5814 14.6342 11.2454 14.9702 11.2454 15.3842Z"
+								      fill="#90959F"/>
+								<path fill-rule="evenodd" clip-rule="evenodd"
+								      d="M10.2113 14.5564C10.1113 14.9194 9.7623 15.1514 9.38431 15.1014C6.8333 14.7454 4.39531 13.8404 2.33731 12.4814C2.12631 12.3434 2.00031 12.1074 2.00031 11.8554V8.3894C2.00031 6.2894 3.71231 4.5814 5.81731 4.5814H7.78431C7.97231 3.1294 9.20231 2.0004 10.7043 2.0004H13.2863C14.7873 2.0004 16.0183 3.1294 16.2063 4.5814H18.1833C20.2823 4.5814 21.9903 6.2894 21.9903 8.3894V11.8554C21.9903 12.1074 21.8633 12.3424 21.6543 12.4814C19.5923 13.8464 17.1443 14.7554 14.5763 15.1104C14.5413 15.1154 14.5073 15.1174 14.4733 15.1174C14.1343 15.1174 13.8313 14.8884 13.7463 14.5524C13.5443 13.7564 12.8213 13.1994 11.9903 13.1994C11.1483 13.1994 10.4333 13.7444 10.2113 14.5564ZM13.2863 3.5004H10.7043C10.0313 3.5004 9.46931 3.9604 9.30131 4.5814H14.6883C14.5203 3.9604 13.9583 3.5004 13.2863 3.5004Z"
+								      fill="#90959F"/>
+							</g>
+						</svg>
+					</div>
+					<span class="nav-text">Keuangan</span>
+				</a>
+				<ul aria-expanded="false">
+					@can(PermissionEnum::ADMIN_FINANCE_TRANSACTIONS_INDEX())
 						<li><a href="{{ route('admin.finance.transactions.index', ["type" => "all"]) }}"
 						       class="{{ request()->is(route('admin.finance.transactions.index', ["type" => "all"])) ? 'active' : '' }}">Transaksi
 								Keuangan</a></li>
@@ -193,11 +204,13 @@
 						<li><a href="{{ route('admin.finance.transactions.index', ["type" => "credit"]) }}"
 						       class="{{ request()->is(route('admin.finance.transactions.index', ["type" => "credit"])) ? 'active' : '' }}">Transaksi
 								Pengeluaran</a></li>
-					</ul>
-				</li>
+					@endcan
+				</ul>
+			</li>
 
 
-				{{--PERMINTAAN PRODUKSI--}}
+			{{--PERMINTAAN PRODUKSI--}}
+			@can(PermissionEnum::ADMIN_REQUEST_PRODUCTIONS_INDEX())
 				<li>
 					<a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
 						<div class="menu-icon">
@@ -229,7 +242,7 @@
 								Produksi</a></li>
 					</ul>
 				</li>
-			@endif
+			@endcan
 
 		</ul>
 		<div class="copyright">

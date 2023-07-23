@@ -61,7 +61,8 @@ class AuthController extends Controller
         $response = $service->authenticate($request->validated());
         if ($this->isError($response)) return $this->getErrorResponse();
 
-        return redirect()->route("landing.home")->with("success", ucfirst("Login berhasil !"));
+        $redirect = Auth::user()->hasRole("user") ? redirect()->route("landing.home") : redirect()->route("admin.dashboard");
+        return $redirect->with("success", ucfirst("Login berhasil !"));
 
     }
 
@@ -72,13 +73,15 @@ class AuthController extends Controller
      */
     function logout(Request $request):RedirectResponse
     {
+        $redirect = Auth::user()->hasRole("user") ? redirect()->route("login") : redirect()->route("admin.login");
+
         Auth::logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        return redirect()->route("login");
+        return $redirect;
     }
 
 
