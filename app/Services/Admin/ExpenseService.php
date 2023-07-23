@@ -36,6 +36,7 @@ class ExpenseService extends \Iqbalatma\LaravelServiceRepo\BaseService
     public function addNewData(array $requestedData):array
     {
         try {
+
             $this->repository->addNewData($requestedData);
 
             $response = [

@@ -41,6 +41,7 @@
 									<thead>
 									<tr>
 										<th>No</th>
+										<th>User</th>
 										<th>Jumlah Transaksi</th>
 										<th>Tipe</th>
 										<th>Tanggal</th>
@@ -50,6 +51,7 @@
 									@foreach($transactions as $key => $transaction)
 										<tr>
 											<td>{{$transactions->firstItem()+$key}}</td>
+											<td>{{$transaction?->user->name??"-"}}</td>
 											<td>
 												@if($transaction->type === FinancialTransactionTypeEnum::DEBIT())
 													<spa class="text-success">+</spa>

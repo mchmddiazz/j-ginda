@@ -8,6 +8,7 @@ use App\Services\Admin\ExpenseService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class ExpenseController extends Controller
 {
@@ -32,7 +33,7 @@ class ExpenseController extends Controller
      */
     public function store(ExpenseService $service, StoreExpenseRequest $request):RedirectResponse
     {
-        $service->addNewData($request->validated());
+        $service->addNewData(array_merge($request->validated(), ["user_id" => Auth::id()]));
 
         return redirect()->route("admin.expenses.create")->with("success", ucfirst("Tambah data pengeluaran berhasil !"));
     }
