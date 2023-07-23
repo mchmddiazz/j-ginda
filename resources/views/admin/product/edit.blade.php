@@ -96,15 +96,6 @@
 											</div>
 										</div>
 										<div class="mb-3">
-											<label class="text-label form-label" for="dz-password">Deskripsi
-												*</label>
-											<textarea class="form-control" id="ckeditor" name="description"
-											          required>{{$product->description}}</textarea>
-											<div class="invalid-feedback">
-												Please Enter a Description.
-											</div>
-										</div>
-										<div class="mb-3">
 											<label class="form-label">Banner (select one):</label>
 											<select class="default-select  form-control wide"
 											        name="slideActive">
