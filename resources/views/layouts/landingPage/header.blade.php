@@ -14,7 +14,7 @@
                                 <li><a href="{{ url('logout') }}">Logout</a></li>
                             @else
                                 <li><a href="{{ url('login') }}">Login</a></li>
-                                <li><a href="{{ url('register') }}">Register</a></li>
+                                <li><a href="{{ route('show.registration') }}">Register</a></li>
                             @endif
                         </ul>
                     </div>
@@ -100,7 +100,7 @@
                                     <div class="login-btn">
                                         <a href="{{ route('login') }}" class="axil-btn btn-bg-primary">Login</a>
                                     </div>
-                                    <div class="reg-footer text-center">No account yet? <a href="{{ route('register') }}" class="btn-link">REGISTER HERE.</a></div>
+                                    <div class="reg-footer text-center">No account yet? <a href="{{ route('show.registration') }}" class="btn-link">REGISTER HERE.</a></div>
 
                                     @endif
                                 </div>

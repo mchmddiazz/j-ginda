@@ -32,7 +32,8 @@ use App\Http\Controllers\Admin\{DashboardController,
     ProductController,
     AboutUsController,
     RequestProductionController,
-    UsersController};
+    UsersController
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -47,14 +48,12 @@ use App\Http\Controllers\Admin\{DashboardController,
 
 // Auth
 Route::controller(AuthController::class)->group(function () {
-    Route::get('/login', 'index')->name('login');
-    Route::get('/register', 'register')->name('register');
-    Route::post('/postLogin', 'postLogin');
-    Route::post('/postRegister', 'postRegister');
+    Route::get('/login', 'login')->name('login');
+    Route::post('/authenticate', 'authenticate')->name("authenticate");
+    Route::get('/registration', 'showRegistration')->name('show.registration');
+    Route::post('/registration', 'registration')->name("registration");
     Route::get('/logout', 'logout');
 });
-
-
 
 
 Route::controller(ExternalProductController::class)->group(function () {
@@ -68,16 +67,15 @@ Route::get('/getKabupaten/{id}', CityController::class);
 Route::post('/ongkir', [CheckOngkirController::class, 'get_ongkir']);
 Route::post('/getTotalOngkir', [CheckOngkirController::class, 'getTotalOngkir']);
 
-Route::post('payments/midtrans-notification', [PaymentCallbackController::class, 'receive']);
 Route::get('/admin/login', function () {
     return view('admin.auth.login');
 });
 
-Route::controller(HomeController::class)->group(function () {
-    Route::get('/', 'index')->name('landingPage.home');
-    Route::get('/shop', 'shop')->name('landingPage.shop');
-    Route::get('/story', 'about')->name('landingPage.about');
-    Route::get('/virtualOutlet', 'virtualOutlet')->name('landingPage.virtual');
+Route::name("landing.")->controller(HomeController::class)->group(function () {
+    Route::get('/', 'index')->name('home');
+    Route::get('/shop', 'shop')->name('shop');
+    Route::get('/story', 'about')->name('about');
+    Route::get('/virtualOutlet', 'virtualOutlet')->name('virtual');
 });
 
 Route::prefix('cart')->name("cart.")->controller(CartController::class)->group(function () {
@@ -141,11 +139,11 @@ Route::prefix('admin')->name("admin.")->group(function () {
     });
 
 
-    Route::prefix("finance-transactions")->name("finance.transactions.")->controller(FinanceTransactionController::class)->group(function (){
+    Route::prefix("finance-transactions")->name("finance.transactions.")->controller(FinanceTransactionController::class)->group(function () {
         Route::get("/", "index")->name("index");
     });
 
-    Route::prefix("/expenses")->name("expenses.")->controller(ExpenseController::class)->group(function (){
+    Route::prefix("/expenses")->name("expenses.")->controller(ExpenseController::class)->group(function () {
         Route::get("/create", "create")->name("create");
         Route::post("/", "store")->name("store");
     });
@@ -153,7 +151,7 @@ Route::prefix('admin')->name("admin.")->group(function () {
 });
 
 
-Route::group(['middleware' => ['web', 'auth', 'has_login']], function () {
+Route::middleware("auth")->group(function () {
     Route::resource('orders', OrderController::class)->only(['index', 'show']);
     // Route::get('/wishlist', [WishlistController::class, 'wishlist'])->name('landingPage.wishlist');
     // Route::post('favorite-add/{id}', [WishlistController::class, 'favoriteAdd'])->name('favorite.add');

@@ -13,8 +13,8 @@
 							@if(Illuminate\Support\Facades\Auth::check())
 								<li><a href="{{ url('logout') }}">Logout</a></li>
 							@else
-								<li><a href="{{ url('login') }}">Login</a></li>
-								<li><a href="{{ url('register') }}">Register</a></li>
+								<li><a href="{{ route('login') }}">Login</a></li>
+								<li><a href="{{ route('show.registration') }}">Register</a></li>
 							@endif
 						</ul>
 					</div>
@@ -105,7 +105,7 @@
 										<a href="{{ route('login') }}" class="axil-btn btn-bg-primary">Login</a>
 									</div>
 									<div class="reg-footer text-center">No account yet? <a
-												href="{{ route('register') }}" class="btn-link">REGISTER HERE.</a></div>
+												href="{{ route('show.registration') }}" class="btn-link">REGISTER HERE.</a></div>
 
 								@endif
 							</div>

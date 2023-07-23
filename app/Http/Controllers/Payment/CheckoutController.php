@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Payment;
 
 use App\Services\CheckoutService;
-use Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
@@ -26,21 +25,21 @@ class CheckoutController extends Controller
         viewShare($response);
         return response()->view("landing.checkout.checkout");
     }
-    function checkout2()
-    {
-        $data = $this->cartProductGlobal();
-        $data['provinces'] = ProvinceSecond::pluck('name', 'province_id');
-        $data['about_us'] = AboutUs::limit(1)->orderBy('created_at', 'DESC')->get();
-        $cart = \Cart::session(Auth::user()->id)->getContent();
-        $totalWeight = 0;
-        foreach ($cart as $item) {
-            $totalWeight += $item->attributes->weight * $item->quantity;
-        }
-        
-        $data['weight'] = $totalWeight;
-        $user = Auth::user();
-        return view('landingPage.payment.checkout', $data, compact('user'));
-    }
+//    function checkout2()
+//    {
+//        $data = $this->cartProductGlobal();
+//        $data['provinces'] = ProvinceSecond::pluck('name', 'province_id');
+//        $data['about_us'] = AboutUs::limit(1)->orderBy('created_at', 'DESC')->get();
+//        $cart = \Cart::session(Auth::user()->id)->getContent();
+//        $totalWeight = 0;
+//        foreach ($cart as $item) {
+//            $totalWeight += $item->attributes->weight * $item->quantity;
+//        }
+//
+//        $data['weight'] = $totalWeight;
+//        $user = Auth::user();
+//        return view('landingPage.payment.checkout', $data, compact('user'));
+//    }
 
     function postCheckout(Request $request)
     {

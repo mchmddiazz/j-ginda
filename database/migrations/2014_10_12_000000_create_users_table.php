@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->text('api_token')->nullable();
             $table->string('avatar', 100)->nullable();
             $table->boolean('is_active')->default(true);
+            $table->unsignedInteger("city_id")->nullable();
             $table->boolean('alredy_login')->default(false);
             $table->dateTime('last_login')->nullable();
             $table->timestamp('email_verified_at')->nullable();

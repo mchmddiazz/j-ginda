@@ -10,7 +10,7 @@
                         <h5 class="widget-title" >Mendukung</h5>
                         <div class="inner">
                             <ul>
-                                <li><a href="{{ url('/login') }}">Login / Register</a></li>
+                                <li><a href="{{ route('login')}} }}">Login / Register</a></li>
                                 <li><a href="{{ url('/cart') }}">Cart</a></li>
                                 <li><a href="{{ url('/shop') }}">Shop</a></li>
                                 <li><a href="{{ url('/story') }}">About</a></li>
@@ -25,7 +25,7 @@
                         <h5 class="widget-title" >Menu</h5>
                         <div class="inner">
                             <ul>
-                                <li><a href="{{ url('/login') }}">Login / Register</a></li>
+                                <li><a href="{{ route('login') }}">Login / Register</a></li>
                                 <li><a href="{{ url('/cart') }}">Cart</a></li>
                                 <li><a href="{{ url('/shop') }}">Shop</a></li>
                                 <li><a href="{{ url('/story') }}">About</a></li>
