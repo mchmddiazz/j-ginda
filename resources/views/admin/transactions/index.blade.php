@@ -10,28 +10,20 @@
 				</div>
 				<div class="card-body pt-0">
 
-					{{--					<ul class="nav nav-tabs">--}}
-					{{--						<li class="nav-item">--}}
-					{{--							<a class="nav-link {{ request()->fullUrl() === route('admin.orders.index', ['status' => 'all']) || request()->fullUrl() === route('admin.orders.index') ? 'active' : '' }}"--}}
-					{{--							   href="{{route('admin.orders.index', ['status' => 'all'])}}">Semua Order</a>--}}
-					{{--						</li>--}}
-					{{--						<li class="nav-item">--}}
-					{{--							<a class="nav-link {{ request()->fullUrl() === route('admin.orders.index', ['status' => 'pending']) ? 'active' : '' }}"--}}
-					{{--							   href="{{route('admin.orders.index', ['status' => 'pending'])}}">Pending</a>--}}
-					{{--						</li>--}}
-					{{--						<li class="nav-item">--}}
-					{{--							<a class="nav-link {{ request()->fullUrl() === route('admin.orders.index', ['status' => 'processing']) ? 'active' : '' }}"--}}
-					{{--							   href="{{route('admin.orders.index', ['status' => 'processing'])}}">Processing</a>--}}
-					{{--						</li>--}}
-					{{--						<li class="nav-item">--}}
-					{{--							<a class="nav-link {{ request()->fullUrl() === route('admin.orders.index', ['status' => 'completed']) ? 'active' : '' }}"--}}
-					{{--							   href="{{route('admin.orders.index', ['status' => 'completed'])}}">Completed</a>--}}
-					{{--						</li>--}}
-					{{--						<li class="nav-item">--}}
-					{{--							<a class="nav-link {{ request()->fullUrl() === route('admin.orders.index', ['status' => 'decline']) ? 'active' : '' }}"--}}
-					{{--							   href="{{route('admin.orders.index', ['status' => 'decline'])}}">Decline</a>--}}
-					{{--						</li>--}}
-					{{--					</ul>--}}
+					<ul class="nav nav-tabs">
+						<li class="nav-item">
+							<a class="nav-link {{ request()->fullUrl() === route('admin.finance.transactions.index', ['type' => 'all']) || request()->fullUrl() === route('admin.orders.index') ? 'active' : '' }}"
+							   href="{{route('admin.finance.transactions.index', ['type' => 'all'])}}">Semua Transaksi</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link {{ request()->fullUrl() === route('admin.finance.transactions.index', ['type' => 'credit']) ? 'active' : '' }}"
+							   href="{{route('admin.finance.transactions.index', ['type' => 'credit'])}}">Pengeluaran</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link {{ request()->fullUrl() === route('admin.finance.transactions.index', ['type' => 'debit']) ? 'active' : '' }}"
+							   href="{{route('admin.finance.transactions.index', ['type' => 'debit'])}}">Pemasukan</a>
+						</li>
+					</ul>
 					@if($transactions->count()===0)
 						<x-admin.empty-data></x-admin.empty-data>
 					@else

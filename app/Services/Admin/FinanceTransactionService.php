@@ -19,6 +19,9 @@ class FinanceTransactionService extends \Iqbalatma\LaravelServiceRepo\BaseServic
      */
     public function getAllDataPaginated():array
     {
+        if (request()->query("type") && request()->query("type") !== "all") {
+            $this->repository->where("type", request()->query("type"));
+        }
         return [
             "title" => "Transaksi",
             "cardTitle" => "Transaksi",
