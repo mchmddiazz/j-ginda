@@ -55,12 +55,7 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 
-Route::controller(HomeController::class)->group(function () {
-    Route::get('/', 'index')->name('landingPage.home');
-    Route::get('/shop', 'shop')->name('landingPage.shop');
-    Route::get('/story', 'about')->name('landingPage.about');
-    Route::get('/virtualOutlet', 'virtualOutlet')->name('landingPage.virtual');
-});
+
 
 Route::controller(ExternalProductController::class)->group(function () {
     Route::get('/product/modal/{id}', 'getData');
@@ -76,6 +71,13 @@ Route::post('/getTotalOngkir', [CheckOngkirController::class, 'getTotalOngkir'])
 Route::post('payments/midtrans-notification', [PaymentCallbackController::class, 'receive']);
 Route::get('/admin/login', function () {
     return view('admin.auth.login');
+});
+
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', 'index')->name('landingPage.home');
+    Route::get('/shop', 'shop')->name('landingPage.shop');
+    Route::get('/story', 'about')->name('landingPage.about');
+    Route::get('/virtualOutlet', 'virtualOutlet')->name('landingPage.virtual');
 });
 
 Route::prefix('cart')->name("cart.")->controller(CartController::class)->group(function () {

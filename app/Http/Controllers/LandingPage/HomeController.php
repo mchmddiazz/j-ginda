@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\LandingPage;
 
 use App\Http\Controllers\Controller;
+use App\Services\HomeService;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
@@ -15,16 +17,25 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 use App\Repositories\Product\ProductRepository;
+
 class HomeController extends Controller
 {
     protected $productRepository;
 
-    public function __construct(ProductRepository $productRepository)
+//    public function __construct(ProductRepository $productRepository)
+//    {
+//        $this->productRepository = $productRepository;
+//    }
+
+
+    public function index(HomeService $service):Response
     {
-        $this->productRepository = $productRepository;
+        $response = $service->getIndexData();
+        viewShare($response);
+        return response()->view('landingPage/index');
     }
 
-    function index(Request $request)
+    function index2(Request $request)
     {
         date_default_timezone_set('Asia/Jakarta');
         $date = date('Y-m-d');
@@ -61,92 +72,86 @@ class HomeController extends Controller
             $browser = 'Netscape';
         }
 
-        $cek  = Visitor::where('created_at', $date)
+        $cek = Visitor::where('created_at', $date)
             ->whereAddressIp($_SERVER['REMOTE_ADDR'])
             ->count();
 
         if ($cek == 0) {
-            $tambah_visitor                     = new Visitor;
-            $tambah_visitor->address_ip         = $_SERVER['REMOTE_ADDR'];
-            $tambah_visitor->browser            = $browser;
-            $tambah_visitor->operation_system   = $operation_system;
-            $tambah_visitor->created_at               = $date;
+            $tambah_visitor = new Visitor;
+            $tambah_visitor->address_ip = $_SERVER['REMOTE_ADDR'];
+            $tambah_visitor->browser = $browser;
+            $tambah_visitor->operation_system = $operation_system;
+            $tambah_visitor->created_at = $date;
             $tambah_visitor->save();
-
         }
 
-        if(Auth::check())
-        { 
+        if (Auth::check()) {
             $data = [
                 'cart' => \Cart::session(Auth::user()->id)->getContent(),
-                'product' => Product::where('slideActive', 0)        
-                ->limit(8)->get(),
-                'slide' => Product::where('slideActive', 1)        
-                ->limit(3)->get()
+                'product' => Product::where('slideActive', 0)
+                    ->limit(8)->get(),
+                'slide' => Product::where('slideActive', 1)
+                    ->limit(3)->get()
             ];
         } else {
-            
+
             $data = [
                 'cart' => null,
-                'product' => Product::where('slideActive', 0)        
-                ->limit(8)->get(),
-                'slide' => Product::where('slideActive', 1)        
+                'product' => Product::where('slideActive', 0)
+                    ->limit(8)->get(),
+                'slide' => Product::where('slideActive', 1)
                     ->limit(3)->get(),
             ];
         }
         $data['about_us'] = AboutUs::limit(1)->orderBy('created_at', 'DESC')
-        ->get();
+            ->get();
         return view('landingPage/index')->with($data);
     }
 
     function shop(Request $request)
     {
-        if(Auth::check())
-        {
+        if (Auth::check()) {
             $data = $this->cartProductGlobal();
         } else {
             $data = $this->cartProductGlobalNonUSer();
         }
         $data['about_us'] = AboutUs::limit(1)->orderBy('created_at', 'DESC')
-       ->get();
+            ->get();
         return view('landingPage.shop', $data);
     }
 
     function wishlist(Request $request)
     {
-        if(Auth::check())
-        {
+        if (Auth::check()) {
             $data = $this->cartProductGlobal();
         } else {
             $data = $this->cartProductGlobalNonUSer();
         }
         $data['about_us'] = AboutUs::limit(1)->orderBy('created_at', 'DESC')
-        ->get();
+            ->get();
         return view('landingPage.wishlist', $data);
     }
 
     function about(Request $request)
     {
-        if(Auth::check())
-        {
+        if (Auth::check()) {
             $data = $this->cartProductGlobal();
         } else {
             $data = $this->cartProductGlobalNonUSer();
         }
         $data['about_us'] = AboutUs::limit(1)->orderBy('created_at', 'DESC')
-       ->get();
+            ->get();
         return view('landingPage.about', $data);
     }
 
     function virtualOutlet(Request $request)
     {
-        if(Auth::check())
-        {
+        if (Auth::check()) {
             $data = $this->cartProductGlobal();
         } else {
             $data = $this->cartProductGlobalNonUSer();
         }
-        
+
         return view('landingPage.404', $data);
     }
 }
