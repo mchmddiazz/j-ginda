@@ -23,11 +23,6 @@ use Illuminate\Support\Facades\Session;
 class AboutUsController extends Controller
 {
 
-    public function __construct(ProductRepository $productRepository)
-    {
-        parent::__construct($productRepository);
-    }
-
     /**
      * @param AboutUsService $service
      * @param Request $request
@@ -35,9 +30,6 @@ class AboutUsController extends Controller
      */
     public function index(AboutUsService $service): Response
     {
-        if(!auth()->user()->hasRole(RoleEnum::ADMINISTRATOR())){
-            abort(403);
-        }
         $response = $service->getAllData();
         viewShare($response);
         return response()->view('admin.about-us.index');
@@ -50,9 +42,6 @@ class AboutUsController extends Controller
      */
     public function create(AboutUsService $service): Response
     {
-        if(!auth()->user()->hasRole(RoleEnum::ADMINISTRATOR())){
-            abort(403);
-        }
         $response = $service->getCreateData();
 
         viewShare($response);
@@ -66,9 +55,6 @@ class AboutUsController extends Controller
      */
     public function store(AboutUsService $service, StoreAboutUsRequest $request): RedirectResponse
     {
-        if(!auth()->user()->hasRole(RoleEnum::ADMINISTRATOR())){
-            abort(403);
-        }
         $response = $service->addNewData($request->validated());
 
         if ($this->isError($response)) return $this->getErrorResponse();
@@ -84,9 +70,6 @@ class AboutUsController extends Controller
      */
     public function edit(AboutUsService $service, int $id): Response|RedirectResponse
     {
-        if(!auth()->user()->hasRole(RoleEnum::ADMINISTRATOR())){
-            abort(403);
-        }
         $response = $service->getEditData($id);
         if ($this->isError($response)) return $this->getErrorResponse();
 
@@ -102,9 +85,6 @@ class AboutUsController extends Controller
      */
     public function update(AboutUsService $service, UpdateAboutUsRequest $request, int $id): RedirectResponse
     {
-        if(!auth()->user()->hasRole(RoleEnum::ADMINISTRATOR())){
-            abort(403);
-        }
         $response = $service->updateDataById($id, $request->validated());
         if ($this->isError($response)) return $this->getErrorResponse();
 
@@ -119,9 +99,6 @@ class AboutUsController extends Controller
      */
     public function destroy(AboutUsService $service, int $id):RedirectResponse
     {
-        if(!auth()->user()->hasRole(RoleEnum::ADMINISTRATOR())){
-            abort(403);
-        }
         $response = $service->deleteDataById($id);
         if ($this->isError($response)) return $this->getErrorResponse();
 

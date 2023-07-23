@@ -1,3 +1,4 @@
+@php use App\Enums\PermissionEnum; @endphp
 <x-admin.layout>
 	<div class="row">
 		<!-- Column  -->
@@ -7,7 +8,10 @@
 					<h4 class="card-title">{{$cardTitle ?? "About Us"}}</h4>
 				</div>
 				<div class="card-body pt-0">
-					<a href="{{route('admin.about.us.create')}}" class="btn btn-primary btn-sm">Tambah About Us</a>
+					@can(PermissionEnum::ABOUT_US_CREATE())
+						<a href="{{route('admin.about.us.create')}}" class="btn btn-primary btn-sm">Tambah About Us</a>
+					@endcan
+
 					@if($aboutUs->count() === 0)
 						<x-admin.empty-data></x-admin.empty-data>
 					@else
@@ -23,7 +27,9 @@
 										<th>Email</th>
 										<th>No Telp</th>
 										<th>Tanggal Dibuat</th>
+										@canany([PermissionEnum::ABOUT_US_EDIT(), PermissionEnum::ABOUT_US_DESTROY()])
 										<th>Aksi</th>
+										@endcanany
 									</tr>
 									</thead>
 									<tbody>
@@ -39,12 +45,22 @@
 											<td>{{$about->email}}</td>
 											<td>{{$about->phone_number}}</td>
 											<td>{{$about->created_at}}</td>
-											<td>
-												<div class="d-grid gap-2 d-md-block">
-													<a href="{{route('admin.about.us.edit', $about->id)}}"  class="btn btn-success btn-sm">Edit</a>
-													<button class="btn btn-danger btn-sm btn-delete" data-id="{{$about->id}}" type="button">Hapus</button>
-												</div>
-											</td>
+											@canany([PermissionEnum::ABOUT_US_EDIT(), PermissionEnum::ABOUT_US_DESTROY()])
+												<td>
+													<div class="d-grid gap-2 d-md-block">
+														@can(PermissionEnum::ABOUT_US_EDIT())
+															<a href="{{route('admin.about.us.edit', $about->id)}}"
+															   class="btn btn-success btn-sm">Edit</a>
+														@endcan
+
+														@can(PermissionEnum::ABOUT_US_DESTROY())
+															<button class="btn btn-danger btn-sm btn-delete"
+															        data-id="{{$about->id}}" type="button">Hapus
+															</button>
+														@endcan
+													</div>
+												</td>
+											@endcanany
 										</tr>
 									@endforeach
 									</tbody>

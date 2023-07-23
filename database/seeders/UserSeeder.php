@@ -13,6 +13,14 @@ class UserSeeder extends Seeder
 
     public const DATA_USERS = [
         [
+            "name" => "superadmin",
+            "email" => "superadmin@mail.com",
+            "password" => '$2y$10$ib2VYv7bxGXFKa44/yu1DeC5y8uvn//he6kNZKaceSpHMAZdwxgsq',
+            "address" => "Address",
+            "postal_code" => "79452",
+            "phone" => "0895351172040",
+        ],
+        [
             "name" => "admin",
             "email" => "admin@mail.com",
             "password" => '$2y$10$ib2VYv7bxGXFKa44/yu1DeC5y8uvn//he6kNZKaceSpHMAZdwxgsq',
@@ -50,8 +58,9 @@ class UserSeeder extends Seeder
             User::create($user);
         }
 
-        User::find(1)->assignRole("administrator");
-        User::find(2)->assignRole("gudang");
-        User::find(3)->assignRole("user");
+        User::find(1)->assignRole("superadmin");
+        User::find(2)->assignRole("administrator");
+        User::find(3)->assignRole("gudang");
+        User::find(4)->assignRole("user");
     }
 }

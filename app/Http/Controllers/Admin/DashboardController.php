@@ -19,16 +19,13 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    function index(Request $request)
+    public function index(Request $request)
     {
-
         $data = [
             'visitor' => DB::table('visitors')->count(),
             'revenue' => DB::table('orders')->select(DB::raw("SUM(grand_total) as count"))->whereIn('payment_status', [2, 6])->orderBy("created_at")->groupBy(DB::raw("year(created_at)"))->get(),
             'orders' => DB::table('orders')->count(),
-            'customer' => DB::table('role_users')->join('users', 'role_users.user_id', '=', 'users.id')
-                ->join('roles', 'role_users.role_id', '=', 'roles.id')
-                ->where('roles.name', 'user')->count()
+            'customer' => 1
         ];
 
         return view('admin.dashboard', $data);

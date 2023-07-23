@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\PermissionEnum;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\{
@@ -29,11 +30,11 @@ use App\Http\Controllers\Admin\{DashboardController,
     LowQuantityProductController,
     OrdersController,
     OrderTransactionController,
+    PermissionController,
     ProductController,
     AboutUsController,
     RequestProductionController,
-    UsersController
-};
+    UsersController};
 
 /*
 |--------------------------------------------------------------------------
@@ -90,8 +91,10 @@ Route::prefix('cart')->name("cart.")->controller(CartController::class)->group(f
     Route::get('/clearAll', 'clearAll');
 });
 
-Route::prefix('admin')->name("admin.")->group(function () {
+Route::prefix('admin')->name("admin.")->middleware("auth")->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get("/permissions", PermissionController::class)->name("permissions.index")->middleware("permission:".PermissionEnum::PERMISSIONS_INDEX());
 
     Route::prefix("orders")->name("orders.")->group(function () {
         Route::get('/transactions', OrderTransactionController::class)->name("transactions");
@@ -119,12 +122,12 @@ Route::prefix('admin')->name("admin.")->group(function () {
 
 
     Route::prefix("about-us")->name("about.us.")->controller(AboutUsController::class)->group(function () {
-        Route::get('', 'index')->name("index");
-        Route::get('/create', 'create')->name("create");
-        Route::post('/', 'store')->name("store");
-        Route::get('/{id}/edit', 'edit')->name("edit");
-        Route::patch('/{id}', 'update')->name("update");
-        Route::delete('/{id}', 'destroy')->name("destroy");
+        Route::get('', 'index')->name("index")->middleware("permission:". PermissionEnum::ABOUT_US_INDEX());
+        Route::get('/create', 'create')->name("create")->middleware("permission:". PermissionEnum::ABOUT_US_CREATE());
+        Route::post('/', 'store')->name("store")->middleware("permission:". PermissionEnum::ABOUT_US_STORE());
+        Route::get('/{id}/edit', 'edit')->name("edit")->middleware("permission:". PermissionEnum::ABOUT_US_EDIT());
+        Route::patch('/{id}', 'update')->name("update")->middleware("permission:". PermissionEnum::ABOUT_US_UPDATE());
+        Route::delete('/{id}', 'destroy')->name("destroy")->middleware("permission:". PermissionEnum::ABOUT_US_DESTROY());
     });
 
     Route::get('/invoice/generate/{idOrder}', [InvoiceController::class, 'generateAdmin']);

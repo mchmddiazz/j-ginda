@@ -42,8 +42,6 @@
                             <div id="mCSB_1_container" class="mCSB_container" style="position:relative; top:0; left:0;"
                                 dir="ltr">
                                 <div class="login-form style-2">
-
-
                                     <div class="card-body">
                                         <div class="logo-header">
                                             <a href="{{ url('admin') }}" class="logo"><img src="{{ asset('logo') }}/logoAlfitri.png"
@@ -54,11 +52,11 @@
 
                                         <nav>
                                             <div class="nav nav-tabs border-bottom-0" id="nav-tab" role="tablist">
-
                                                 <div class="tab-content w-100" id="nav-tabContent">
                                                     <div class="tab-pane fade show active" id="nav-personal"
                                                         role="tabpanel" aria-labelledby="nav-personal-tab">
-                                                        <form id="formLogin" method="post" class=" dz-form pb-3">
+                                                        <x-admin.alert></x-admin.alert>
+                                                        <form id="formLogin" method="POST" action="{{route('authenticate')}}" class=" dz-form pb-3">
 															@csrf
                                                             <h3 class="form-title m-t0">Informasi pribadi</h3>
                                                             <div class="dz-separator-outer m-b5">
@@ -74,17 +72,13 @@
                                                             <div class="form-group text-left mb-5 forget-main">
                                                                 <button type="submit" class="btn btn-primary" id="button_login">Masuk</button>
                                                                 <span class="form-check d-inline-block">
-                                                                    <input type="checkbox" class="form-check-input"
-                                                                        id="check1" name="remember_me">
-                                                                    <label class="form-check-label"
-                                                                        for="check1">Ingat Saya</label>
+                                                                    <input type="checkbox" class="form-check-input" id="check1" name="remember_me">
+                                                                    <label class="form-check-label" for="check1">Ingat Saya</label>
                                                                 </span>
-
                                                             </div>
                                                         </form>
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </nav>
                                     </div>
@@ -97,7 +91,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <div id="mCSB_1_scrollbar_vertical"
@@ -120,9 +113,7 @@
         <!-- Content END-->
     </div>
 
-    <!--**********************************
-	Scripts
-***********************************-->
+
     <!-- Required vendors -->
     <script src="{{ asset('admin/') }}/vendor/global/global.min.js"></script>
     <script src="{{ asset('admin/') }}/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
@@ -131,96 +122,6 @@
     <script src="{{ asset('admin/') }}/js/demo.js"></script>
     <script src="{{ asset('admin/') }}/js/styleSwitcher.js"></script>
     <script src="{{ asset('alert/js/sweetalert.js') }}"></script>
-
-	<script>
-        $(document).ready(function () {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 10000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            });
-
-            function reset() {
-                $("input").val('');
-            }
-            $("#formLogin").on('submit', function (e) {
-                e.preventDefault();
-                let form = $("#formLogin").serialize();
-                $.ajax({
-                    type: "post",
-                    url: `{{ url('postLogin') }}`,
-                    data: form,
-                    dataType: "json",
-                    beforeSend: function () {
-                        $('#button_login').html("Memproses....");
-                        $('#button_login').attr('disabled', true);
-                    },
-                    success: function (response) {
-                        console.log(response)
-                        $('#button_login').html("Masuk");
-                        $('#button_login').removeAttr('disabled');
-
-                        if (response.message == 1) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: 'Berhasil Login Admin!',
-                            });
-                            window.location.href = `{{  route('admin.dashboard') }}`;
-                        } else if (response.message == 3) {
-                            Toast.fire({
-                                icon: 'warning',
-                                title: 'User Already Login !'
-                            })
-                        } else if (response.message == 4) {
-                            Toast.fire({
-                                icon: 'error',
-                                title: 'User Sudah Tidak Aktif'
-                            })
-                        } else if (response.message == 5) {
-                            Toast.fire({
-                                icon: 'warning',
-                                title: 'Email Atau Password Salah !'
-                            })
-                        } else if (response.message == 7) { 
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: 'Berhasil Login Admin!',
-                            });
-                            window.location.href = `{{  route('admin.dashboard') }}`;
-                        } else {
-                            console.log(response)
-                            Toast.fire({
-                                icon: 'error',
-                                title: 'Masalah Validasi !'
-                            })
-                        }
-                    },
-                    complete: function () {
-                        reset();
-                        $('#button_login').removeAttr('disabled');
-                        $('#button_login').html("Masuk");
-                    },
-                    error: function (response){
-                        console.log(response)
-                    }
-                });
-            });
-        });
-
-    </script>
 </body>
 
 </html>
