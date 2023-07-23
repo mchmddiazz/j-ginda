@@ -4,11 +4,9 @@
 		<div class="col-lg-12">
 			<div class="card dz-card">
 				<div class="card-header flex-wrap border-0" id="default-tab">
-					<h4 class="card-title">USERS</h4>
+					<h4 class="card-title">Permissions</h4>
 				</div>
 				<div class="card-body pt-0">
-					<a href="{{route('admin.users.create')}}" type="button" class="btn btn-primary btn-sm">Tambah Data
-						User</a>
 					@if($permissions->count()===0)
 						<x-admin.empty-data></x-admin.empty-data>
 					@else

@@ -4,12 +4,10 @@
 		<div class="col-lg-12">
 			<div class="card dz-card">
 				<div class="card-header flex-wrap border-0" id="default-tab">
-					<h4 class="card-title">USERS</h4>
+					<h4 class="card-title">{{$cardTitle}}</h4>
 				</div>
 				<div class="card-body pt-0">
-					<a href="{{route('admin.users.create')}}" type="button" class="btn btn-primary btn-sm">Tambah Data
-						User</a>
-					@if($users->count()===0)
+					@if($roles->count()===0)
 						<x-admin.empty-data></x-admin.empty-data>
 					@else
 						<div class="pt-4">
@@ -19,36 +17,25 @@
 									<tr>
 										<th>No</th>
 										<th>Nama</th>
-										<th>Email</th>
-										<th>Role</th>
 										<th>Aksi</th>
 									</tr>
 									</thead>
 									<tbody>
-									@foreach($users as $key => $user)
+									@foreach($roles as $key => $role)
 										<tr>
-											<td>{{$users->firstItem() + $key}}</td>
-											<td>{{$user->name}}</td>
-											<td>{{$user->email}}</td>
-											<td>
-												@foreach($user->roles as $subKey => $role)
-													{{"$role->name,"}}
-												@endforeach
-											</td>
+											<td>{{$roles->firstItem() + $key}}</td>
+											<td>{{$role->name}}</td>
 											<td>
 												<div class="d-grid gap-2 d-md-block">
-													<a href="{{route('admin.users.edit', $user->id)}}"
+													<a href="{{route('admin.roles.edit', $role->id)}}"
 													   class="btn btn-success btn-sm" type="button">Edit</a>
-													<button data-id="{{$user->id}}"
-													        class="btn btn-danger btn-sm btn-delete" type="button">Hapus
-													</button>
 												</div>
 											</td>
 										</tr>
 									@endforeach
 									</tbody>
 								</table>
-								{{$users->withQueryString()->links()}}
+								{{$roles->withQueryString()->links()}}
 							</div>
 						</div>
 					@endif

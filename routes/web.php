@@ -34,6 +34,7 @@ use App\Http\Controllers\Admin\{DashboardController,
     ProductController,
     AboutUsController,
     RequestProductionController,
+    RoleController,
     UsersController};
 
 /*
@@ -95,6 +96,12 @@ Route::prefix('admin')->name("admin.")->middleware("auth")->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get("/permissions", PermissionController::class)->name("permissions.index")->middleware("permission:".PermissionEnum::PERMISSIONS_INDEX());
+
+    Route::prefix("roles")->name("roles.")->controller(RoleController::class)->group(function (){
+        Route::get("/", "index")->name("index")->middleware("permission:". PermissionEnum::ROLES_INDEX());
+        Route::get("/{id}/edit", "edit")->name("edit")->middleware("permission:". PermissionEnum::ROLES_EDIT());
+        Route::put("/{id}", "update")->name("update")->middleware("permission:". PermissionEnum::ROLES_UPDATE());
+    });
 
     Route::prefix("orders")->name("orders.")->group(function () {
         Route::get('/transactions', OrderTransactionController::class)->name("transactions");

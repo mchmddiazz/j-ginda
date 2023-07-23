@@ -10,6 +10,7 @@ enum RoleEnum: string
     use InvokableCases;
     use Values;
 
+    case SUPERADMIN = "superadmin";
     case ADMINISTRATOR = "administrator";
     case USER = "user";
     case GUDANG = "gudang";

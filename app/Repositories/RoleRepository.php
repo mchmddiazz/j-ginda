@@ -14,5 +14,4 @@ class RoleRepository extends \Iqbalatma\LaravelServiceRepo\BaseRepository
     {
         $this->model = new Role();
     }
-
 }
