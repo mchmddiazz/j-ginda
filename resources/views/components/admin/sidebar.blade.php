@@ -105,6 +105,8 @@
 					<li><a href="{{ route('admin.orders.transactions', ['type' => 'decline']) }}"
 					       class="{{ request()->is(route("admin.orders.transactions",['type' => 'decline'])) ? 'active' : '' }}">Transaksi
 							Produk Ditolak</a></li>
+					<li><a href="{{ route('admin.finance.transactions.index') }}"
+					       class="{{ request()->is(route('admin.finance.transactions.index')) ? 'active' : '' }}">Transaksi Keuangan</a></li>
 				</ul>
 			</li>
 

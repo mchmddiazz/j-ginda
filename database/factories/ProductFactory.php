@@ -21,7 +21,6 @@ class ProductFactory extends Factory
             "quantity" => $this->faker->numberBetween(1,1000),
             "quantity_threshold" => $this->faker->numberBetween(1,1000),
             "weight" => $this->faker->numberBetween(1,1000),
-            "description"=> $this->faker->text()
         ];
     }
 }

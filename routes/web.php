@@ -24,14 +24,14 @@ use App\Http\Controllers\Payment\{
 };
 
 use App\Http\Controllers\Admin\{DashboardController,
+    FinanceTransactionController,
     LowQuantityProductController,
     OrdersController,
     OrderTransactionController,
     ProductController,
     AboutUsController,
     RequestProductionController,
-    UsersController
-};
+    UsersController};
 
 /*
 |--------------------------------------------------------------------------
@@ -135,6 +135,12 @@ Route::prefix('admin')->name("admin.")->group(function () {
         Route::get("/{id}/edit", "edit")->name("edit");
         Route::patch("/{id}", "update")->name("update");
         Route::delete("/{id}", "destroy")->name("destroy");
+    });
+
+
+    Route::prefix("finance-transactions")->name("finance.transactions.")->controller(FinanceTransactionController::class)->group(function (){
+        Route::get("/", "index")->name("index");
+
     });
 });
 

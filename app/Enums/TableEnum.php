@@ -21,4 +21,5 @@ enum TableEnum: string
     case CITY_SECONDS = "city_seconds";
     case VISITORS = "visitors";
     case REQUEST_PRODUCTION = "request_productions";
+    case TRANSACTIONS = "transactions";
 }
