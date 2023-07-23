@@ -24,6 +24,7 @@ use App\Http\Controllers\Payment\{
 };
 
 use App\Http\Controllers\Admin\{DashboardController,
+    ExpenseController,
     FinanceTransactionController,
     LowQuantityProductController,
     OrdersController,
@@ -140,8 +141,13 @@ Route::prefix('admin')->name("admin.")->group(function () {
 
     Route::prefix("finance-transactions")->name("finance.transactions.")->controller(FinanceTransactionController::class)->group(function (){
         Route::get("/", "index")->name("index");
-
     });
+
+    Route::prefix("/expenses")->name("expenses.")->controller(ExpenseController::class)->group(function (){
+        Route::get("/create", "create")->name("create");
+        Route::post("/", "store")->name("store");
+    });
+
 });
 
 

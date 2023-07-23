@@ -22,7 +22,7 @@ class FinanceTransactionService extends \Iqbalatma\LaravelServiceRepo\BaseServic
         return [
             "title" => "Transaksi",
             "cardTitle" => "Transaksi",
-            "transactions" => $this->repository->getAllDataPaginated(),
+            "transactions" => $this->repository->orderBy(columns: "created_at", direction: "desc")->getAllDataPaginated(),
         ];
     }
 

@@ -209,7 +209,6 @@
 														<div class="input-group transparent-append">
 															<input id="image" type="file" name="image" accept="image/*"
 															       onchange="readURL(this);">
-															<input type="hidden" name="hidden_image" id="hidden_image">
 															<div class="invalid-feedback">
 																Please Enter a Image.
 															</div>
