@@ -8,6 +8,7 @@ use App\Repositories\OrderItemRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\RequestProductionRepository;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -83,22 +84,26 @@ class RequestProductionService extends BaseService
                 if ($requestedData["actual_quantities"][$key]) {
                     $requestProduction = $this->repository->getDataById($requestProductionId);
                     if ($requestProduction) {
-                        $requestProduction->fill([
-                            "status" => ProductionStatus::DONE(),
-                            "actual_quantity" => $requestedData["actual_quantities"][$key],
-                        ])->save();
+                        if ($requestedData["actual_quantities"][$key] < $requestProduction->request_quantity) {
+                            $requestProduction->fill([
+                                "status" => ProductionStatus::DONE(),
+                                "actual_quantity" => $requestedData["actual_quantities"][$key],
+                            ])->save();
 
-                        $this->orderItemRepository->addNewData([
-                            "code" => strtoupper(uniqid("IN-")),
-                            "product_id" => $requestProduction->product_id,
-                            "type" => TransactionTypeEnum::IN(),
-                            "quantity" => $requestedData["actual_quantities"][$key],
-                        ]);
+                            $this->orderItemRepository->addNewData([
+                                "code" => strtoupper(uniqid("IN-")),
+                                "product_id" => $requestProduction->product_id,
+                                "type" => TransactionTypeEnum::IN(),
+                                "quantity" => $requestedData["actual_quantities"][$key],
+                            ]);
 
-                        $product = $this->productRepository->getDataById($requestProduction->product_id);
-                        if ($product) {
-                            $product->quantity += $requestedData["actual_quantities"][$key];
-                            $product->save();
+                            $product = $this->productRepository->getDataById($requestProduction->product_id);
+                            if ($product) {
+                                $product->quantity += $requestedData["actual_quantities"][$key];
+                                $product->save();
+                            }
+                        }else{
+                            throw new Exception("Tidak dapat memproduksi lebih dari permintaan pada produk ".$requestProduction?->product->name, JsonResponse::HTTP_FORBIDDEN);
                         }
                     }
                 }
