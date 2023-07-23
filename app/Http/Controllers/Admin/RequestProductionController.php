@@ -18,9 +18,6 @@ class RequestProductionController extends Controller
      */
     public function index(RequestProductionService $service):Response
     {
-        if(!auth()->user()->hasRole(RoleEnum::ADMINISTRATOR())){
-            abort(403);
-        }
         $response = $service->getAllDataPaginated();
 
         viewShare($response);
@@ -48,9 +45,6 @@ class RequestProductionController extends Controller
      */
     public function update(RequestProductionService $service, UpdateRequestProductionRequest $request)
     {
-        if(!auth()->user()->hasRole(RoleEnum::ADMINISTRATOR())){
-            abort(403);
-        }
         $response = $service->productionDone($request->validated());
         if ($this->isError($response)) return $this->getErrorResponse();
 

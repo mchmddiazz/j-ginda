@@ -113,18 +113,18 @@ Route::prefix('admin')->name("admin.")->middleware("auth")->group(function () {
     });
 
     Route::controller(ProductController::class)->prefix("products")->name("products.")->group(function () {
-        Route::get("/", "index")->name("index");
-        Route::get("/{id}/edit", "edit")->name("edit");
-        Route::post("/", "store")->name("store");
-        Route::patch("/{id}", "update")->name("update");
-        Route::delete("/{id}", "destroy")->name("destroy");
-        Route::get("/low-quantity", LowQuantityProductController::class)->name("low.quantity");
+        Route::get("/", "index")->name("index")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_INDEX());
+        Route::get("/{id}/edit", "edit")->name("edit")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_EDIT());
+        Route::post("/", "store")->name("store")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_STORE());
+        Route::patch("/{id}", "update")->name("update")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_UPDATE());
+        Route::delete("/{id}", "destroy")->name("destroy")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_DESTROY());
+        Route::get("/low-quantity", LowQuantityProductController::class)->name("low.quantity")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_LOW_QUANTITY());;
     });
 
     Route::controller(RequestProductionController::class)->prefix("request-production")->name("request.production.")->group(function () {
-        Route::get("/", "index")->name("index");
-        Route::post("/", "store")->name("store");
-        Route::patch("/", "update")->name("update");
+        Route::get("/", "index")->name("index")->middleware("permission:".PermissionEnum::ADMIN_REQUEST_PRODUCTION_INDEX());
+        Route::post("/", "store")->name("store")->middleware("permission:".PermissionEnum::ADMIN_REQUEST_PRODUCTION_STORE());
+        Route::patch("/", "update")->name("update")->middleware("permission:".PermissionEnum::ADMIN_REQUEST_PRODUCTION_UPDATE());
     });
 
 

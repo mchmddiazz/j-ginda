@@ -1,3 +1,4 @@
+@php use App\Enums\PermissionEnum; @endphp
 <x-admin.layout>
 	<div class="row">
 		<!-- Column  -->
@@ -13,14 +14,18 @@
 								<div class="table-responsive">
 									<form action="{{route('admin.request.production.store')}}" method="POST">
 										@csrf
-										<div class="d-grid gap-2 d-md-block">
-											<button class="btn btn-info" type="reset">Reset</button>
-											<button class="btn btn-primary" type="submit">Simpan</button>
-										</div>
+										@can(PermissionEnum::ADMIN_REQUEST_PRODUCTION_STORE())
+											<div class="d-grid gap-2 d-md-block">
+												<button class="btn btn-info" type="reset">Reset</button>
+												<button class="btn btn-primary" type="submit">Simpan</button>
+											</div>
+										@endcan
 										<table class="table">
 											<thead>
 											<tr>
-												<th scope="col">Request Produksi</th>
+												@can(PermissionEnum::ADMIN_REQUEST_PRODUCTION_STORE())
+													<th scope="col">Request Produksi</th>
+												@endcan
 												<th scope="col">Nama Produk</th>
 												<th scope="col">Kuantitas Gudang</th>
 												<th scope="col">Ambang Batas Kuantitas</th>
@@ -31,14 +36,18 @@
 											<tbody>
 											@foreach($products as $key => $product)
 												<tr>
-													<td>
-														<div class="d-grid gap-2 d-md-block">
-															<input class="form-check-input request-production-id"
-															       type="checkbox" name="product_ids[]"
-															       value="{{$product->id}}">
-															<input type="number" class="form-control-sm d-none request-production-quantity" name="quantities[]" disabled>
-														</div>
-													</td>
+													@can(PermissionEnum::ADMIN_REQUEST_PRODUCTION_STORE())
+														<td>
+															<div class="d-grid gap-2 d-md-block">
+																<input class="form-check-input request-production-id"
+																       type="checkbox" name="product_ids[]"
+																       value="{{$product->id}}">
+																<input type="number"
+																       class="form-control-sm d-none request-production-quantity"
+																       name="quantities[]" disabled>
+															</div>
+														</td>
+													@endcan
 													<td>{{$product->name}}</td>
 													<td>{{$product->quantity . " pcs"}}</td>
 													<td>{{$product->quantity_threshold . " pcs"}}</td>
@@ -70,13 +79,13 @@
 	@push("js")
 		<script>
             $(".request-production-id").on("click", function () {
-				const quantity = $(this).siblings();
+                const quantity = $(this).siblings();
                 const isChecked = $(this).is(":checked");
 
-                if(isChecked){
+                if (isChecked) {
                     quantity.removeClass("d-none")
-	                quantity.removeAttr("disabled")
-                }else{
+                    quantity.removeAttr("disabled")
+                } else {
                     quantity.addClass("d-none")
                     quantity.prop("disabled", true)
                 }

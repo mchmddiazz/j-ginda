@@ -1,3 +1,4 @@
+@php use App\Enums\PermissionEnum; @endphp
 <x-admin.layout>
 
 	<div class="row">
@@ -17,10 +18,12 @@
 										<a class="nav-link active" data-bs-toggle="tab" href="#product"><i
 													class="la la-table me-2"></i> List Produk</a>
 									</li>
-									<li class="nav-item">
-										<a class="nav-link" data-bs-toggle="tab" href="#add-product"><i
-													class="la la-plus me-2"></i> Tambah Produk</a>
-									</li>
+									@can(PermissionEnum::ADMIN_PRODUCTS_STORE())
+										<li class="nav-item">
+											<a class="nav-link" data-bs-toggle="tab" href="#add-product"><i
+														class="la la-plus me-2"></i> Tambah Produk</a>
+										</li>
+									@endcan
 								</ul>
 								<div class="tab-content">
 									<div class="tab-pane fade show active" id="product" role="tabpanel">
@@ -64,19 +67,28 @@
 																		<img height="100px"
 																		     src="{{asset('storage/products/'.$product->image)}}">
 																	@else
-																		<img src="https://via.placeholder.com/150" height="100px">
+																		<img src="https://via.placeholder.com/150"
+																		     height="100px">
 																	@endif
 																</td>
-																<td>
-																	<div class="d-grid gap-2 d-md-block">
-																		<a href="{{route('admin.products.edit', $product->id)}}"
-																		   class="btn btn-success btn-sm" type="button">Sunting</a>
-																		<button type="button"
-																		        class="btn btn-danger btn-sm btn-delete"
-																		        data-id="{{ $product->id }}">Hapus
-																		</button>
-																	</div>
-																</td>
+																@canany([PermissionEnum::ADMIN_PRODUCTS_EDIT(),PermissionEnum::ADMIN_PRODUCTS_DESTROY() ])
+																	<td>
+																		<div class="d-grid gap-2 d-md-block">
+																			@can(PermissionEnum::ADMIN_PRODUCTS_EDIT())
+																				<a href="{{route('admin.products.edit', $product->id)}}"
+																				   class="btn btn-success btn-sm"
+																				   type="button">Sunting</a>
+																			@endcan
+																			@can(PermissionEnum::ADMIN_PRODUCTS_DESTROY())
+																				<button type="button"
+																				        class="btn btn-danger btn-sm btn-delete"
+																				        data-id="{{ $product->id }}">
+																					Hapus
+																				</button>
+																			@endcan
+																		</div>
+																	</td>
+																@endcanany
 															</tr>
 														@endforeach
 														</tbody>
@@ -86,147 +98,158 @@
 											</div>
 										@endif
 									</div>
-									<div class="tab-pane fade" id="add-product">
-										<div class="pt-4">
-											<div class="basic-form">
-												<form class="form-valide-with-icon needs-validation"
-												      enctype="multipart/form-data" novalidate id="data-master"
-												      method="POST" action="{{route('admin.products.store')}}">
-													@csrf
-													<div class="mb-3">
-														<label class="text-label form-label"
-														       for="validationCustomUsername">Nama Produk</label>
-														<div class="input-group">
+									@can(PermissionEnum::ADMIN_PRODUCTS_STORE())
+										<div class="tab-pane fade" id="add-product">
+											<div class="pt-4">
+												<div class="basic-form">
+													<form class="form-valide-with-icon needs-validation"
+													      enctype="multipart/form-data" novalidate id="data-master"
+													      method="POST" action="{{route('admin.products.store')}}">
+														@csrf
+														<div class="mb-3">
+															<label class="text-label form-label"
+															       for="validationCustomUsername">Nama Produk</label>
+															<div class="input-group">
                                                         <span class="input-group-text"> <i class="fa fa-list-alt"></i>
                                                         </span>
-															<input type="text" name="name" class="form-control"
-															       id="validationCustomUsername"
-															       placeholder="Enter a name product.." required>
-															<div class="invalid-feedback">
-																Please Enter a Product Name.
+																<input type="text" name="name" class="form-control"
+																       id="validationCustomUsername"
+																       placeholder="Enter a name product.." required>
+																<div class="invalid-feedback">
+																	Please Enter a Product Name.
+																</div>
 															</div>
 														</div>
-													</div>
-													<div class="mb-3">
-														<label class="text-label form-label" for="price">Harga
-															*</label>
-														<div class="input-group transparent-append">
+														<div class="mb-3">
+															<label class="text-label form-label" for="price">Harga
+																*</label>
+															<div class="input-group transparent-append">
                                                         <span class="input-group-text"> Rp.
                                                         </span>
-															<input type="number" name="price"
-															       onkeypress="return hanyaAngka(event)"
-															       oninput="setCustomValidity('')"
-															       class="form-control uang"
-															       id="price" placeholder="Enter a price product.."
-															       required>
-															<div class="invalid-feedback">
-																Please Enter a Price Product.
+																<input type="number" name="price"
+																       onkeypress="return hanyaAngka(event)"
+																       oninput="setCustomValidity('')"
+																       class="form-control uang"
+																       id="price" placeholder="Enter a price product.."
+																       required>
+																<div class="invalid-feedback">
+																	Please Enter a Price Product.
+																</div>
 															</div>
 														</div>
-													</div>
 
-													<div class="mb-3">
-														<label class="text-label form-label" for="price">Harga Diskon
-															*</label>
-														<div class="input-group transparent-append">
+														<div class="mb-3">
+															<label class="text-label form-label" for="price">Harga
+																Diskon
+																*</label>
+															<div class="input-group transparent-append">
                                                         <span class="input-group-text"> Rp.
                                                         </span>
-															<input type="number" name="priceDisc"
-															       onkeypress="return hanyaAngka(event)"
-															       oninput="setCustomValidity('')"
-															       class="form-control uang"
-															       id="priceDisc" placeholder="Enter a price product.."
-															       required>
-															<div class="invalid-feedback">
-																Please Enter a Price Product.
+																<input type="number" name="priceDisc"
+																       onkeypress="return hanyaAngka(event)"
+																       oninput="setCustomValidity('')"
+																       class="form-control uang"
+																       id="priceDisc"
+																       placeholder="Enter a price product.."
+																       required>
+																<div class="invalid-feedback">
+																	Please Enter a Price Product.
+																</div>
 															</div>
 														</div>
-													</div>
-													<div class="mb-3">
-														<label class="text-label form-label" for="price">Jumlah
-															*</label>
-														<div class="input-group transparent-append">
+														<div class="mb-3">
+															<label class="text-label form-label" for="price">Jumlah
+																*</label>
+															<div class="input-group transparent-append">
                                                         <span class="input-group-text"> Qty.
                                                         </span>
-															<input type="number" name="quantity"
-															       onkeypress="return hanyaAngka(event)"
-															       oninput="setCustomValidity('')"
-															       class="form-control uang"
-															       id="quantity"
-															       placeholder="Enter a quantity product.."
-															       required>
-															<div class="invalid-feedback">
-																Please Enter a Quantity Product.
+																<input type="number" name="quantity"
+																       onkeypress="return hanyaAngka(event)"
+																       oninput="setCustomValidity('')"
+																       class="form-control uang"
+																       id="quantity"
+																       placeholder="Enter a quantity product.."
+																       required>
+																<div class="invalid-feedback">
+																	Please Enter a Quantity Product.
+																</div>
 															</div>
 														</div>
-													</div>
-													<div class="mb-3">
-														<label class="text-label form-label" for="price">Ambang Batas
-															Kuantitas
-															*</label>
-														<div class="input-group transparent-append">
+														<div class="mb-3">
+															<label class="text-label form-label" for="price">Ambang
+																Batas
+																Kuantitas
+																*</label>
+															<div class="input-group transparent-append">
                                                         <span class="input-group-text"> Qty.
                                                         </span>
-															<input type="number" name="quantity_threshold"
-															       onkeypress="return hanyaAngka(event)"
-															       oninput="setCustomValidity('')"
-															       class="form-control uang"
-															       id="quantity"
-															       placeholder="Enter a quantity product.."
-															       required>
-															<div class="invalid-feedback">
-																Please Enter a Quantity Product.
+																<input type="number" name="quantity_threshold"
+																       onkeypress="return hanyaAngka(event)"
+																       oninput="setCustomValidity('')"
+																       class="form-control uang"
+																       id="quantity"
+																       placeholder="Enter a quantity product.."
+																       required>
+																<div class="invalid-feedback">
+																	Please Enter a Quantity Product.
+																</div>
 															</div>
 														</div>
-													</div>
-													<div class="mb-3">
-														<label class="text-label form-label" for="price">Berat ( GRAM )
-															*</label>
-														<div class="input-group transparent-append">
+														<div class="mb-3">
+															<label class="text-label form-label" for="price">Berat (
+																GRAM )
+																*</label>
+															<div class="input-group transparent-append">
                                                         <span class="input-group-text"> Gr.
                                                         </span>
-															<input type="number" name="weight"
-															       onkeypress="return hanyaAngka(event)"
-															       oninput="setCustomValidity('')" class="form-control"
-															       id="weight" placeholder="Enter a weight Product.."
-															       required>
-															<div class="invalid-feedback">
-																Please Enter a Weight Product.
+																<input type="number" name="weight"
+																       onkeypress="return hanyaAngka(event)"
+																       oninput="setCustomValidity('')"
+																       class="form-control"
+																       id="weight"
+																       placeholder="Enter a weight Product.."
+																       required>
+																<div class="invalid-feedback">
+																	Please Enter a Weight Product.
+																</div>
 															</div>
 														</div>
-													</div>
-													<div class="mb-3">
-														<label class="form-label">Banner (select one):</label>
-														<select class="default-select  form-control wide"
-														        name="slideActive">
-															<option value="0">Tidak</option>
-															<option value="1">Ya</option>
-														</select>
-													</div>
-													<div class="mb-3">
-														<label class="text-label form-label" for="dz-password">Photo
-															*</label>
-														<div class="input-group transparent-append">
-															<input id="image" type="file" name="image" accept="image/*"
-															       onchange="readURL(this);">
-															<div class="invalid-feedback">
-																Please Enter a Image.
-															</div>
+														<div class="mb-3">
+															<label class="form-label">Banner (select one):</label>
+															<select class="default-select  form-control wide"
+															        name="slideActive">
+																<option value="0">Tidak</option>
+																<option value="1">Ya</option>
+															</select>
 														</div>
+														<div class="mb-3">
+															<label class="text-label form-label" for="dz-password">Photo
+																*</label>
+															<div class="input-group transparent-append">
+																<input id="image" type="file" name="image"
+																       accept="image/*"
+																       onchange="readURL(this);">
+																<div class="invalid-feedback">
+																	Please Enter a Image.
+																</div>
+															</div>
 
-													</div>
-													<div class="mb-3">
-														<img id="modal-preview" src="https://via.placeholder.com/150"
-														     alt="Preview" class="form-group hidden" width="100"
-														     height="100">
-													</div>
-													<button type="submit" class="btn me-2 btn-primary"
-													        id="simpan-data">Tambah
-													</button>
-												</form>
+														</div>
+														<div class="mb-3">
+															<img id="modal-preview"
+															     src="https://via.placeholder.com/150"
+															     alt="Preview" class="form-group hidden" width="100"
+															     height="100">
+														</div>
+														<button type="submit" class="btn me-2 btn-primary"
+														        id="simpan-data">Tambah
+														</button>
+													</form>
+												</div>
 											</div>
 										</div>
-									</div>
+									@endcan
+
 								</div>
 							</div>
 						</div>
@@ -236,10 +259,12 @@
 		</div>
 	</div>
 
-	<form id="form-delete" action="{{route('admin.products.destroy', ':id') }}" class="d-none" method="POST">
-		@csrf
-		@method("DELETE")
-	</form>
+	@can(PermissionEnum::ADMIN_PRODUCTS_DESTROY())
+		<form id="form-delete" action="{{route('admin.products.destroy', ':id') }}" class="d-none" method="POST">
+			@csrf
+			@method("DELETE")
+		</form>
+	@endcan
 
 	@push("js")
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

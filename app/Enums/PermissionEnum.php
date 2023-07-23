@@ -53,4 +53,27 @@ enum PermissionEnum: string
     case USERS_UPDATE = "users.update";
     #[Description("can delete data user")] #[FeatureGroup("users")]
     case USERS_DESTROY = "users.destroy";
+
+
+    #[Description("can show all data product from admin")] #[FeatureGroup("admin products")]
+    case ADMIN_PRODUCTS_INDEX = "admin.products.index";
+    #[Description("can add new data product from admin")] #[FeatureGroup("admin products")]
+    case ADMIN_PRODUCTS_STORE = "admin.products.store";
+    #[Description("can show form edit data product from admin")] #[FeatureGroup("admin products")]
+    case ADMIN_PRODUCTS_EDIT = "admin.products.edit";
+    #[Description("can update data product from admin")] #[FeatureGroup("admin products")]
+    case ADMIN_PRODUCTS_UPDATE = "admin.products.update";
+    #[Description("can delete data product from admin")] #[FeatureGroup("admin products")]
+    case ADMIN_PRODUCTS_DESTROY = "admin.products.destroy";
+    #[Description("can show all data product low quantity from admin")] #[FeatureGroup("admin products")]
+    case ADMIN_PRODUCTS_LOW_QUANTITY = "admin.products.low.quantity";
+
+
+    #[Description("can add request production")] #[FeatureGroup("request production")]
+    case ADMIN_REQUEST_PRODUCTION_STORE = "admin.request.production.store";
+    #[Description("can show list request production")] #[FeatureGroup("request production")]
+    case ADMIN_REQUEST_PRODUCTION_INDEX = "admin.request.production.index";
+    #[Description("can confirm production done for request production")] #[FeatureGroup("request production")]
+    case ADMIN_REQUEST_PRODUCTION_UPDATE = "admin.request.production.update";
+
 }
