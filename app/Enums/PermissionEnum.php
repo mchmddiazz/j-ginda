@@ -70,10 +70,33 @@ enum PermissionEnum: string
 
 
     #[Description("can add request production")] #[FeatureGroup("request production")]
-    case ADMIN_REQUEST_PRODUCTION_STORE = "admin.request.production.store";
+    case ADMIN_REQUEST_PRODUCTIONS_STORE = "admin.request.productions.store";
     #[Description("can show list request production")] #[FeatureGroup("request production")]
-    case ADMIN_REQUEST_PRODUCTION_INDEX = "admin.request.production.index";
+    case ADMIN_REQUEST_PRODUCTIONS_INDEX = "admin.request.productions.index";
     #[Description("can confirm production done for request production")] #[FeatureGroup("request production")]
-    case ADMIN_REQUEST_PRODUCTION_UPDATE = "admin.request.production.update";
+    case ADMIN_REQUEST_PRODUCTIONS_UPDATE = "admin.request.productions.update";
 
+
+    #[Description("can show all data order from admin")] #[FeatureGroup("orders")]
+    case ADMIN_ORDERS_INDEX = "admin.orders.index";
+
+    #[Description("can show data order by id from admin")] #[FeatureGroup("orders")]
+    case ADMIN_ORDERS_SHOW = "admin.orders.show";
+
+    #[Description("can update status data order by id from admin")] #[FeatureGroup("orders")]
+    case ADMIN_ORDERS_UPDATE = "admin.orders.update";
+
+    #[Description("can show order transaction list from admin")] #[FeatureGroup("orders")]
+    case ADMIN_ORDER_TRANSACTIONS = "admin.order.transactions";
+
+
+    #[Description("can show form add new expense from admin")] #[FeatureGroup("expenses")]
+    case ADMIN_EXPENSES_CREATE = "admin.expenses.create";
+    #[Description("can add new expense from admin")] #[FeatureGroup("expenses")]
+    case ADMIN_EXPENSES_STORE = "admin.expenses.store";
+
+
+
+    #[Description("can show all data finance transactions from admin")] #[FeatureGroup("finance transactions")]
+    case ADMIN_FINANCE_TRANSACTIONS_INDEX = "admin.finance.transactions.index";
 }

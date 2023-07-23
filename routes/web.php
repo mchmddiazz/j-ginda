@@ -104,11 +104,11 @@ Route::prefix('admin')->name("admin.")->middleware("auth")->group(function () {
     });
 
     Route::prefix("orders")->name("orders.")->group(function () {
-        Route::get('/transactions', OrderTransactionController::class)->name("transactions");
+        Route::get('/transactions', OrderTransactionController::class)->name("transactions")->middleware("permission:".PermissionEnum::ADMIN_ORDER_TRANSACTIONS());
         Route::controller(OrdersController::class)->group(function () {
-            Route::get('/', 'index')->name("index");
-            Route::get('/{id}', 'show')->name("show");
-            Route::patch('/{id}/{status}', 'updatePaymentStatus')->name("update.payment.status");
+            Route::get('/', 'index')->name("index")->middleware("permission:".PermissionEnum::ADMIN_ORDERS_INDEX());
+            Route::get('/{id}', 'show')->name("show")->middleware("permission:".PermissionEnum::ADMIN_ORDERS_SHOW());
+            Route::patch('/{id}/{status}', 'updatePaymentStatus')->name("update.payment.status")->middleware("permission:".PermissionEnum::ADMIN_ORDERS_UPDATE());
         });
     });
 
@@ -122,9 +122,9 @@ Route::prefix('admin')->name("admin.")->middleware("auth")->group(function () {
     });
 
     Route::controller(RequestProductionController::class)->prefix("request-production")->name("request.production.")->group(function () {
-        Route::get("/", "index")->name("index")->middleware("permission:".PermissionEnum::ADMIN_REQUEST_PRODUCTION_INDEX());
-        Route::post("/", "store")->name("store")->middleware("permission:".PermissionEnum::ADMIN_REQUEST_PRODUCTION_STORE());
-        Route::patch("/", "update")->name("update")->middleware("permission:".PermissionEnum::ADMIN_REQUEST_PRODUCTION_UPDATE());
+        Route::get("/", "index")->name("index")->middleware("permission:".PermissionEnum::ADMIN_REQUEST_PRODUCTIONS_INDEX());
+        Route::post("/", "store")->name("store")->middleware("permission:".PermissionEnum::ADMIN_REQUEST_PRODUCTIONS_STORE());
+        Route::patch("/", "update")->name("update")->middleware("permission:".PermissionEnum::ADMIN_REQUEST_PRODUCTIONS_UPDATE());
     });
 
 
@@ -150,14 +150,13 @@ Route::prefix('admin')->name("admin.")->middleware("auth")->group(function () {
 
 
     Route::prefix("finance-transactions")->name("finance.transactions.")->controller(FinanceTransactionController::class)->group(function () {
-        Route::get("/", "index")->name("index");
+        Route::get("/", "index")->name("index")->middleware("permission:".PermissionEnum::ADMIN_FINANCE_TRANSACTIONS_INDEX());
     });
 
     Route::prefix("/expenses")->name("expenses.")->controller(ExpenseController::class)->group(function () {
-        Route::get("/create", "create")->name("create");
-        Route::post("/", "store")->name("store");
+        Route::get("/create", "create")->name("create")->middleware("permission:".PermissionEnum::ADMIN_EXPENSES_CREATE());
+        Route::post("/", "store")->name("store")->middleware("permission:".PermissionEnum::ADMIN_EXPENSES_STORE());
     });
-
 });
 
 
