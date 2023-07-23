@@ -11,12 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use App\Models\User;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Session;
 use App\Models\AboutUs;
 class ProductController extends Controller
 {
@@ -89,7 +84,7 @@ class ProductController extends Controller
     function getData($id)
     {
         $input = "";
-        $modal = Product::whereId(base64_decode($id))->first();
+        $modal = Product::whereId($id)->first();
         if ($modal->quantity > 0) {
             $input .= '<li><i class="fal fa-check"></i>In Stock</li>';
         } else {
@@ -105,7 +100,7 @@ class ProductController extends Controller
                         <div
                             class="single-product-thumbnail product-large-thumbnail axil-product thumbnail-badge zoom-gallery">
                             <div class="thumbnail thumbnail slick-slide slick-current slick-active">
-                                <img src="'.asset('product/'. $modal->image).'"
+                                <img src="'.asset('storage/product/'. $modal->image).'"
                                     alt="Product Images" id="imageProduct">
                                 <div class="product-quick-view position-view">
                                     <a href="'.url('product/getProduct/details', base64_encode($modal->id)).'"
@@ -165,14 +160,14 @@ class ProductController extends Controller
         return response()->json($output);
     }
 
-    public function getProductDetail($id)
-    {
-        $data["cart"] = CartService::getCartFromSession();
-        $data["product"] = (new ProductRepository())->getAllData();
-        $data['about_us'] = AboutUs::limit(1)->orderBy('created_at', 'DESC')->get();
-        $data['productDetail'] = Product::whereId(base64_decode($id))->first();
-        return view('landingPage.product.show', $data);
-    }
+//    public function getProductDetail($id)
+//    {
+//        $data["cart"] = CartService::getCartFromSession();
+//        $data["product"] = (new ProductRepository())->getAllData();
+//        $data['about_us'] = AboutUs::limit(1)->orderBy('created_at', 'DESC')->get();
+//        $data['productDetail'] = Product::whereId(base64_decode($id))->first();
+//        return view('landingPage.product.show', $data);
+//    }
 
 
     /**

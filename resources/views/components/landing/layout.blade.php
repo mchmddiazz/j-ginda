@@ -251,6 +251,8 @@
             });
         });
 
+
+        // refactoring
         $(this).on('click', '#button_add', function (e) {
             e.preventDefault();
             let id = $(this).data('id');
@@ -259,6 +261,8 @@
                 url: `{{url('/product/modal')}}/${id}`,
                 dataType: "json",
                 success: function (response) {
+                    console.log(response)
+                    console.log("button show detail trigered")
                     $("#modalProductBody").html(response);
                     $('#data-modal').on('submit', function (e) {
                         e.preventDefault();
@@ -266,8 +270,6 @@
                         $('#createCart').attr('disabled', true);
                         let data = $("#data-modal").serialize();
                         let datax = new FormData(this);
-                        // console.log(data[0].jenis_menu);
-                        console.log(data);
                         $.ajax({
                             type: "post",
                             url: `{{url('/cart/buy')}}/${id}`,
@@ -348,6 +350,104 @@
             });
         });
 
+        $(this).on('click', '#button_add2', function (e) {
+            const product = $(this).data("product")
+	        console.log(product);
+            e.preventDefault();
+            let id = $(this).data('id');
+            $.ajax({
+                type: "get",
+                url: `{{url('/product/modal')}}/${id}`,
+                dataType: "json",
+                success: function (response) {
+                    console.log(response)
+                    console.log("button show detail trigered")
+                    $("#modalProductBody").html(response);
+                    $('#data-modal').on('submit', function (e) {
+                        e.preventDefault();
+                        $('#createCart').val("Tambahkan...");
+                        $('#createCart').attr('disabled', true);
+                        let data = $("#data-modal").serialize();
+                        let datax = new FormData(this);
+                        $.ajax({
+                            type: "post",
+                            url: `{{url('/cart/buy')}}/${id}`,
+                            data: datax,
+                            dataType: "json",
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            beforeSend: function()
+                            {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Mohon Tunggu !',
+                                    html: 'Pemesanan...',// add html attribute if you want or remove
+                                    allowOutsideClick: false,
+                                    onBeforeOpen: () => {
+                                        Swal.showLoading()
+                                    },
+                                });
+                            },
+                            success: function (response) {
+                                swal.close();
+                                $('#createCart').val(
+                                    `Tambahkan Keranjang`);
+                                $('#createCart').removeAttr('disabled');
+                                $(`#quick-view-modal`).modal('hide');
+                                if (response.status == 2) {
+                                    Toast.fire({
+                                        icon: 'warning',
+                                        title: 'Silahkan Login Terlebih Dahulu'
+                                    });
+                                    window.location.href =
+                                        `{{ url('/login') }}`;
+                                } else if(response.status == 3) {
+                                    Toast.fire({
+                                        icon: 'warning',
+                                        title: response.message
+                                    });
+                                } else {
+                                    $('.cart-count').html(response
+                                        .total);
+                                    $('.cartBody').html(response.body);
+                                    $('.cartBodyOriginal').html('');
+                                    document.querySelector(
+                                        '.cart-dropdown').classList
+                                        .toggle('open');
+
+                                    $(".cart-close").on('click',
+                                        function (e) {
+                                            document.querySelector(
+                                                '.cart-dropdown'
+                                            ).classList
+                                                .remove('open');
+                                        });
+                                }
+                            },
+                            error: function (e) {
+                                swal.close();
+                                Toast.fire({
+                                    icon: 'warning',
+                                    title: 'Gagal'
+                                });
+                                $('#createCart').val(
+                                    `Tambahkan Keranjang`);
+                                $('#createCart').removeAttr('disabled');
+
+                            }
+                        });
+                    });
+                },
+                error: function () {
+                    swal.close();
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Gagal mengambil data !'
+                    })
+                }
+            });
+        });
 
         $('#dataTroliBuy').on('submit', function (e) {
             e.preventDefault();
@@ -418,6 +518,7 @@
             let datax = new FormData(this);
 
 
+
             $.ajax({
                 type: "post",
                 url: `{{url('/cart/buyButton')}}`,
@@ -465,6 +566,7 @@
                     }
                 },
                 error: function (e) {
+                    console.log(e);
                     swal.close();
                     Toast.fire({
                         icon: 'warning',

@@ -95,7 +95,7 @@
 						</div>
 						<div class="recent-product-activation slick-layout-wrapper--15 axil-slick-arrow arrow-top-slide">
 							@foreach ($productList as $item)
-								@if ($product->id != $item->id)
+								@if ($product->id !== $item->id)
 									<form id="data-cart-add-detail" enctype="multipart/form-data">
 										@csrf
 										<div class="slick-single-layout">
@@ -113,7 +113,7 @@
 													<div class="product-hover-action">
 														<ul class="cart-action">
 															<li class="select-option">
-																<a href="#" data-id="{{ base64_encode($item->id) }}"
+																<a href="#" data-id="{{ $item->id }}"
 																   id="button_create_troli_detail">
 																	Add To Cart
 																</a>
@@ -121,7 +121,8 @@
 															<li class="quickview">
 																<a href="#" data-bs-toggle="modal"
 																   data-bs-target="#quick-view-modal"
-																   data-id="{{ base64_encode($item->id) }}"
+																   data-id="{{ $item->id }}"
+																   data-product="{{json_encode($item)}}"
 																   id="button_add">
 																	<i class="far fa-eye"></i>
 																</a>

@@ -13,18 +13,13 @@ class CartController extends Controller
 {
     protected $productRepository;
 
-    public function __construct(ProductRepository $productRepository)
-    {
-        $this->productRepository = $productRepository;
-    }
-
     public function index(Request $request)
     {
         if(Auth::check())
         {
             $data = [
                 'cart' => \Cart::session(Auth::user()->id)->getContent(),
-                'product' => $this->productRepository->findAll(),
+                'product' => (new \App\Repositories\ProductRepository())->getAllData(),
                 'about_us' =>  AboutUs::limit(1)->orderBy('created_at', 'DESC')->get()
             ];
             return view('landingPage/cart')->with($data);
