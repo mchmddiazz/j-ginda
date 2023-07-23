@@ -49,10 +49,9 @@ class UserSeeder extends Seeder
         foreach (self::DATA_USERS as $key => $user) {
             User::create($user);
         }
-        DB::table(TableEnum::ROLE_USERS())->insert([
-            ["user_id" => 1, "role_id" => 1],
-            ["user_id" => 2, "role_id" => 2],
-            ["user_id" => 3, "role_id" => 3],
-        ]);
+
+        User::find(1)->assignRole("administrator");
+        User::find(2)->assignRole("gudang");
+        User::find(3)->assignRole("user");
     }
 }

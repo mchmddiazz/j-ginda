@@ -8,8 +8,9 @@ use Illuminate\Database\Seeder;
 class RoleSeeder extends Seeder
 {
     public const DATA_ROLES = [
-      "administrator","gudang", "user",
+        "administrator", "gudang", "user",
     ];
+
     /**
      * Run the database seeds.
      *
@@ -17,9 +18,10 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        foreach (self::DATA_ROLES as $key => $role){
+        foreach (self::DATA_ROLES as $key => $role) {
             Role::create([
-                "name" => $role
+                "name" => $role,
+                "guard_name" => "web"
             ]);
         }
     }
