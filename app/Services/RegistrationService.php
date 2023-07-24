@@ -25,6 +25,7 @@ class RegistrationService extends \Iqbalatma\LaravelServiceRepo\BaseService
         try {
             $requestedData["password"] = Hash::make($requestedData["password"]);
             $user = $this->repository->addNewData($requestedData);
+            $user->assignRole("user");
             $response = ["success" => true];
         }catch (Exception $e){
             $response = getDefaultErrorResponse($e);

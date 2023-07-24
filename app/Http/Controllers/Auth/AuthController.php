@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\AuthenticateRequest;
 use App\Http\Requests\Auth\RegistrationRequest;
+use App\Models\ProvinceSecond;
 use App\Services\AuthService;
 use App\Services\RegistrationService;
 use Illuminate\Http\RedirectResponse;
@@ -25,6 +26,7 @@ class AuthController extends Controller
      */
     public function showRegistration():Response
     {
+        viewShare(["provinces" => ProvinceSecond::all()]);
         return response()->view('auth.register');
     }
 

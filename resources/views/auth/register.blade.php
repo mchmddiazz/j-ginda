@@ -54,8 +54,22 @@
 							<hr style="border: 1px solid;">
 
 							<h3 class="b2 mb--55 title">Alamat</h3>
-							<p class="b2 mb--55">Masukkan detail alamat di bawah ini</p>
 
+							<p class="b2 mb--55">Masukkan detail alamat di bawah ini</p>
+							<div class="form-group">
+								<label>Provinsi</label>
+								<select name="province_id" id="province_id">
+									<option value="-" selected disabled>Pilih Salah Satu</option>
+									@foreach ($provinces as $key => $province)
+										<option value="{{ $key }}">{{ $province->name }}</option>
+									@endforeach
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="form-label">Kota / Kabupaten</label>
+								<select name="city_id" id="city_id">
+								</select>
+							</div>
 							<div class="form-group">
 								<label>Alamat</label>
 								<input type="text" class="form-control" name="address">
@@ -83,5 +97,21 @@
 			</div>
 		</div>
 	</div>
+
+	@push("js")
+		<script>
+            $(document).on('change', '#province_id', function () {
+                let id = $(this).val();
+                $.ajax({
+                    type: "get",
+                    url: `{{url('/getKabupaten')}}/${id}`,
+                    dataType: "json",
+                    success: function (response) {
+                        $("#city_id").html(response.res);
+                    }
+                });
+            });
+		</script>
+	@endpush
 </x-landing.layout>
 

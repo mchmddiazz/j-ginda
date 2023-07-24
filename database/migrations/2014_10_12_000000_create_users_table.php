@@ -19,15 +19,12 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('password');
+            $table->unsignedInteger("city_id")->nullable();
             $table->string('address')->nullable();
             $table->string('postal_code')->nullable();
             $table->string('phone')->nullable();
-            $table->text('api_token')->nullable();
             $table->string('avatar', 100)->nullable();
             $table->boolean('is_active')->default(true);
-            $table->unsignedInteger("city_id")->nullable();
-            $table->boolean('alredy_login')->default(false);
-            $table->dateTime('last_login')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

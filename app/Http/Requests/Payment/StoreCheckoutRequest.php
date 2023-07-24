@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Payment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegistrationRequest extends FormRequest
+class StoreCheckoutRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,7 @@ class RegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required",
-            "email" => "required|email",
-            "password" => "required|confirmed",
-            "address" => "",
-            "postal_code" => "",
-            "phone" => "",
-            "city_id" => "required"
+            //
         ];
     }
 }
