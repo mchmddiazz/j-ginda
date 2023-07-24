@@ -64,7 +64,7 @@
 													<span class="badge bg-danger">Kredit</span>
 												@endif
 											</td>
-											<td>{{$transaction->saldo}}</td>
+											<td>{{ formatToRupiah($transaction->saldo)}}</td>
 											<td>{{$transaction->created_at}}</td>
 										</tr>
 									@endforeach
