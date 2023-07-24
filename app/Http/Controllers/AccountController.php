@@ -23,7 +23,7 @@ class AccountController extends Controller
     {
         $response = $service->getEditData();
         viewShare($response);
-        return response()->view('landing.account.index');
+        return response()->view('landing.account.edit');
     }
 
     /**

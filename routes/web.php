@@ -175,17 +175,14 @@ Route::middleware("auth")->group(function () {
     Route::prefix('account')->name("account.")->controller(AccountController::class)->group(function () {
         Route::get('/', 'edit')->name('edit');
         Route::patch('/', 'update')->name('update');
-        Route::get('/invoice/generate/{idOrder}', [InvoiceController::class, 'generate']);
+        Route::get('/invoice/generate/{idOrder}', [InvoiceController::class, 'generate']); // todo : not checked yet
     });
 
-//    Route::prefix('account')->group(function () {
-//        Route::get('/', [AuthController::class, 'account']);
-//        Route::post('change-password', [AuthController::class, 'changePassword'])->name('change.password');
-//        Route::get('/invoice/generate/{idOrder}', [InvoiceController::class, 'generate']);
-//    });
+
 
     Route::prefix('checkout')->name("checkout.")->controller(CheckoutController::class)->group(function () {
         Route::get("/", "create")->name("create");
+        Route::post("/", "store")->name("store");
 //        Route::get('/', [CheckoutController::class, 'checkout']);
 //        Route::post('/postCheckout', [CheckoutController::class, 'postCheckout']);
     });

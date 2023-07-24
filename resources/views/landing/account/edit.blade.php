@@ -14,13 +14,6 @@
 						<h1 class="title">Akun</h1>
 					</div>
 				</div>
-				<div class="col-lg-6 col-md-4">
-					<div class="inner">
-						<div class="bradcrumb-thumb">
-							<img src="#" alt="Image">
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -96,15 +89,7 @@
 												<tr>
 													<th scope="row">{{ $order->order_number }}</th>
 													<td>{{ $order->created_at->format('d M Y H:i') }}</td>
-													<td>@if ($order->payment_status == 1)
-															Menunggu Pembayaran
-														@elseif ($order->payment_status == 2)
-															Sudah Dibayar
-														@elseif ($order->payment_status == 5)
-															Bayar Cod
-														@else
-															Kadaluarsa
-														@endif</td>
+													<td>{{$order->payment_status}}</td>
 													<td>{{ formatToRupiah($order->grand_total) }} </td>
 													<td>
 														<a href="{{ route('orders.show', $order->id) }}"

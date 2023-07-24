@@ -1,4 +1,4 @@
-@php use App\Enums\PaymentStatusEnum; @endphp
+@php use App\Enums\OrderStatus; @endphp
 <x-admin.layout>
 
 	<div class="row">
@@ -45,7 +45,7 @@
 										<th>Pelanggan</th>
 										<th>Total Harga</th>
 										<th>Jumlah</th>
-										@if(request()->query("status", "") === PaymentStatusEnum::COMPLETED())
+										@if(request()->query("status", "") === OrderStatus::COMPLETED())
 											<th>Nomor Resi</th>
 										@endif
 										<th>Status</th>
@@ -61,17 +61,17 @@
 											<td>{{$order->user?->name}}</td>
 											<td>{{ formatToRupiah($order->grand_total)}}</td>
 											<td>{{"$order->item_count order"}}</td>
-											@if(request()->query("status", "") === PaymentStatusEnum::COMPLETED())
+											@if(request()->query("status", "") === OrderStatus::COMPLETED())
 												<td>{{$order->tracking_number}}</td>
 											@endif
 											<td>
-												@if($order->status === PaymentStatusEnum::PENDING())
+												@if($order->status === OrderStatus::PENDING())
 													<span class="badge bg-warning">Tertunda</span>
-												@elseif($order->status === PaymentStatusEnum::DECLINE())
+												@elseif($order->status === OrderStatus::DECLINE())
 													<span class="badge bg-danger">Ditolak</span>
-												@elseif($order->status === PaymentStatusEnum::PROCESSING())
+												@elseif($order->status === OrderStatus::PROCESSING())
 													<span class="badge bg-primary">Diproses</span>
-												@elseif($order->status === PaymentStatusEnum::COMPLETED())
+												@elseif($order->status === OrderStatus::COMPLETED())
 													<span class="badge bg-success">Selesai</span>
 											@endif
 											<td>{{$order->created_at}}</td>
@@ -79,7 +79,7 @@
 												<div class="d-grid gap-2 d-md-block">
 													<a href="{{route('admin.orders.show', $order->id)}}"
 													   class="btn btn-primary btn-sm" type="button">Detail</a>
-													@if($order->status === PaymentStatusEnum::PENDING())
+													@if($order->status === OrderStatus::PENDING())
 														<button class="btn btn-success btn-sm btn-accept"
 														        data-id="{{$order->id}}" data-status="processing"
 														        type="button">Terima Pembayaran
@@ -90,7 +90,7 @@
 														</button>
 													@endif
 
-													@if($order->status === PaymentStatusEnum::PROCESSING())
+													@if($order->status === OrderStatus::PROCESSING())
 														<button type="button"
 														        class="btn btn-success btn-sm btn-completed"
 														        data-bs-toggle="modal" data-id="{{$order->id}}"

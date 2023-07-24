@@ -2,7 +2,7 @@
 
 namespace App\Services\Admin;
 
-use App\Enums\PaymentStatusEnum;
+use App\Enums\OrderStatus;
 use App\Enums\TransactionTypeEnum;
 use App\Repositories\OrderItemRepository;
 use App\Repositories\OrderRepository;
@@ -70,7 +70,7 @@ class OrderService extends \Iqbalatma\LaravelServiceRepo\BaseService
             $this->checkData($id);
             DB::beginTransaction();
 
-            if ($status === PaymentStatusEnum::COMPLETED()) {
+            if ($status === OrderStatus::COMPLETED()) {
                 $this->getServiceEntity()->fill([
                     "status" => $status,
                     "tracking_number" => $requestedData["tracking_number"]
@@ -82,7 +82,7 @@ class OrderService extends \Iqbalatma\LaravelServiceRepo\BaseService
                 ])->save();
 
 
-                if ($status === PaymentStatusEnum::DECLINE()) {
+                if ($status === OrderStatus::DECLINE()) {
                     $orderItems = $this->orderItemRepository->getAllData(["order_id" => $this->getServiceEntity()->id]);
 
                     foreach ($orderItems as $key => $orderItem) {

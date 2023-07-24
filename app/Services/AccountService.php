@@ -24,7 +24,7 @@ class AccountService extends \Iqbalatma\LaravelServiceRepo\BaseService
     public function getEditData():array
     {
         return [
-            "orders" => $this->orderRepository->getAllDataPaginated(["user_id" => Auth::id()]),
+            "orders" => $this->orderRepository->orderBy(columns: "created_at", direction: "DESC")->getAllDataPaginated(["user_id" => Auth::id()]),
             "user" => Auth::user()
         ];
     }

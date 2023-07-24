@@ -83,27 +83,4 @@ class AuthController extends Controller
 
         return $redirect;
     }
-
-
-    function changePassword(Request $request)
-    {
-        $request->validate([
-            'password' => ['required', new MatchOldPassword],
-            'newPassword' => ['required'],
-            'confirmNewPassword' => ['same:newPassword'],
-        ]);
-        $name = $request->first_name . ' ' . $request->last_name;
-        User::find(auth()->user()->id)->update(['name' => $name, 'password' => Hash::make($request->newPassword)]);
-
-        return redirect()->back();
-    }
-
-    function account()
-    {
-        $data['orders'] = Order::where('user_id', Auth::user()->id)->get();
-
-        $data['about_us'] = AboutUs::limit(1)->orderBy('created_at', 'DESC')
-            ->get();
-        return view('landingPage.account.index', $data);
-    }
 }

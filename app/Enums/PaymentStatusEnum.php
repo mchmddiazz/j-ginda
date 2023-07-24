@@ -10,8 +10,8 @@ enum PaymentStatusEnum:string
     use InvokableCases;
     use Values;
 
-    case PENDING = "pending";
-    case PROCESSING = "processing";
-    case COMPLETED = "completed";
-    case DECLINE = "decline";
+    case WAITING = "waiting";
+    case PAID= "paid";
+    case COD= "cod";
+    case EXPIRED= "expired";
 }

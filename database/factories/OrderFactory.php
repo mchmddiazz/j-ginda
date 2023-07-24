@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\PaymentStatusEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrderFactory extends Factory
@@ -16,7 +17,7 @@ class OrderFactory extends Factory
         return [
             'number' => $this->faker->randomNumber(8),
             'total_price' => $this->faker->numberBetween(25000, 200000),
-            'payment_status' => 1,
+            'payment_status' => PaymentStatusEnum::PAID(),
         ];
     }
 }

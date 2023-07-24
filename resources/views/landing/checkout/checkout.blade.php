@@ -455,7 +455,7 @@
                     console.log(data);
                     $.ajax({
                         type: "post",
-                        url: "{{url('/checkout/postCheckout')}}",
+                        url: "{{route('checkout.store')}}",
                         data: datax,
                         dataType: "json",
                         cache: false,

@@ -1,4 +1,4 @@
-@php use App\Enums\FinancialTransactionTypeEnum;use App\Enums\PaymentStatusEnum; @endphp
+@php use App\Enums\FinancialTransactionTypeEnum;use App\Enums\OrderStatus; @endphp
 <x-admin.layout>
 
 	<div class="row">
@@ -13,7 +13,8 @@
 					<ul class="nav nav-tabs">
 						<li class="nav-item">
 							<a class="nav-link {{ request()->fullUrl() === route('admin.finance.transactions.index', ['type' => 'all']) || request()->fullUrl() === route('admin.orders.index') ? 'active' : '' }}"
-							   href="{{route('admin.finance.transactions.index', ['type' => 'all'])}}">Semua Transaksi</a>
+							   href="{{route('admin.finance.transactions.index', ['type' => 'all'])}}">Semua
+								Transaksi</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link {{ request()->fullUrl() === route('admin.finance.transactions.index', ['type' => 'credit']) ? 'active' : '' }}"
