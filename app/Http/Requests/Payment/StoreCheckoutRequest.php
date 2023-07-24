@@ -25,7 +25,7 @@ class StoreCheckoutRequest extends FormRequest
     {
         return [
             "is_custom_address" => "",
-            "totalpayment" => "",
+            "totalpayment" => "required",
             "notes" => "",
             "expedisi" => "",
             "weight" => "",

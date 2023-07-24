@@ -77,6 +77,7 @@
 											<thead>
 											<tr>
 												<th scope="col">Order</th>
+												<th scope="col">Nomor Resi</th>
 												<th scope="col">Tanggal</th>
 												<th scope="col">Status</th>
 												<th scope="col">Total Harga</th>
@@ -88,6 +89,7 @@
 											@foreach ($orders as $order)
 												<tr>
 													<th scope="row">{{ $order->order_number }}</th>
+													<th>{{ $order->tracking_number ?? "-" }}</th>
 													<td>{{ $order->created_at->format('d M Y H:i') }}</td>
 													<td>{{$order->payment_status}}</td>
 													<td>{{ formatToRupiah($order->grand_total) }} </td>
