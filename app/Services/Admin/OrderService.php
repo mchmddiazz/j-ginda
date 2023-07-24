@@ -7,18 +7,22 @@ use App\Enums\TransactionTypeEnum;
 use App\Repositories\OrderItemRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
+use App\Repositories\TransactionRepository;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OrderService extends \Iqbalatma\LaravelServiceRepo\BaseService
 {
     protected $repository;
     protected OrderItemRepository $orderItemRepository;
+    protected TransactionRepository $transactionRepository;
 
     public function __construct()
     {
         $this->repository = new OrderRepository();
         $this->orderItemRepository = new OrderItemRepository();
+        $this->transactionRepository = new TransactionRepository();
     }
 
 
@@ -75,15 +79,24 @@ class OrderService extends \Iqbalatma\LaravelServiceRepo\BaseService
                     "status" => $status,
                     "tracking_number" => $requestedData["tracking_number"]
                 ])->save();
-
             } else {
-                $this->getServiceEntity()->fill([
+                $order = $this->getServiceEntity();
+                if($status === "processing"){
+                    $this->transactionRepository->addNewData([
+                        "user_id" => Auth::id(),
+                        "description" => "Penjualan Abon",
+                        "amount" => $order->grand_total,
+                        "type" => "debit",
+                        "order_id" => $order->id
+                    ]);
+                }
+                $order->fill([
                     "status" => $status
                 ])->save();
 
 
                 if ($status === OrderStatus::DECLINE()) {
-                    $orderItems = $this->orderItemRepository->getAllData(["order_id" => $this->getServiceEntity()->id]);
+                    $orderItems = $this->orderItemRepository->getAllData(["order_id" => $order->id]);
 
                     foreach ($orderItems as $key => $orderItem) {
                         $orderItem->product->quantity += $orderItem->quantity;

@@ -28,21 +28,25 @@ class ExpenseService extends \Iqbalatma\LaravelServiceRepo\BaseService
     }
 
 
-
     /**
      * @param array $requestedData
      * @return true[]
      */
-    public function addNewData(array $requestedData):array
+    public function addNewData(array $requestedData): array
     {
         try {
-
+            $latestTransaction = $this->repository->latestTransaction();
+            if($requestedData["type"] === "debit"){
+                $requestedData["saldo"] = $latestTransaction->saldo + $requestedData["amount"];
+            }else{
+                $requestedData["saldo"] = $latestTransaction->saldo - $requestedData["amount"];
+            }
             $this->repository->addNewData($requestedData);
 
             $response = [
                 "success" => true
             ];
-        }catch (Exception $e){
+        } catch (Exception $e) {
             $response = getDefaultErrorResponse($e);
         }
 

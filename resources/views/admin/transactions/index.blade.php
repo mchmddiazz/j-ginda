@@ -34,9 +34,12 @@
 									<thead>
 									<tr>
 										<th>No</th>
+										<th>Deskripsi</th>
+										<th>Order Number</th>
 										<th>User</th>
 										<th>Jumlah Transaksi</th>
 										<th>Tipe</th>
+										<th>Saldo</th>
 										<th>Tanggal</th>
 									</tr>
 									</thead>
@@ -44,6 +47,8 @@
 									@foreach($transactions as $key => $transaction)
 										<tr>
 											<td>{{$transactions->firstItem()+$key}}</td>
+											<td>{{$transaction->description ?? "-"}}</td>
+											<td>{{$transaction->order?->order_number ?? "-"}}</td>
 											<td>{{$transaction?->user->name??"-"}}</td>
 											<td>
 												@if($transaction->type === FinancialTransactionTypeEnum::DEBIT())
@@ -59,6 +64,7 @@
 													<span class="badge bg-danger">Kredit</span>
 												@endif
 											</td>
+											<td>{{$transaction->saldo}}</td>
 											<td>{{$transaction->created_at}}</td>
 										</tr>
 									@endforeach

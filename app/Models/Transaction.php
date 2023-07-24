@@ -10,7 +10,7 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["type", "description", "user_id", "amount"];
+    protected $fillable = ["type", "description", "user_id", "amount", "order_id", "saldo"];
 
 
     /**
@@ -20,4 +20,14 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * @return BelongsTo
+     */
+    public function order():BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+
 }

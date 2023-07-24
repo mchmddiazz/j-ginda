@@ -15,4 +15,12 @@ class TransactionRepository extends \Iqbalatma\LaravelServiceRepo\BaseRepository
         $this->model = new Transaction();
     }
 
+    public function latestTransaction(array $columns = ["*"])
+    {
+        return $this->model
+            ->select($columns)
+            ->orderBy("id", "DESC")
+            ->first();
+    }
+
 }
