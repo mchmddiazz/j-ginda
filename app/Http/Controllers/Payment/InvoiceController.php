@@ -27,7 +27,6 @@ class InvoiceController extends Controller
             'order_items.price',
             'products.name as name_product',
             'order_items.quantity as quantity_item',
-            'products.description as descriptionn',
             'products.priceDisc as price_products'
         )
         ->where('orders.id', $idOrder)
@@ -74,7 +73,6 @@ class InvoiceController extends Controller
             'order_items.price',
             'products.name as name_product',
             'order_items.quantity as quantity_item',
-            'products.description as descriptionn',
             'products.priceDisc as price_products'
         )
         ->where('orders.id', $idOrder)

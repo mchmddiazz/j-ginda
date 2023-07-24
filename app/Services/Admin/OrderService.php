@@ -3,6 +3,7 @@
 namespace App\Services\Admin;
 
 use App\Enums\OrderStatus;
+use App\Enums\PaymentStatusEnum;
 use App\Enums\TransactionTypeEnum;
 use App\Repositories\OrderItemRepository;
 use App\Repositories\OrderRepository;
@@ -82,20 +83,28 @@ class OrderService extends \Iqbalatma\LaravelServiceRepo\BaseService
             } else {
                 $order = $this->getServiceEntity();
                 if($status === "processing"){
+                    $latestTransaction = $this->transactionRepository->latestTransaction();
+
                     $this->transactionRepository->addNewData([
                         "user_id" => Auth::id(),
                         "description" => "Penjualan Abon",
                         "amount" => $order->grand_total,
                         "type" => "debit",
-                        "order_id" => $order->id
+                        "order_id" => $order->id,
+                        "saldo" => $latestTransaction->saldo + $order->grand_total,
                     ]);
-                }
-                $order->fill([
-                    "status" => $status
-                ])->save();
 
+                    $order->fill([
+                        "status" => $status,
+                        "payment_status" => PaymentStatusEnum::PAID()
+                    ])->save();
+                }
 
                 if ($status === OrderStatus::DECLINE()) {
+                    $order->fill([
+                        "status" => $status,
+                        "payment_status" => PaymentStatusEnum::REJECT()
+                    ])->save();
                     $orderItems = $this->orderItemRepository->getAllData(["order_id" => $order->id]);
 
                     foreach ($orderItems as $key => $orderItem) {

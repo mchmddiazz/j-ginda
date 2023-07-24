@@ -79,7 +79,7 @@
 						@method('PATCH')
 						<div class="mb-3">
 							<label for="image" class="form-label">Bukti Pembayaran</label>
-							<input class="form-control" type="file" id="image" name="image">
+							<input class="form-control" type="file" id="image" name="image" required>
 						</div>
 					</form>
 				</div>

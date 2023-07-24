@@ -81,8 +81,8 @@
 												<th scope="col">Tanggal</th>
 												<th scope="col">Status</th>
 												<th scope="col">Total Harga</th>
+												<th scope="col">Invoice</th>
 												<th scope="col">Aksi</th>
-												<th></th>
 											</tr>
 											</thead>
 											<tbody>
@@ -93,24 +93,13 @@
 													<td>{{ $order->created_at->format('d M Y H:i') }}</td>
 													<td>{{$order->payment_status}}</td>
 													<td>{{ formatToRupiah($order->grand_total) }} </td>
+													<td><a href="{{route('orders.generate.invoice', $order->idgit)}}" class="axil-btn view-btn">Invoice</a></td>
 													<td>
 														<a href="{{ route('orders.show', $order->id) }}"
 														   class="axil-btn view-btn">
 															View
 														</a>
 													</td>
-													<td>
-														@if ($order->payment_status == 2)
-															<a href="#" data-id="{{ $order->id }}"
-															   data-order="{{ $order->order_number }}"
-															   class="axil-btn view-btn" id="buton_generate"><i
-																		class="fas fa-download"></i> Invoice</a>
-														@elseif ($order->payment_status == 5)
-															<a href="#" data-id="{{ $order->id }}"
-															   data-order="{{ $order->order_number }}"
-															   class="axil-btn view-btn" id="buton_generate"><i
-																		class="fas fa-download"></i> Invoice</a>
-														@endif    </td>
 												</tr>
 											@endforeach
 											</tbody>

@@ -14,4 +14,5 @@ enum PaymentStatusEnum:string
     case PAID= "paid";
     case COD= "cod";
     case EXPIRED= "expired";
+    case REJECT= "reject";
 }

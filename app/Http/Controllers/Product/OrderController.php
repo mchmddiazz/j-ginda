@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\OrderRepository;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
 use App\Models\Order;
@@ -42,13 +43,24 @@ class OrderController extends Controller
         return response()->view('landing.orders.show');
     }
 
+    public function generateInvoice(int $id)
+    {
+        $order = (new OrderRepository())->getDataById($id);
+        $customPaper = array(0, 0, 650, 1400);
+        $pdf = Pdf::loadView('admin.invoices.index', [
+            'order' => $order
+        ])->setPaper($customPaper, 'portrait');
+
+        return $pdf->stream();
+    }
+
 
     public function update(int $id)
     {
         try {
             $order = (new OrderRepository())->getDataById($id);
 
-            if(!$order){
+            if (!$order) {
                 throw new EmptyDataException();
             }
 
@@ -60,7 +72,7 @@ class OrderController extends Controller
             $response = [
                 "success" => true
             ];
-        }catch (Exception $e){
+        } catch (Exception $e) {
             $response = getDefaultErrorResponse($e);
         }
         if ($this->isError($response)) return $this->getErrorResponse();

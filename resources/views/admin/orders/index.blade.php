@@ -49,6 +49,7 @@
 											<th>Nomor Resi</th>
 										@endif
 										<th>Status</th>
+										<th>Status Pembayaran</th>
 										<th>Bukti Pembayaran</th>
 										<th>Tanggal</th>
 										<th>Aksi</th>
@@ -74,8 +75,11 @@
 													<span class="badge bg-primary">Diproses</span>
 												@elseif($order->status === OrderStatus::COMPLETED())
 													<span class="badge bg-success">Selesai</span>
-											@endif
+												@endif
+											</td>
+											<td>{{$order->payment_status}}</td>
 											<td>
+
 												@if($order->image && $order->image!== '')
 													<a href="{{asset('storage/payments/'.$order->image)}}">
 														<img height="100px"
@@ -110,6 +114,10 @@
 															Kirim Pesanan
 														</button>
 													@endif
+													<a href="{{route('admin.orders.generate.invoice', $order->id)}}"
+													   class="btn btn-info btn-sm btn-generate-invoice"
+													   type="button">Generate Invoice
+													</a>
 												</div>
 											</td>
 										</tr>

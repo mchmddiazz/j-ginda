@@ -19,7 +19,6 @@ use App\Http\Controllers\Product\{
 };
 
 use App\Http\Controllers\Payment\{
-    PaymentCallbackController,
     CheckoutController,
     InvoiceController,
     CheckOngkirController
@@ -113,6 +112,7 @@ Route::prefix('admin')->name("admin.")->middleware("auth")->group(function () {
         Route::get('/transactions', OrderTransactionController::class)->name("transactions")->middleware("permission:".PermissionEnum::ADMIN_ORDER_TRANSACTIONS());
         Route::controller(OrdersController::class)->group(function () {
             Route::get('/', 'index')->name("index")->middleware("permission:".PermissionEnum::ADMIN_ORDERS_INDEX());
+            Route::get('/generate-invoice/{id}', 'generateInvoice')->name("generate.invoice")->middleware("permission:".PermissionEnum::ADMIN_ORDERS_GENERATE_INVOICE());
             Route::get('/{id}', 'show')->name("show")->middleware("permission:".PermissionEnum::ADMIN_ORDERS_SHOW());
             Route::patch('/{id}/{status}', 'updatePaymentStatus')->name("update.payment.status")->middleware("permission:".PermissionEnum::ADMIN_ORDERS_UPDATE());
         });
@@ -171,8 +171,8 @@ Route::middleware("auth")->group(function () {
         Route::get("/", "index")->name("index");
         Route::get("/{order}", "show")->name("show");
         Route::patch("/{id}", "update")->name("update");
+        Route::get("/generate-invoice/{id}", "generateInvoice")->name("generate.invoice");
     });
-    Route::resource('orders', OrderController::class)->only(['index', 'show']);
     // Route::get('/wishlist', [WishlistController::class, 'wishlist'])->name('landingPage.wishlist');
     // Route::post('favorite-add/{id}', [WishlistController::class, 'favoriteAdd'])->name('favorite.add');
     // Route::delete('favorite-remove/{id}', [WishlistController::class, 'favoriteRemove'])->name('favorite.remove');
@@ -188,7 +188,5 @@ Route::middleware("auth")->group(function () {
     Route::prefix('checkout')->name("checkout.")->controller(CheckoutController::class)->group(function () {
         Route::get("/", "create")->name("create");
         Route::post("/", "store")->name("store");
-//        Route::get('/', [CheckoutController::class, 'checkout']);
-//        Route::post('/postCheckout', [CheckoutController::class, 'postCheckout']);
     });
 });

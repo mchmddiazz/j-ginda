@@ -79,7 +79,8 @@ enum PermissionEnum: string
 
     #[Description("can show all data order from admin")] #[FeatureGroup("orders")]
     case ADMIN_ORDERS_INDEX = "admin.orders.index";
-
+    #[Description("can generate invoice data order from admin")] #[FeatureGroup("orders")]
+    case ADMIN_ORDERS_GENERATE_INVOICE = "admin.orders.generate.invoice";
     #[Description("can show data order by id from admin")] #[FeatureGroup("orders")]
     case ADMIN_ORDERS_SHOW = "admin.orders.show";
 
