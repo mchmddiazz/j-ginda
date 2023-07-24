@@ -24,7 +24,12 @@ class StoreCheckoutRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "is_custom_address" => "",
+            "totalpayment" => "",
+            "notes" => "",
+            "expedisi" => "",
+            "weight" => "",
+            "ongkir" => ""
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\OrderStatus;
 use App\Enums\PaymentStatusEnum;
 use App\Models\ProvinceSecond;
 use App\Repositories\OrderItemRepository;
@@ -11,6 +12,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Iqbalatma\LaravelServiceRepo\BaseService;
+use Cart;
 
 class CheckoutService extends BaseService
 {
@@ -44,41 +46,31 @@ class CheckoutService extends BaseService
     {
         try {
             DB::beginTransaction();
-            if ($requestedData["alamat2"] == "no" || $requestedData["alamat2"] == null) {
-                $address = $requestedData["address"];
-                $address2 = $requestedData["address2"];
-                $province_id = $requestedData["province_id"];
-                $regency_id = $requestedData["regency_id"];
-                $post_code = $requestedData["post_code"];
-                $phone_number = $requestedData["phone_number"];
-                $email = $requestedData["email"];
-            } else if ($requestedData["alamat2"] == "yes") {
-                $address = $requestedData["address1"];
-                $address2 = $requestedData["address22"];
-                $province_id = $requestedData["province_id2"];
-                $regency_id = $requestedData["regency_id2"];
-                $post_code = $requestedData["post_code2"];
-                $phone_number = $requestedData["phone_number2"];
-                $email = $requestedData["email2"];
-            }
+            $address = null;
+            $city_id = null;
+            $province_id = null;
+            $postal_code = null;
+            $phone_number = null;
 
+            if(isset($requestedData["is_custom_address"]) && $requestedData["is_custom_address"]==true){
+                $address = $requestedData["address"];
+                $city_id = $requestedData["city_id"];
+                $province_id = $requestedData["province_id"];
+                $postal_code = $requestedData["postal_code"];
+                $phone_number = $requestedData["phone_number"];
+            }
 
             $order = $this->repository->addNewData([
                 'order_number' => 'ORD-' . strtoupper(uniqid()),
                 'user_id' => Auth::id(),
-                'status' => 'pending',
+                'status' => OrderStatus::PENDING(),
                 'grand_total' => $requestedData["totalpayment"],
                 'item_count' => Cart::session(Auth::user()->id)->getTotalQuantity(),
                 'payment_status' => PaymentStatusEnum::WAITING(),
-                'first_name' => $requestedData["first_name"],
-                'last_name' => $requestedData["last_name"],
-                'email' => $email,
-                'company' => $requestedData["company"],
                 'address' => $address,
-                'address2' => $address2,
                 'province_id' => $province_id,
-                'regency_id' => $regency_id,
-                'post_code' => $post_code,
+                'city_id' => $city_id,
+                'postal_code' => $postal_code,
                 'phone_number' => $phone_number,
                 'notes' => $requestedData["notes"],
                 'expedisi' => $requestedData["expedisi"],

@@ -2,6 +2,7 @@
 	<!-- Start Checkout Area  -->
 	<div class="axil-checkout-area axil-section-gap">
 		<div class="container">
+			<x-admin.alert></x-admin.alert>
 			<form id="data-master" method="POST" action="{{ route('checkout.store') }}">
 				@csrf
 				<div class="row">
@@ -18,7 +19,7 @@
 								<div class="col-lg-12">
 									<div class="form-group">
 										<label>Nama Depan <span>*</span></label>
-										<input type="text"  id="name" value="{{ $user->name }}" disabled>
+										<input type="text" id="name" value="{{ $user->name }}" disabled>
 									</div>
 								</div>
 							</div>
@@ -26,20 +27,15 @@
 								<div class="row">
 									<div class="col-lg-6">
 										<div class="form-group">
-											<label>Provinsi</label>
-											<select id="province" name="province">
-												<option value="-" selected disabled>Pilih Salah Satu</option>
-												@foreach ($provinces as $province => $value)
-													<option value="{{ $province  }}">{{ $value }}</option>
-												@endforeach
-											</select>
+											<label>Nama Province <span>*</span></label>
+											<input type="text" id="province_id"
+											       value="{{ $user->city->province->name }}" disabled>
 										</div>
 									</div>
 									<div class="col-lg-6">
 										<div class="form-group">
-											<label class="form-label">Kota / Kabupaten</label>
-											<select name="regency_id" id="regency">
-											</select>
+											<label>Nama Kabupaten/Kota <span>*</span></label>
+											<input type="text" id="city_id" name="city_id" value="{{ $user->city->name }}" disabled>
 										</div>
 									</div>
 								</div>
@@ -62,7 +58,8 @@
 								</div>
 								<div class="form-group">
 									<label>Alamat <span>*</span></label>
-									<input type="text" id="address1" class="mb--15" value="{{ $user->address }}" disabled>
+									<input type="text" id="address1" class="mb--15" value="{{ $user->address }}"
+									       disabled>
 								</div>
 								<div class="form-group">
 									<label>Kode Pos <span>*</span></label>
@@ -76,7 +73,8 @@
 							<div class="form-group different-shippng">
 								<div class="toggle-bar">
 									<a href="javascript:void(0)" class="toggle-btn">
-										<input type="checkbox" id="is_custom_address" name="is_custom_address" value="1">
+										<input type="checkbox" id="is_custom_address" name="is_custom_address"
+										       value="1">
 										<label for="is_custom_address">Kirim ke alamat yang berbeda ?</label>
 									</a>
 								</div>
@@ -224,35 +222,22 @@
                 });
 
 
-                $(document).on('change', '#province', function () {
-                    let id = $(this).val();
-                    $.ajax({
-                        type: "get",
-                        url: `{{url('/getKabupaten')}}/${id}`,
-                        dataType: "json",
-                        success: function (response) {
-                            $("#regency").html(response.res);
-                        }
-                    });
-                });
-
-                $(document).on('change', '#province2', function () {
-                    let id = $(this).val();
-                    $.ajax({
-                        type: "get",
-                        url: `{{url('/getKabupaten')}}/${id}`,
-                        dataType: "json",
-                        success: function (response) {
-                            $("#regency2").html(response.res);
-                        }
-                    });
-                });
+				{{--$(document).on('change', '#province2', function () {--}}
+				{{--    let id = $(this).val();--}}
+				{{--    $.ajax({--}}
+				{{--        type: "get",--}}
+				{{--        url: `{{url('/getKabupaten')}}/${id}`,--}}
+				{{--        dataType: "json",--}}
+				{{--        success: function (response) {--}}
+				{{--            $("#regency2").html(response.res);--}}
+				{{--        }--}}
+				{{--    });--}}
+				{{--});--}}
 
 
                 $('select[name="kurir"]').on('change', function () {
                     let token = $("meta[name='csrf-token']").attr("content");
-                    let origin = $("select[name=province_id]").val();
-                    let destination = $("select[name=regency_id]").val();
+                    let destination = $("select[name=city_id]").val();
                     let courier = $("select[name=kurir]").val();
                     let weight = $("input[name=weight]").val();
 
@@ -262,8 +247,8 @@
                             url: "{{ url('/ongkir') }}",
                             data: {
                                 _token: token,
-                                city_origin: origin,
-                                city_destination: destination,
+                                city_origin: 63, //bandung
+                                city_destination: 5, //todo: dummy, change to destination
                                 courier: courier,
                                 weight: weight,
                             },
@@ -283,6 +268,11 @@
                                 });
                             },
                             error: function (error) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal',
+                                    text: 'Kota tujuan tidak didukung ekspedisi !',
+                                });
                                 console.log(error);
                             }
                         });
@@ -310,70 +300,69 @@
                             $("#ongkirValue").val(response.ongkirPayment);
                         }
                     });
-
                 });
 
-                $('select[name="layanan2"]').on('change', function () {
-                    let token = $("meta[name='csrf-token']").attr("content");
-                    let layanan = $("select[name=layanan2]").val();
+                {{--$('select[name="layanan2"]').on('change', function () {--}}
+                {{--    let token = $("meta[name='csrf-token']").attr("content");--}}
+                {{--    let layanan = $("select[name=layanan2]").val();--}}
 
-                    jQuery.ajax({
-                        url: "{{ url('/getTotalOngkir') }}",
-                        data: {
-                            _token: token,
-                            layanan: layanan
-                        },
-                        type: 'POST',
-                        dataType: 'json',
-                        success: function (response) {
-                            $(".ongkir").html(response.ongkir);
-                            $(".totalKirim").html(response.totalKirim);
-                            $("#totalpayment").val(response.totalpayment);
-                            $("#ongkirValue").val(response.ongkirPayment);
-                        }
-                    });
+                {{--    jQuery.ajax({--}}
+                {{--        url: "{{ url('/getTotalOngkir') }}",--}}
+                {{--        data: {--}}
+                {{--            _token: token,--}}
+                {{--            layanan: layanan--}}
+                {{--        },--}}
+                {{--        type: 'POST',--}}
+                {{--        dataType: 'json',--}}
+                {{--        success: function (response) {--}}
+                {{--            $(".ongkir").html(response.ongkir);--}}
+                {{--            $(".totalKirim").html(response.totalKirim);--}}
+                {{--            $("#totalpayment").val(response.totalpayment);--}}
+                {{--            $("#ongkirValue").val(response.ongkirPayment);--}}
+                {{--        }--}}
+                {{--    });--}}
 
-                });
+                {{--});--}}
 
-                $('select[name="kurir2"]').on('change', function () {
-                    let token = $("meta[name='csrf-token']").attr("content");
-                    let origin = $("select[name=province_id2]").val();
-                    let destination = $("select[name=regency_id2]").val();
-                    let courier = $("select[name=kurir2]").val();
-                    let weight = $("input[name=weight]").val();
+                {{--$('select[name="kurir2"]').on('change', function () {--}}
+                {{--    let token = $("meta[name='csrf-token']").attr("content");--}}
+                {{--    let origin = $("select[name=province_id2]").val();--}}
+                {{--    let destination = $("select[name=regency_id2]").val();--}}
+                {{--    let courier = $("select[name=kurir2]").val();--}}
+                {{--    let weight = $("input[name=weight]").val();--}}
 
-                    if (courier) {
-                        jQuery.ajax({
-                            url: "{{ url('/ongkir') }}",
-                            data: {
-                                _token: token,
-                                city_origin: origin,
-                                city_destination: destination,
-                                courier: courier,
-                                weight: weight,
-                            },
-                            type: 'POST',
-                            dataType: 'json',
-                            success: function (response) {
-                                $('select[name="layanan2"]').empty();
-                                $.each(response[0]['costs'], function (key, value) {
-                                    $('select[name="layanan2"]')
-                                        .append('<option value="' +
-                                            value.cost[0].value + '">' + response[0].code.toUpperCase() + ':' + ' ' + value.service + ' ' + '-' + ' ' + 'Rp ' + ' ' + ' ' + value.cost[0].value + ' ' + '-' + ' ' +
-                                            value.cost[0].etd + ' ' + 'Hari' +
-                                            '</option>')
-                                    $('select[name="layanan2"]').change();
-                                    $("#expedisi").val(response[0].code.toUpperCase());
-                                });
-                            },
-                            error(error) {
-                                console.log(error);
-                            }
-                        });
-                    } else {
-                        $('select[name="layanan2"]').empty();
-                    }
-                });
+                {{--    if (courier) {--}}
+                {{--        jQuery.ajax({--}}
+                {{--            url: "{{ url('/ongkir') }}",--}}
+                {{--            data: {--}}
+                {{--                _token: token,--}}
+                {{--                city_origin: origin,--}}
+                {{--                city_destination: destination,--}}
+                {{--                courier: courier,--}}
+                {{--                weight: weight,--}}
+                {{--            },--}}
+                {{--            type: 'POST',--}}
+                {{--            dataType: 'json',--}}
+                {{--            success: function (response) {--}}
+                {{--                $('select[name="layanan2"]').empty();--}}
+                {{--                $.each(response[0]['costs'], function (key, value) {--}}
+                {{--                    $('select[name="layanan2"]')--}}
+                {{--                        .append('<option value="' +--}}
+                {{--                            value.cost[0].value + '">' + response[0].code.toUpperCase() + ':' + ' ' + value.service + ' ' + '-' + ' ' + 'Rp ' + ' ' + ' ' + value.cost[0].value + ' ' + '-' + ' ' +--}}
+                {{--                            value.cost[0].etd + ' ' + 'Hari' +--}}
+                {{--                            '</option>')--}}
+                {{--                    $('select[name="layanan2"]').change();--}}
+                {{--                    $("#expedisi").val(response[0].code.toUpperCase());--}}
+                {{--                });--}}
+                {{--            },--}}
+                {{--            error(error) {--}}
+                {{--                console.log(error);--}}
+                {{--            }--}}
+                {{--        });--}}
+                {{--    } else {--}}
+                {{--        $('select[name="layanan2"]').empty();--}}
+                {{--    }--}}
+                {{--});--}}
 
 				{{--$('#data-master').on('submit', function (e) {--}}
 				{{--    e.preventDefault();--}}
@@ -441,12 +430,9 @@
 				{{--});--}}
 
                 $('#is_custom_address').change(function () {
-                    console.log("tes");
                     if (this.checked) {
-                        // $("#alamat2").val('yes');
                         $('.a1').hide();
                     } else {
-                        // $("#alamat2").val('no');
                         $('.a1').show();
                     }
                 });

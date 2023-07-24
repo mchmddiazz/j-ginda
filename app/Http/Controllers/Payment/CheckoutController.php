@@ -28,9 +28,13 @@ class CheckoutController extends Controller
         return response()->view("landing.checkout.checkout");
     }
 
+    /**
+     * @param CheckoutService $service
+     * @param StoreCheckoutRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(CheckoutService $service, StoreCheckoutRequest $request)
     {
-        dd($request->all());
         $response = $service->checkout($request->validated());
         if ($this->isError($response)) return $this->getErrorResponse();
 

@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Auth; @endphp
 <x-admin.layout>
 
 	<div class="row">
@@ -11,16 +12,16 @@
 					<div class="p-4">
 						<div class="row g-3">
 							<h4>Pesanan</h4>
-							<div class="col-md-4">
+							<div class="col-md-6">
 								<label class="form-label">Order Number</label>
 								<input type="text" class="form-control" readonly value="{{$order->order_number}}">
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-6">
 								<label class="form-label">Total Harga Pesanan</label>
 								<input type="text" class="form-control" readonly
 								       value="{{ formatToRupiah($order->grand_total) }}">
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-6">
 								<label class="form-label">Jumlah Item Pesanan</label>
 								<input type="text" class="form-control" readonly value="{{ $order->item_count }}">
 							</div>
@@ -28,34 +29,32 @@
 								<label class="form-label">Status Pembayaran</label>
 								<input type="text" class="form-control" readonly value="{{ ucwords($order->status)}}">
 							</div>
-							<div class="col-md-6">
-								<label class="form-label">Metode Pembayaran</label>
-								<input type="text" class="form-control" readonly
-								       value="{{ $order->payment_method ?? "-" }}">
-							</div>
 							<hr>
 							<h4>Informasi Pembeli</h4>
-							<div class="col-md-6">
-								<label class="form-label">Nama Depan</label>
+							<div class="col-md-4">
+								<label class="form-label">Nama</label>
 								<input type="text" class="form-control" readonly
-								       value="{{ $order->first_name ?? "-" }}">
-							</div>
-							<div class="col-md-6">
-								<label class="form-label">Nama Belakang</label>
-								<input type="text" class="form-control" readonly value="{{ $order->last_name ?? "-" }}">
+								       @if($order->is_custom_address)
+									       value="{{ $order->name ?? "-" }}"
+								       @else
+									       value="{{ Auth::user()->name ?? "-" }}"
+										@endif
+								>
 							</div>
 							<div class="col-md-4">
 								<label class="form-label">Email</label>
-								<input type="text" class="form-control" readonly value="{{ $order->email }}">
+								<input type="text" class="form-control" readonly
+								       value="{{ Auth::user()->email ?? "-" }}">
 							</div>
 							<div class="col-md-4">
 								<label class="form-label">Nomor HP</label>
 								<input type="text" class="form-control" readonly
-								       value="{{ $order->phone_number ?? "-" }}">
-							</div>
-							<div class="col-md-4">
-								<label class="form-label">Perusahaan</label>
-								<input type="text" class="form-control" readonly value="{{ $order->company ?? "-" }}">
+								       @if($order->is_custom_address)
+									       value="{{ $order->phone_number ?? "-" }}"
+								       @else
+									       value="{{ Auth::user()->phone_number ?? "-" }}"
+										@endif
+								>
 							</div>
 							<hr>
 
@@ -63,24 +62,36 @@
 							<div class="col-md-4">
 								<label class="form-label">Provinsi</label>
 								<input type="text" class="form-control" readonly
-								       value="{{ $order->province?->name ?? "-" }}">
+								       @if($order->is_custom_address)
+									       value="{{ $order->city?->province?->name ?? "-" }}"
+								       @else
+									       value="{{ Auth::user()->city?->province?->name ?? "-" }}"
+										@endif
+								>
 							</div>
 							<div class="col-md-4">
 								<label class="form-label">Kabupaten/Kota</label>
 								<input type="text" class="form-control" readonly
-								       value="{{ $order->city?->name ?? "-" }}">
+								       @if($order->is_custom_address)
+									       value="{{ $order->city?->name ?? "-" }}"
+								       @else
+									       value="{{ Auth::user()->city?->name ?? "-" }}"
+										@endif
+								>
 							</div>
 							<div class="col-md-4">
 								<label class="form-label">Kode Post</label>
-								<input type="text" class="form-control" readonly value="{{ $order->post_code ?? "-" }}">
+								<input type="text" class="form-control" readonly
+								       @if($order->is_custom_address)
+									       value="{{ $order->postal_code ?? "-" }}"
+								       @else
+									       value="{{ Auth::user()->postal_code ?? "-" }}"
+										@endif
+								>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<label class="form-label">Alamat</label>
-								<textarea class="form-control" readonly>{{$order->address}}</textarea>
-							</div>
-							<div class="col-md-6">
-								<label class="form-label">Alamat 2</label>
-								<textarea class="form-control" readonly>{{$order->address2}}</textarea>
+								<textarea class="form-control" readonly>  @if($order->is_custom_address){{ $order->address?? "-" }} @else {{Auth::user()->address}}@endif</textarea>
 							</div>
 							<hr>
 							<h4>Ekspedisi Pengiriman</h4>

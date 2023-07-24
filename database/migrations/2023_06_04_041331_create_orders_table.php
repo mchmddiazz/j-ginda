@@ -28,8 +28,9 @@ class CreateOrdersTable extends Migration
             $table->double("ongkir")->default(0);
             $table->integer("weight")->default(0);
             $table->unsignedInteger("province_id")->nullable();
-            $table->unsignedInteger("regency_id")->nullable();
-            $table->string("post_code")->nullable();
+            $table->unsignedInteger("city_id")->nullable();
+            $table->string("postal_code")->nullable();
+            $table->string('phone_number')->nullable();
             $table->text('address')->nullable();
             $table->text('notes')->nullable();
             $table->string("expedisi")->nullable();
