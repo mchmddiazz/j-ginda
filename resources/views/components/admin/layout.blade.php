@@ -25,6 +25,7 @@
 {{--	<link rel="stylesheet" href="{{ asset('admin/') }}/vendor/swiper/css/swiper-bundle.min.css">--}}
 {{--	<link rel="stylesheet" href="{{ asset('admin/') }}/vendor/dotted-map/css/contrib/jquery.smallipop-0.3.0.min.css"--}}
 {{--	      type="text/css" media="all"/>--}}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link href="{{ asset('admin/') }}/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"
 	      rel="stylesheet">
 

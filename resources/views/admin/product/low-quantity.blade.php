@@ -14,7 +14,7 @@
 								<div class="table-responsive">
 									<form action="{{route('admin.request.production.store')}}" method="POST">
 										@csrf
-										@can(PermissionEnum::ADMIN_REQUEST_PRODUCTION_STORE())
+										@can(PermissionEnum::ADMIN_REQUEST_PRODUCTIONS_STORE())
 											<div class="d-grid gap-2 d-md-block">
 												<button class="btn btn-info" type="reset">Reset</button>
 												<button class="btn btn-primary" type="submit">Simpan</button>
@@ -23,7 +23,7 @@
 										<table class="table">
 											<thead>
 											<tr>
-												@can(PermissionEnum::ADMIN_REQUEST_PRODUCTION_STORE())
+												@can(PermissionEnum::ADMIN_REQUEST_PRODUCTIONS_STORE())
 													<th scope="col">Request Produksi</th>
 												@endcan
 												<th scope="col">Nama Produk</th>
@@ -36,7 +36,7 @@
 											<tbody>
 											@foreach($products as $key => $product)
 												<tr>
-													@can(PermissionEnum::ADMIN_REQUEST_PRODUCTION_STORE())
+													@can(PermissionEnum::ADMIN_REQUEST_PRODUCTIONS_STORE())
 														<td>
 															<div class="d-grid gap-2 d-md-block">
 																<input class="form-check-input request-production-id"

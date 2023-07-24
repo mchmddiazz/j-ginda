@@ -166,7 +166,7 @@
 
 						@can(PermissionEnum::ADMIN_EXPENSES_CREATE())
 							<li><a href="{{ route('admin.expenses.create') }}"
-							       class="{{ request()->is(route('admin.expenses.create')) ? 'active' : '' }}">Pengeluaran/Pemasukan</a>
+							       class="{{ request()->is(route('admin.expenses.create')) ? 'active' : '' }}">Pengeluaran</a>
 							</li>
 						@endcan
 					</ul>
