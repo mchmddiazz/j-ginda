@@ -49,6 +49,7 @@
 											<th>Nomor Resi</th>
 										@endif
 										<th>Status</th>
+										<th>Bukti Pembayaran</th>
 										<th>Tanggal</th>
 										<th>Aksi</th>
 									</tr>
@@ -74,6 +75,16 @@
 												@elseif($order->status === OrderStatus::COMPLETED())
 													<span class="badge bg-success">Selesai</span>
 											@endif
+											<td>
+												@if($order->image && $order->image!== '')
+													<a href="{{asset('storage/payments/'.$order->image)}}">
+														<img height="100px"
+														     src="{{asset('storage/payments/'.$order->image)}}">
+													</a>
+												@else
+													Belum Bayar
+												@endif
+											</td>
 											<td>{{$order->created_at}}</td>
 											<td>
 												<div class="d-grid gap-2 d-md-block">
