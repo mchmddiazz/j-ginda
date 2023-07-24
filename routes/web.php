@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\PermissionEnum;
+use App\Http\Controllers\AccountController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\{
@@ -54,7 +55,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/authenticate', 'authenticate')->name("authenticate");
     Route::get('/registration', 'showRegistration')->name('show.registration');
     Route::post('/registration', 'registration')->name("registration");
-    Route::get('/logout', 'logout');
+    Route::get('/logout', 'logout')->name("logout");
 });
 
 
@@ -171,13 +172,17 @@ Route::middleware("auth")->group(function () {
     // Route::post('favorite-add/{id}', [WishlistController::class, 'favoriteAdd'])->name('favorite.add');
     // Route::delete('favorite-remove/{id}', [WishlistController::class, 'favoriteRemove'])->name('favorite.remove');
 
-    Route::prefix('account')->group(function () {
-        Route::get('/', [AuthController::class, 'account']);
-        Route::post('change-password', [AuthController::class, 'changePassword'])->name('change.password');
+    Route::prefix('account')->name("account.")->controller(AccountController::class)->group(function () {
+        Route::get('/', 'edit')->name('edit');
+        Route::patch('/', 'update')->name('update');
         Route::get('/invoice/generate/{idOrder}', [InvoiceController::class, 'generate']);
-
     });
 
+//    Route::prefix('account')->group(function () {
+//        Route::get('/', [AuthController::class, 'account']);
+//        Route::post('change-password', [AuthController::class, 'changePassword'])->name('change.password');
+//        Route::get('/invoice/generate/{idOrder}', [InvoiceController::class, 'generate']);
+//    });
 
     Route::prefix('checkout')->name("checkout.")->controller(CheckoutController::class)->group(function () {
         Route::get("/", "create")->name("create");

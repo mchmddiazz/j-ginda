@@ -71,7 +71,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    function logout(Request $request):RedirectResponse
+    public function logout(Request $request):RedirectResponse
     {
         $redirect = Auth::user()->hasRole("user") ? redirect()->route("login") : redirect()->route("admin.login");
 
