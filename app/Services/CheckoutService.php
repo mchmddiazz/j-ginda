@@ -100,7 +100,7 @@ class CheckoutService extends BaseService
             \Cart::session(Auth::user()->id)->clear();
 
             DB::commit();
-            $response = ["success" => true];
+            $response = ["success" => true, "order_id" => $order->id];
         } catch (Exception $e) {
             DB::rollBack();
             $response = getDefaultErrorResponse($e);

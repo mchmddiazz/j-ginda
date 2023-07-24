@@ -31,6 +31,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger("city_id")->nullable();
             $table->string("postal_code")->nullable();
             $table->string('phone_number')->nullable();
+            $table->string('image')->nullable();
             $table->text('address')->nullable();
             $table->text('notes')->nullable();
             $table->string("expedisi")->nullable();

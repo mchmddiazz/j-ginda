@@ -3,11 +3,18 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\OrderRepository;
+use Exception;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Services\Midtrans\CreateSnapTokenService;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Models\AboutUs;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Iqbalatma\LaravelServiceRepo\Exceptions\EmptyDataException;
+
 class OrderController extends Controller
 {
     /**
@@ -15,36 +22,49 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): Response
     {
-        $orders = Order::where('user_id', Auth::user()->id)->get();
-
-        $about_us = AboutUs::limit(1)->orderBy('created_at', 'DESC')->get();
-        return view('landingPage.orders.index', compact('orders', 'about_us'));
+        $orders = (new OrderRepository())->getAllData(["user_id" => Auth::id()]);
+        viewShare(["orders" => $orders]);
+        return response()->view('landing.orders.index');
     }
 
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function show(Order $order): Response
     {
-        $snapToken = $order->snap_token;
-        if (is_null($snapToken)) {
-            // Jika snap token masih NULL, buat token snap dan simpan ke database
-
-            $midtrans = new CreateSnapTokenService($order);
-            $snapToken = $midtrans->getSnapToken();
-
-            $order->snap_token = $snapToken;
-            $order->save();
-        }
-
-        $about_us = AboutUs::limit(1)->orderBy('created_at', 'DESC')->get();
-        return view('landingPage.orders.show', compact('order', 'snapToken', 'about_us'));
+        viewShare(["order" => $order]);
+        return response()->view('landing.orders.show');
     }
 
+
+    public function update(int $id)
+    {
+        try {
+            $order = (new OrderRepository())->getDataById($id);
+
+            if(!$order){
+                throw new EmptyDataException();
+            }
+
+            $file = request()->file("image");
+            $requestedData["image"] = Str::random(10) . $file->getClientOriginalName();
+            Storage::putFileAs("public/payments", $file, $requestedData["image"]);
+
+            $order->fill($requestedData)->save();
+            $response = [
+                "success" => true
+            ];
+        }catch (Exception $e){
+            $response = getDefaultErrorResponse($e);
+        }
+        if ($this->isError($response)) return $this->getErrorResponse();
+
+        return redirect()->route("orders.index")->with("success", ucfirst("Tambah payment berhasil !"));
+    }
 }

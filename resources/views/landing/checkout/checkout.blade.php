@@ -42,7 +42,7 @@
 								<div class="form-group">
 									<label>Pilih Ekspedisi</label>
 									<select name="kurir" id="kurir" oninput="setCustomValidity('')"
-									        oninvalid="this.setCustomValidity('Mohon Masukan kurir')">
+									        oninvalid="this.setCustomValidity('Mohon Masukan kurir')" required>
 										<option value="">Pilih kurir</option>
 										<option value="jne">JNE</option>
 										<option value="tiki">TIKI</option>
@@ -71,13 +71,13 @@
 								</div>
 							</div>
 							<div class="form-group different-shippng">
-								<div class="toggle-bar">
-									<a href="javascript:void(0)" class="toggle-btn">
-										<input type="checkbox" id="is_custom_address" name="is_custom_address"
-										       value="1">
-										<label for="is_custom_address">Kirim ke alamat yang berbeda ?</label>
-									</a>
-								</div>
+{{--								<div class="toggle-bar">--}}
+{{--									<a href="javascript:void(0)" class="toggle-btn">--}}
+{{--										<input type="checkbox" id="is_custom_address" name="is_custom_address"--}}
+{{--										       value="1">--}}
+{{--										<label for="is_custom_address">Kirim ke alamat yang berbeda ?</label>--}}
+{{--									</a>--}}
+{{--								</div>--}}
 								<div class="toggle-open">
 									<div class="row">
 										<div class="col-lg-6">
@@ -185,7 +185,6 @@
 							<input type="hidden" name="totalpayment" value="" id="totalpayment">
 							<input type="hidden" name="ongkir" value="" id="ongkirValue">
 							<input type="hidden" name="weight" value="{{ $weight }}" id="weight">
-
 							<button type="submit" class="axil-btn btn-bg-primary checkout-btn">
 								Checkout
 							</button>

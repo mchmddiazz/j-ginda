@@ -38,7 +38,7 @@ class CheckoutController extends Controller
         $response = $service->checkout($request->validated());
         if ($this->isError($response)) return $this->getErrorResponse();
 
-        return redirect()->route("account.edit")->with("success", ucfirst("Checkout berhasil silahkan lakukan pembayaran !"));
+        return redirect()->route("orders.show", $response["order_id"])->with("success", ucfirst("Checkout berhasil silahkan lakukan pembayaran !"));
     }
 //    function checkout2()
 //    {

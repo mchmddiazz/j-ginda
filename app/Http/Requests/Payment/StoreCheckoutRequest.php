@@ -29,7 +29,7 @@ class StoreCheckoutRequest extends FormRequest
             "notes" => "",
             "expedisi" => "",
             "weight" => "",
-            "ongkir" => ""
+            "ongkir" => "required"
         ];
     }
 }

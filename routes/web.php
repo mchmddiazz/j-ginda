@@ -167,6 +167,11 @@ Route::prefix('admin')->name("admin.")->middleware("auth")->group(function () {
 
 
 Route::middleware("auth")->group(function () {
+    Route::prefix("orders")->name("orders.")->controller(OrderController::class)->group(function (){
+        Route::get("/", "index")->name("index");
+        Route::get("/{order}", "show")->name("show");
+        Route::patch("/{id}", "update")->name("update");
+    });
     Route::resource('orders', OrderController::class)->only(['index', 'show']);
     // Route::get('/wishlist', [WishlistController::class, 'wishlist'])->name('landingPage.wishlist');
     // Route::post('favorite-add/{id}', [WishlistController::class, 'favoriteAdd'])->name('favorite.add');
