@@ -2,7 +2,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Invoice</title>
+	<title>Laporan Keuangan</title>
 	<style>
         * {
             border: 0;
@@ -25,6 +25,10 @@
             letter-spacing: 0.5em;
             text-align: center;
             text-transform: uppercase;
+        }
+
+        body{
+	        padding-top: 2rem;
         }
 
         table {
@@ -62,250 +66,67 @@
             border-color: #DDD;
         }
 
-        /* page */
-
-        html {
-            font: 16px/1 'Open Sans', sans-serif;
-            overflow: auto;
-            padding: 0.5in;
+        .transaksi {
+            padding: 3rem;
         }
-
-        html {
-            background: #999;
-            cursor: default;
-        }
-
-        body {
-            box-sizing: border-box;
-            height: 11in;
-            margin: 0 auto;
-            overflow: hidden;
-            padding: 0.5in;
-            width: 8.5in;
-        }
-
-        body {
-            background: #FFF;
-            border-radius: 1px;
-            box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
-        }
-
-        header {
-            margin: 0 0 3em;
-        }
-
-        header:after {
-            clear: both;
-            content: "";
-            display: table;
-        }
-
-        header h1 {
-            background: #000;
-            border-radius: 0.25em;
-            color: #FFF;
-            margin: 0 0 1em;
-            padding: 0.5em 0;
-        }
-
-        header address {
-            float: left;
-            font-size: 75%;
-            font-style: normal;
-            line-height: 1.25;
-            margin: 0 1em 1em 0;
-        }
-
-        header address p {
-            margin: 0 0 0.25em;
-        }
-
-        header span {
-            margin: 0 0 1em 1em;
-            max-height: 25%;
-            max-width: 60%;
-            position: relative;
-        }
-
-        header span,
-
-        article,
-        article address,
-        table.meta,
-        table.inventory {
-            margin: 0 0 3em;
-        }
-
-        article:after {
-            clear: both;
-            content: "";
-            display: table;
-        }
-
-        article address {
-            float: left;
-            font-size: 125%;
-            font-weight: bold;
-        }
-
-
-        table.meta,
-        table.inventory {
-            margin: 0 0 3em;
-        }
-
-        table.meta,
-        table.balance {
-            float: right;
-            width: 36%;
-        }
-
-        table.meta:after,
-        table.balance:after {
-            clear: both;
-            content: "";
-            display: table;
-        }
-
-
-        table.meta th {
-            width: 40%;
-        }
-
-        table.meta td {
-            width: 60%;
-        }
-
-
-        table.inventory {
-            clear: both;
-            width: 100%;
-        }
-
-        table.inventory th {
-            font-weight: bold;
-            text-align: center;
-        }
-
-        table.inventory td:nth-child(1) {
-            width: 26%;
-        }
-
-        table.inventory td:nth-child(2) {
-            width: 26%;
-        }
-
-        table.inventory td:nth-child(3) {
-            text-align: right;
-            width: 12%;
-        }
-
-        table.inventory td:nth-child(4) {
-            text-align: right;
-            width: 12%;
-        }
-
-
-        table.balance th,
-        table.balance td {
-            width: 50%;
-        }
-
-        table.balance td {
-            text-align: right;
-        }
-
-        /* aside */
-
-        aside h1 {
-            border: none;
-            border-width: 0 0 1px;
-            margin: 0 0 1em;
-        }
-
-        aside h1 {
-            border-color: #999;
-            border-bottom-style: solid;
-        }
-
-
 	</style>
 </head>
 
 
 <body>
 <header>
-	<h1>Invoice</h1>
+	<h1 style="padding-top: 5rem">Laporan Keuangan</h1>
 	<address>
-		<p>{{ $order->user?->name }}</p>
-		@if($order->is_custom_address)
-			<p>{{ $order->addres }}</p>
-			<p>{{ $order->phone_number }}</p>
-		@else
-			<p>{{ $order->user?->address }}</p>
-			<p>{{ $order->user?->phone }}</p>
-		@endif
+
 	</address>
 
 	<article>
-		<table class="meta">
-			<tr>
-				<th><span>Invoice #</span></th>
-				<td><span>{{ $order->order_number }}</span></td>
-			</tr>
-			<tr>
-				<th><span>Tanggal</span></th>
-				<td><span>{{ $order->created_at->format('d M Y H:i') }}</span></td>
-			</tr>
-			<tr>
-				<th><span>Jasa Pengiriman</span></th>
-				<td><span>{{ $order->expedisi }}</span></td>
-			</tr>
-			<tr>
-				<th><span>Total Berat</span></th>
-				<td><span>{{ $order->weight }} Gram</span></td>
-			</tr>
-			@if ($order->tracking_number)
-				<tr>
-					<th><span>Resi</span></th>
-					<td><span>{{ $order->tracking_number }} Gram</span></td>
-				</tr>
-			@endif
-		</table>
-		<table class="inventory">
+		<table class="transaksi">
 			<thead>
 			<tr>
-				<th><span>Produk</span></th>
-				<th><span>Harga</span></th>
-				<th><span>Jumlah</span></th>
-				<th><span>Subtotal</span></th>
+				<th><span>Nomor</span></th>
+				<th style="width: 20%"><span>Order Number</span></th>
+				<th style="width: 30%"><span>Deskripsi Transaksi</span></th>
+				<th><span>Nominal Transaksi</span></th>
+				<th><span>Tipe Transaksi</span></th>
+				<th><span>Saldo Akhir</span></th>
+				<th><span>Tanggal Transaksi</span></th>
 			</tr>
 			</thead>
 			<tbody>
-			@foreach($order->items as $item)
+			@php
+				$saldoAkhir = 0;
+			@endphp
+			@foreach($transactions as $key => $transaction)
 				<tr>
-					<td><span>{{ $item->product?->name ?? "-" }}</span></td>
-					<td><span> {{ "Rp " . number_format($item->price, 0, ",", ".") }}</span>
-					</td>
-					<td><span>{{ $item->quantity }}</span></td>
-					<td>
-						<span>{{ "Rp " . number_format($item->price * $item->quantity, 0, ",", ".") }}</span>
-					</td>
-
+					<td><span>{{$key+1}}</span></td>
+					<td><span>{{$transaction->order?->order_number ?? "-"}}</span></td>
+					<td><span>{{$transaction->description ?? "-"}}</span></td>
+					<td><span>{{ formatToRupiah($transaction->amount)}}</span></td>
+					<td><span>{{strtoupper($transaction->type)}}</span></td>
+					<td><span>{{ formatToRupiah($transaction->saldo)}}</span></td>
+					<td><span>{{$transaction->created_at}}</span></td>
 				</tr>
+
+				@php
+					$saldoAkhir = $transaction->saldo;
+				@endphp
 			@endforeach
+			<tr>
+				<td><span>Total Debit</span></td>
+				<td colspan="6"><spa>{{formatToRupiah($total_debit)}}</spa></td>
+			</tr>
+			<tr>
+				<td><span>Total Credit</span></td>
+				<td colspan="6"><spa>{{formatToRupiah($total_credit)}}</spa></td>
+			</tr>
+			<tr>
+				<td><span>Saldo Akhir</span></td>
+				<td colspan="6"><spa>{{formatToRupiah($saldoAkhir)}}</spa></td>
+			</tr>
+
 			</tbody>
-		</table>
-		<table class="balance">
-			<tr>
-				<th><span contenteditable>Ongkos Kirim</span></th>
-				<td><span>{{ "Rp " . number_format($order->ongkir, 2, ',', '.') }}</span></td>
-			</tr>
-			<tr>
-				<th><span contenteditable>Total</span></th>
-				<td><span>{{ "Rp " . number_format($order->grand_total, 2, ',', '.') }}</span></td>
-			</tr>
-			</tr>
+
 		</table>
 	</article>
 

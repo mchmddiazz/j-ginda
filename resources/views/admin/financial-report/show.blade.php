@@ -4,51 +4,41 @@
 		<div class="col-lg-12">
 			<div class="card dz-card">
 				<div class="card-header flex-wrap border-0" id="default-tab">
-					<h4 class="card-title">{{$cardTitle ?? "Roles"}}</h4>
+					<h4 class="card-title">{{$cardTitle ?? "Laporan Keuangan"}}</h4>
 				</div>
 				<div class="card-body pt-0">
 					<div class="p-4">
-						<form class="row g-3" action="{{route('admin.roles.update', $role->id)}}" method="POST">
-							@csrf
-							@method("PUT")
-							<div class="col-md-6">
-								<label for="name" class="form-label">Nama</label>
-								<input type="text" class="form-control" id="name" name="name" value="{{$role->name}}"
-								       disabled>
+						<form class="row g-3" method="GET" action="{{route('admin.reports.generate.report')}}">
+							<div class="col-md-4">
+								<label for="year" class="form-label">Tahun</label>
+								<select id="year" class="form-select" name="year">
+									@for($i=2023; $i<2050; $i++)
+										<option value="{{$i}}">{{$i}}</option>
+									@endfor
+								</select>
 							</div>
-							<div class="col-md-12">
-								<div class="permission mt-4">
-									@foreach ($permissions as $key => $permissionGroup)
-										<h5>{{ucwords($key)}}</h5>
-										<hr>
-										@foreach($permissionGroup as $subKey => $permission)
-											<div class="form-check form-switch form-check-inline">
-												<input name="permissions[]" class="form-check-input" type="checkbox"
-												       value="{{ $permission->name }}"
-												       @if($permission->is_active) checked
-												       @endif id="permission{{ $permission->id }}">
-												<label class="form-check-label"
-												       for="permission{{ $permission->id }}">{{ $permission->description }}</label>
-											</div>
-										@endforeach
-										<br>
-										<br>
-									@endforeach
-								</div>
-								{{--								@foreach($roles as $key => $role)--}}
-								{{--									<div class="form-check">--}}
-								{{--										<input class="form-check-input" type="checkbox" @if($user->hasRole($role->name)) checked @endif id="role" name="roles[]" value="{{$role->id}}">--}}
-								{{--										<label class="form-check-label" for="role">--}}
-								{{--											{{$role->name}}--}}
-								{{--										</label>--}}
-								{{--									</div>--}}
-								{{--								@endforeach--}}
+							<div class="col-md-4">
+								<label for="month" class="form-label">Bulan</label>
+								<select id="month" class="form-select" name="month">
+									<option value="1">Januari</option>
+									<option value="2">Februari</option>
+									<option value="3">Maret</option>
+									<option value="4">April</option>
+									<option value="5">Mei</option>
+									<option value="6">Juni</option>
+									<option value="7">Juli</option>
+									<option value="8">Agustus</option>
+									<option value="9">September</option>
+									<option value="10">Oktober</option>
+									<option value="11">November</option>
+									<option value="12">Desember</option>
+								</select>
 							</div>
 							<div class="col-12">
-								<a href="{{route('admin.roles.index')}}" class="btn btn-secondary">Kembali</a>
-								<button type="submit" class="btn btn-primary">Update Data Role</button>
+								<button type="submit" class="btn btn-primary">Generate Laporan</button>
 							</div>
 						</form>
+
 					</div>
 				</div>
 			</div>
