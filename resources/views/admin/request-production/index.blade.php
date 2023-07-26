@@ -9,7 +9,7 @@
 				<div class="card-body pt-0">
 					<ul class="nav nav-tabs mb-4">
 						<li class="nav-item">
-							<a class="nav-link {{ request()->fullUrl() === route('admin.request.production.index', ['status' => 'waiting']) ? 'active' : '' }}" aria-current="page" href="{{route('admin.request.production.index', ['status' => 'waiting'])}}">Menunggu Produksi</a>
+							<a class="nav-link {{ request()->fullUrl() === route('admin.request.production.index', ['status' => 'waiting']) || request()->fullUrl() === route('admin.request.production.index') ? 'active' : '' }}" aria-current="page" href="{{route('admin.request.production.index', ['status' => 'waiting'])}}">Menunggu Produksi</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link {{ request()->fullUrl() === route('admin.request.production.index', ['status' => 'done']) ? 'active' : '' }}" href="{{route('admin.request.production.index', ['status' => 'done'])}}">Sudah Diproduksi</a>
@@ -26,10 +26,11 @@
 								<form action="{{route('admin.request.production.update')}}" method="POST">
 									@csrf
 									@method('PATCH')
-									@if(request()->query("status", "waiting") === "waiting")
+									@if(request()->query("status", "waiting") === "waiting" || request()->query("status") === "")
 										<div class="d-grid gap-2 d-md-block">
 											<button class="btn btn-info" type="reset">Reset</button>
-											<button class="btn btn-primary" type="submit">Simpan</button>
+											<button class="btn btn-primary" name="type" value="save"  type="submit">Simpan</button>
+											<button class="btn btn-danger" name="type" value="cancel" type="submit">Batalkan</button>
 										</div>
 									@endif
 									<table class="table">
@@ -63,7 +64,6 @@
 														</div>
 													</td>
 												@endif
-
 												<td>{{$requestProduction->product?->name??"-"}}</td>
 												<td>{{($requestProduction->product?->quantity??0) . " pcs"}}</td>
 												<td>{{($requestProduction->product?->quantity_threshold??0) . " pcs"}}</td>

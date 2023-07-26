@@ -24,6 +24,7 @@ class UpdateRequestProductionRequest extends FormRequest
     public function rules()
     {
         return [
+            "type" => "in:cancel,save",
             "request_production_ids" => "array",
             "request_production_ids.*" => "numeric",
             "actual_quantities" => "array",

@@ -24,6 +24,8 @@ class RequestProductionController extends Controller
 
         return response()->view("admin.request-production.index");
     }
+
+
     /**
      * @param RequestProductionService $service
      * @param StoreRequestProductionRequest $request

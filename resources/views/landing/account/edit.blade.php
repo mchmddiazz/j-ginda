@@ -93,7 +93,7 @@
 													<td>{{ $order->created_at->format('d M Y H:i') }}</td>
 													<td>{{$order->payment_status}}</td>
 													<td>{{ formatToRupiah($order->grand_total) }} </td>
-													<td><a href="{{route('orders.generate.invoice', $order->idgit)}}" class="axil-btn view-btn">Invoice</a></td>
+													<td><a href="{{route('orders.generate.invoice', $order->id)}}" class="axil-btn view-btn">Invoice</a></td>
 													<td>
 														<a href="{{ route('orders.show', $order->id) }}"
 														   class="axil-btn view-btn">
