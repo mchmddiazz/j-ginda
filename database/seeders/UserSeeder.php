@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             "address" => "Address",
             "postal_code" => "79452",
             "phone" => "0895351172040",
+            "city_id" =>14
         ],
         [
             "name" => "admin",
@@ -27,6 +28,7 @@ class UserSeeder extends Seeder
             "address" => "Address",
             "postal_code" => "79452",
             "phone" => "0895351172040",
+            "city_id" =>14
         ],
         [
             "name" => "gudang",
@@ -35,6 +37,7 @@ class UserSeeder extends Seeder
             "address" => "Address",
             "postal_code" => "79452",
             "phone" => "0895351172040",
+            "city_id" =>14
         ],
         [
             "name" => "user",
@@ -43,6 +46,7 @@ class UserSeeder extends Seeder
             "address" => "Address",
             "postal_code" => "79452",
             "phone" => "0895351172040",
+            "city_id" =>14
         ],
 
     ];
