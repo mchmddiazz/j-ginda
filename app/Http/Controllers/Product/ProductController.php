@@ -100,10 +100,10 @@ class ProductController extends Controller
                         <div
                             class="single-product-thumbnail product-large-thumbnail axil-product thumbnail-badge zoom-gallery">
                             <div class="thumbnail thumbnail slick-slide slick-current slick-active">
-                                <img src="'.asset('storage/product/'. $modal->image).'"
+                                <img src="' . asset('storage/product/' . $modal->image) . '"
                                     alt="Product Images" id="imageProduct">
                                 <div class="product-quick-view position-view">
-                                    <a href="'.url('product/getProduct/details', base64_encode($modal->id)).'"
+                                    <a href="' . route('products.show', $modal->id) . '"
                                         class="popup-zoom" id="aImageProduct">
                                         <i class="far fa-search-plus"></i>
                                     </a>
@@ -114,7 +114,7 @@ class ProductController extends Controller
                     <div class="col-lg-2 order-lg-1">
                         <div class="product-small-thumb small-thumb-wrapper slick-slider slick-vertical ">
                             <div class="small-thumb-img slick-slide slick-current slick-active">
-                                <img src="'.asset('product/'. $modal->image).'" alt="thumb image" id="imageThumb">
+                                <img src="' . asset('product/' . $modal->image) . '" alt="thumb image" id="imageThumb">
                             </div>
                         </div>
                     </div>
@@ -123,23 +123,23 @@ class ProductController extends Controller
             <div class="col-lg-5 mb--40">
                 <div class="single-product-content">
                     <div class="inner">
-                        <h3 class="product-title" id="productTitle">'.$modal->name.'</h3>
+                        <h3 class="product-title" id="productTitle">' . $modal->name . '</h3>
                         <span
-                            class="price-amount" id="priceProduct">'."Rp " . number_format($modal->priceDisc, 0, ",", ".") .' - '."Rp " . number_format($modal->price, 0, ",", ".") .'</span>
+                            class="price-amount" id="priceProduct">' . "Rp " . number_format($modal->priceDisc, 0, ",", ".") . ' - ' . "Rp " . number_format($modal->price, 0, ",", ".") . '</span>
                         <ul class="product-meta">
-                            '.$input.'
+                            ' . $input . '
                         </ul>
-                        <p class="description" id="descriptionProduct">'.Str::limit(html_entity_decode($modal->description), 150).'</p>
+                        <p class="description" id="descriptionProduct">' . Str::limit(html_entity_decode($modal->description), 150) . '</p>
 
                         <div class="product-action-wrapper d-flex-center">
 
                             <div class="pro-qty mr--20"><input type="number" min="1" name="quantity" value="1"></div>
 
-                            <input type="hidden" value="'.$modal->id.'" name="id">
-                            <input type="hidden" value="'.$modal->name.'" name="name">
-                            <input type="hidden" value="'.$modal->priceDisc.'" name="priceDisc">
-                            <input type="hidden" value="'.$modal->image.'"  name="image">
-                            <input type="hidden" value="'.$modal->weight.'"  name="weight">
+                            <input type="hidden" value="' . $modal->id . '" name="id">
+                            <input type="hidden" value="' . $modal->name . '" name="name">
+                            <input type="hidden" value="' . $modal->priceDisc . '" name="priceDisc">
+                            <input type="hidden" value="' . $modal->image . '"  name="image">
+                            <input type="hidden" value="' . $modal->weight . '"  name="weight">
                             
 
                             <!-- Start Product Action  -->

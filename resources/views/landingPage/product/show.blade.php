@@ -101,7 +101,7 @@ Abon Alfitri | Beranda
                             <div class="slick-single-layout">
                                 <div class="axil-product">
                                     <div class="thumbnail">
-                                        <a href="{{ url('product/getProduct/details', base64_encode($item->id)) }}">
+                                        <a href="{{ route('products.show', $item->id) }}">
                                             <img src="{{ asset('product/'. $item->image)}}" alt="Product Images" style="width:255px; height:339px;">
                                             
                                         </a>
@@ -118,7 +118,7 @@ Abon Alfitri | Beranda
                                     <div class="product-content">
                                         <div class="inner">
                                             <h5 class="title"><a
-                                                    href="{{ url('product/getProduct/details', base64_encode($item->id)) }}">{{ $item->name }}</a>
+                                                    href="{{ route('products.show',$item->id) }}">{{ $item->name }}</a>
                                             </h5>
                                             <div class="product-price-variant">
                                                 <span

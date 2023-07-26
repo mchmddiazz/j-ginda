@@ -57,7 +57,7 @@
 							<div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb--30">
 								<div class="axil-product product-style-one">
 									<div class="thumbnail">
-										<a href="{{ url('product/getProduct/details', base64_encode($product->id)) }}">
+										<a href="{{ route('products.show', $product->id) }}">
 											@if($product->image && $product->image!== '')
 												<img height="50px" src="{{asset('storage/products/'.$product->image)}}"
 												     alt="Product Images">
@@ -88,7 +88,7 @@
 									<div class="product-content">
 										<div class="inner">
 											<h5 class="title">
-												<a href="{{ url('product/getProduct/details', base64_encode($product->id)) }}">{{ $product->name }}</a>
+												<a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a>
 											</h5>
 											<div class="product-price-variant">
 												<span class="price current-price">{{ "Rp " . number_format($product->priceDisc, 0, ",", ".") }}</span>

@@ -133,7 +133,7 @@
 												<div class="product-content">
 													<div class="inner">
 														<h5 class="title">
-															<a href="{{ url('product/getProduct/details', base64_encode($item->id)) }}">{{ $item->name }}</a>
+															<a href="{{ route('products.show', $product->id) }}">{{ $item->name }}</a>
 														</h5>
 														<div class="product-price-variant">
 															<span class="price old-price">{{ formatToRupiah($item->price)}}</span>
