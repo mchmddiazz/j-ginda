@@ -167,8 +167,9 @@ Route::prefix('admin')->name("admin.")->middleware("auth")->group(function () {
 
 
     Route::prefix("/reports")->name("reports.")->controller(FinancialReportController::class)->group(function (){
-        Route::get("/", "show")->name("show");
-        Route::get("/generate", "generateReport")->name("generate.report");
+        Route::get("/", "show")->name("show")->middleware("permission:".PermissionEnum::ADMIN_FINANCE_TRANSACTION_REPORTS());
+        Route::get("/generate", "generateReport")->name("generate.report")->middleware("permission:".PermissionEnum::ADMIN_FINANCE_TRANSACTION_REPORTS());
+
 
     });
 });
