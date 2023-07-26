@@ -10,3 +10,14 @@
 .paginate_button {
   width: auto;
 }
+.main-banner {
+  background: unset !important;
+  padding-bottom: 0;
+  padding-top: 45px;
+}
+.product-grid {
+  padding-top: 0;
+}
+.product-grid .section-title-wrapper {
+  padding-right: 0;
+}
