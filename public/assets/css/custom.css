@@ -21,3 +21,12 @@
 .product-grid .section-title-wrapper {
   padding-right: 0;
 }
+.card-checkout {
+  padding: 0 !important;
+}
+.card-header.checkout {
+  padding: 20px 15px;
+}
+.card-header.checkout h5 {
+  margin-bottom: 0;
+}
