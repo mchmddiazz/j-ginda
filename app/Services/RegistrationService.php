@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Repositories\UserRepository;
 use Exception;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class RegistrationService extends \Iqbalatma\LaravelServiceRepo\BaseService
@@ -25,7 +27,9 @@ class RegistrationService extends \Iqbalatma\LaravelServiceRepo\BaseService
         try {
             $requestedData["password"] = Hash::make($requestedData["password"]);
             $user = $this->repository->addNewData($requestedData);
+            event(new Registered($user));
             $user->assignRole("user");
+            Auth::login($user);
             $response = ["success" => true];
         }catch (Exception $e){
             $response = getDefaultErrorResponse($e);

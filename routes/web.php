@@ -2,6 +2,8 @@
 
 use App\Enums\PermissionEnum;
 use App\Http\Controllers\AccountController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\{
@@ -58,6 +60,20 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('/logout', 'logout')->name("logout");
 });
 
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('success', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::prefix("products")->name("products.")->controller(ExternalProductController::class)->group(function () {
     Route::get('/modal/{id}', 'getData');
@@ -98,84 +114,87 @@ Route::prefix('cart')->name("cart.")->controller(CartController::class)->group(f
     Route::get('/clearAll', 'clearAll');
 });
 
-Route::prefix('admin')->name("admin.")->middleware("auth")->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get("/permissions", PermissionController::class)->name("permissions.index")->middleware("permission:".PermissionEnum::PERMISSIONS_INDEX());
 
-    Route::prefix("roles")->name("roles.")->controller(RoleController::class)->group(function (){
-        Route::get("/", "index")->name("index")->middleware("permission:". PermissionEnum::ROLES_INDEX());
-        Route::get("/{id}/edit", "edit")->name("edit")->middleware("permission:". PermissionEnum::ROLES_EDIT());
-        Route::put("/{id}", "update")->name("update")->middleware("permission:". PermissionEnum::ROLES_UPDATE());
-    });
 
-    Route::prefix("orders")->name("orders.")->group(function () {
-        Route::get('/transactions', OrderTransactionController::class)->name("transactions")->middleware("permission:".PermissionEnum::ADMIN_ORDER_TRANSACTIONS());
-        Route::controller(OrdersController::class)->group(function () {
-            Route::get('/', 'index')->name("index")->middleware("permission:".PermissionEnum::ADMIN_ORDERS_INDEX());
-            Route::get('/generate-invoice/{id}', 'generateInvoice')->name("generate.invoice")->middleware("permission:".PermissionEnum::ADMIN_ORDERS_GENERATE_INVOICE());
-            Route::get('/{id}', 'show')->name("show")->middleware("permission:".PermissionEnum::ADMIN_ORDERS_SHOW());
-            Route::patch('/{id}/{status}', 'updatePaymentStatus')->name("update.payment.status")->middleware("permission:".PermissionEnum::ADMIN_ORDERS_UPDATE());
+Route::middleware(["auth", "verified"])->group(function () {
+    Route::prefix('admin')->name("admin.")->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+        Route::get("/permissions", PermissionController::class)->name("permissions.index")->middleware("permission:".PermissionEnum::PERMISSIONS_INDEX());
+
+        Route::prefix("roles")->name("roles.")->controller(RoleController::class)->group(function (){
+            Route::get("/", "index")->name("index")->middleware("permission:". PermissionEnum::ROLES_INDEX());
+            Route::get("/{id}/edit", "edit")->name("edit")->middleware("permission:". PermissionEnum::ROLES_EDIT());
+            Route::put("/{id}", "update")->name("update")->middleware("permission:". PermissionEnum::ROLES_UPDATE());
+        });
+
+        Route::prefix("orders")->name("orders.")->group(function () {
+            Route::get('/transactions', OrderTransactionController::class)->name("transactions")->middleware("permission:".PermissionEnum::ADMIN_ORDER_TRANSACTIONS());
+            Route::controller(OrdersController::class)->group(function () {
+                Route::get('/', 'index')->name("index")->middleware("permission:".PermissionEnum::ADMIN_ORDERS_INDEX());
+                Route::get('/generate-invoice/{id}', 'generateInvoice')->name("generate.invoice")->middleware("permission:".PermissionEnum::ADMIN_ORDERS_GENERATE_INVOICE());
+                Route::get('/{id}', 'show')->name("show")->middleware("permission:".PermissionEnum::ADMIN_ORDERS_SHOW());
+                Route::patch('/{id}/{status}', 'updatePaymentStatus')->name("update.payment.status")->middleware("permission:".PermissionEnum::ADMIN_ORDERS_UPDATE());
+            });
+        });
+
+        Route::controller(ProductController::class)->prefix("products")->name("products.")->group(function () {
+            Route::get("/", "index")->name("index")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_INDEX());
+            Route::get("/{id}/edit", "edit")->name("edit")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_EDIT());
+            Route::post("/", "store")->name("store")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_STORE());
+            Route::patch("/{id}", "update")->name("update")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_UPDATE());
+            Route::delete("/{id}", "destroy")->name("destroy")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_DESTROY());
+            Route::get("/low-quantity", LowQuantityProductController::class)->name("low.quantity")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_LOW_QUANTITY());;
+        });
+
+        Route::controller(RequestProductionController::class)->prefix("request-production")->name("request.production.")->group(function () {
+            Route::get("/", "index")->name("index")->middleware("permission:".PermissionEnum::ADMIN_REQUEST_PRODUCTIONS_INDEX());
+            Route::post("/", "store")->name("store")->middleware("permission:".PermissionEnum::ADMIN_REQUEST_PRODUCTIONS_STORE());
+            Route::patch("/", "update")->name("update")->middleware("permission:".PermissionEnum::ADMIN_REQUEST_PRODUCTIONS_UPDATE());
+        });
+
+
+        Route::prefix("about-us")->name("about.us.")->controller(AboutUsController::class)->group(function () {
+            Route::get('', 'index')->name("index")->middleware("permission:". PermissionEnum::ABOUT_US_INDEX());
+            Route::get('/create', 'create')->name("create")->middleware("permission:". PermissionEnum::ABOUT_US_CREATE());
+            Route::post('/', 'store')->name("store")->middleware("permission:". PermissionEnum::ABOUT_US_STORE());
+            Route::get('/{id}/edit', 'edit')->name("edit")->middleware("permission:". PermissionEnum::ABOUT_US_EDIT());
+            Route::patch('/{id}', 'update')->name("update")->middleware("permission:". PermissionEnum::ABOUT_US_UPDATE());
+            Route::delete('/{id}', 'destroy')->name("destroy")->middleware("permission:". PermissionEnum::ABOUT_US_DESTROY());
+        });
+
+        Route::get('/invoice/generate/{idOrder}', [InvoiceController::class, 'generateAdmin']);
+
+        Route::prefix("users")->name("users.")->controller(UsersController::class)->group(function () {
+            Route::get("/", "index")->name("index")->middleware("permission:".PermissionEnum::USERS_INDEX());
+            Route::get("/create", "create")->name("create")->middleware("permission:".PermissionEnum::USERS_CREATE());
+            Route::post("/", "store")->name("store")->middleware("permission:".PermissionEnum::USERS_STORE());
+            Route::get("/{id}/edit", "edit")->name("edit")->middleware("permission:".PermissionEnum::USERS_EDIT());
+            Route::patch("/{id}", "update")->name("update")->middleware("permission:".PermissionEnum::USERS_UPDATE());
+            Route::delete("/{id}", "destroy")->name("destroy")->middleware("permission:".PermissionEnum::USERS_DESTROY());
+        });
+
+
+        Route::prefix("finance-transactions")->name("finance.transactions.")->controller(FinanceTransactionController::class)->group(function () {
+            Route::get("/", "index")->name("index")->middleware("permission:".PermissionEnum::ADMIN_FINANCE_TRANSACTIONS_INDEX());
+        });
+
+        Route::prefix("/expenses")->name("expenses.")->controller(ExpenseController::class)->group(function () {
+            Route::get("/create", "create")->name("create")->middleware("permission:".PermissionEnum::ADMIN_EXPENSES_CREATE());
+            Route::post("/", "store")->name("store")->middleware("permission:".PermissionEnum::ADMIN_EXPENSES_STORE());
+        });
+
+
+        Route::prefix("/reports")->name("reports.")->controller(FinancialReportController::class)->group(function (){
+            Route::get("/", "show")->name("show")->middleware("permission:".PermissionEnum::ADMIN_FINANCE_TRANSACTION_REPORTS());
+            Route::get("/generate", "generateReport")->name("generate.report")->middleware("permission:".PermissionEnum::ADMIN_FINANCE_TRANSACTION_REPORTS());
+
+
         });
     });
 
-    Route::controller(ProductController::class)->prefix("products")->name("products.")->group(function () {
-        Route::get("/", "index")->name("index")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_INDEX());
-        Route::get("/{id}/edit", "edit")->name("edit")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_EDIT());
-        Route::post("/", "store")->name("store")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_STORE());
-        Route::patch("/{id}", "update")->name("update")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_UPDATE());
-        Route::delete("/{id}", "destroy")->name("destroy")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_DESTROY());
-        Route::get("/low-quantity", LowQuantityProductController::class)->name("low.quantity")->middleware("permission:".PermissionEnum::ADMIN_PRODUCTS_LOW_QUANTITY());;
-    });
 
-    Route::controller(RequestProductionController::class)->prefix("request-production")->name("request.production.")->group(function () {
-        Route::get("/", "index")->name("index")->middleware("permission:".PermissionEnum::ADMIN_REQUEST_PRODUCTIONS_INDEX());
-        Route::post("/", "store")->name("store")->middleware("permission:".PermissionEnum::ADMIN_REQUEST_PRODUCTIONS_STORE());
-        Route::patch("/", "update")->name("update")->middleware("permission:".PermissionEnum::ADMIN_REQUEST_PRODUCTIONS_UPDATE());
-    });
-
-
-    Route::prefix("about-us")->name("about.us.")->controller(AboutUsController::class)->group(function () {
-        Route::get('', 'index')->name("index")->middleware("permission:". PermissionEnum::ABOUT_US_INDEX());
-        Route::get('/create', 'create')->name("create")->middleware("permission:". PermissionEnum::ABOUT_US_CREATE());
-        Route::post('/', 'store')->name("store")->middleware("permission:". PermissionEnum::ABOUT_US_STORE());
-        Route::get('/{id}/edit', 'edit')->name("edit")->middleware("permission:". PermissionEnum::ABOUT_US_EDIT());
-        Route::patch('/{id}', 'update')->name("update")->middleware("permission:". PermissionEnum::ABOUT_US_UPDATE());
-        Route::delete('/{id}', 'destroy')->name("destroy")->middleware("permission:". PermissionEnum::ABOUT_US_DESTROY());
-    });
-
-    Route::get('/invoice/generate/{idOrder}', [InvoiceController::class, 'generateAdmin']);
-
-    Route::prefix("users")->name("users.")->controller(UsersController::class)->group(function () {
-        Route::get("/", "index")->name("index")->middleware("permission:".PermissionEnum::USERS_INDEX());
-        Route::get("/create", "create")->name("create")->middleware("permission:".PermissionEnum::USERS_CREATE());
-        Route::post("/", "store")->name("store")->middleware("permission:".PermissionEnum::USERS_STORE());
-        Route::get("/{id}/edit", "edit")->name("edit")->middleware("permission:".PermissionEnum::USERS_EDIT());
-        Route::patch("/{id}", "update")->name("update")->middleware("permission:".PermissionEnum::USERS_UPDATE());
-        Route::delete("/{id}", "destroy")->name("destroy")->middleware("permission:".PermissionEnum::USERS_DESTROY());
-    });
-
-
-    Route::prefix("finance-transactions")->name("finance.transactions.")->controller(FinanceTransactionController::class)->group(function () {
-        Route::get("/", "index")->name("index")->middleware("permission:".PermissionEnum::ADMIN_FINANCE_TRANSACTIONS_INDEX());
-    });
-
-    Route::prefix("/expenses")->name("expenses.")->controller(ExpenseController::class)->group(function () {
-        Route::get("/create", "create")->name("create")->middleware("permission:".PermissionEnum::ADMIN_EXPENSES_CREATE());
-        Route::post("/", "store")->name("store")->middleware("permission:".PermissionEnum::ADMIN_EXPENSES_STORE());
-    });
-
-
-    Route::prefix("/reports")->name("reports.")->controller(FinancialReportController::class)->group(function (){
-        Route::get("/", "show")->name("show")->middleware("permission:".PermissionEnum::ADMIN_FINANCE_TRANSACTION_REPORTS());
-        Route::get("/generate", "generateReport")->name("generate.report")->middleware("permission:".PermissionEnum::ADMIN_FINANCE_TRANSACTION_REPORTS());
-
-
-    });
-});
-
-
-Route::middleware("auth")->group(function () {
     Route::prefix("orders")->name("orders.")->controller(OrderController::class)->group(function (){
         Route::get("/", "index")->name("index");
         Route::get("/{order}", "show")->name("show");
@@ -191,8 +210,6 @@ Route::middleware("auth")->group(function () {
         Route::patch('/', 'update')->name('update');
         Route::get('/invoice/generate/{idOrder}', [InvoiceController::class, 'generate']); // todo : not checked yet
     });
-
-
 
     Route::prefix('checkout')->name("checkout.")->controller(CheckoutController::class)->group(function () {
         Route::get("/", "create")->name("create");
