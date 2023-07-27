@@ -1,36 +1,10 @@
 <x-landing.layout>
-	<div class="axil-main-slider-area main-slider-style-1">
+	<div class="axil-main-slider-area main-banner main-slider-style-1">
 		<div class="container">
 			<div class="row align-items-center">
-				<div class="col-lg-5 col-sm-6">
-					<div class="main-slider-content">
-						<div class="slider-content-activation-one">
-							@foreach ($slide as $slider)
-								<div class="single-slide slick-slide" data-sal="slide-up" data-sal-delay="400"
-								     data-sal-duration="800">
-									<span class="subtitle"><i
-												class="fas fa-fire"></i> Promo Terbaik Di Minggu Ini</span>
-									<h3 class="title">{{ $slider->name }}</h3>
-								</div>
-							@endforeach
-						</div>
-					</div>
+				<div class="col-12">
+					<img src="{{ asset('assets/images/main-banner.png') }}">
 				</div>
-
-				<div class="col-lg-7 col-sm-6">
-					<div class="main-slider-large-thumb">
-						<div class="slider-thumb-activation-one axil-slick-dots">
-
-							@foreach ($slide as $sliders)
-								<div class="single-slide slick-slide" data-sal="slide-up" data-sal-delay="600"
-								     data-sal-duration="1500">
-									<img src="{{URL::to('product')}}/{{$sliders->image}}">
-								</div>
-							@endforeach
-						</div>
-					</div>
-				</div>
-
 			</div>
 		</div>
 
@@ -40,12 +14,10 @@
 		</ul>
 	</div>
 	<!-- Start Expolre Product Area  -->
-	<div class="axil-product-area bg-color-white axil-section-gap">
+	<div class="axil-product-area product-grid bg-color-white axil-section-gap">
 		<div class="container">
 			<div class="section-title-wrapper">
-				<span class="title-highlighter highlighter-primary"> <i
-							class="far fa-shopping-basket"></i> Produk</span>
-				<h2 class="title">Produk</h2>
+				<h2 class="title text-center">Produk terlaris minggu ini</h2>
 			</div>
 
 			{{-- PRODUCT LIST--}}
@@ -53,7 +25,7 @@
 				<!-- End .slick-single-layout -->
 				<div class="slick-single-layout">
 					<div class="row row--15">
-						@foreach ($products as $key=> $product)
+						@foreach ($products->slice(0, 8) as $key=> $product)
 							<div class="col-xl-3 col-lg-4 col-sm-6 col-6 mb--30">
 								<div class="axil-product product-style-one">
 									<div class="thumbnail">
@@ -101,7 +73,13 @@
 						@endforeach
 					</div>
 
-					{{$products->withQueryString()->links()}}
+					<div class="container">
+						<div class="row text-center">
+							<div class="col-12">
+								<a href="{{ url('/shop') }}" class="axil-btn btn-bg-primary">Lihat semua produk</a>
+							</div>
+						</div>
+					</div>
 				</div>
 				<!-- End .slick-single-layout -->
 			</div>

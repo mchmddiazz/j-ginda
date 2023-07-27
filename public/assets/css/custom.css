@@ -10,3 +10,23 @@
 .paginate_button {
   width: auto;
 }
+.main-banner {
+  background: unset !important;
+  padding-bottom: 0;
+  padding-top: 45px;
+}
+.product-grid {
+  padding-top: 0;
+}
+.product-grid .section-title-wrapper {
+  padding-right: 0;
+}
+.card-checkout {
+  padding: 0 !important;
+}
+.card-header.checkout {
+  padding: 20px 15px;
+}
+.card-header.checkout h5 {
+  margin-bottom: 0;
+}

@@ -5,8 +5,8 @@
 			<div class="row">
 				<x-admin.alert></x-admin.alert>
 				<div class="col-12 col-md-8">
-					<div class="card shadow-lg p-3 mb-5 bg-body rounded">
-						<div class="card-header">
+					<div class="card shadow-lg p-3 mb-5 bg-body rounded card-checkout">
+						<div class="card-header checkout">
 							<h5>Data Order</h5>
 						</div>
 						<div class="table-responsive">
@@ -36,9 +36,14 @@
 					</div>
 				</div>
 				<div class="col-12 col-md-4">
-					<div class="card shadow-lg p-3 mb-5 bg-body rounded">
-						<div class="card-header">
+					<div class="card shadow-lg p-3 mb-5 bg-body rounded card-checkout">
+						<div class="card-header checkout">
 							<h5>Pembayaran</h5>
+						</div>
+						<div class="card-body">
+							Silahkan lakukan transfer ke rekening berikut:<br/>
+							BCA 0123456789 a/n Example <br/><br/>
+							Dan setelah pembayaran, segera klik tombol bayar untuk melakukan konfirmasi pembayaran <br/>
 						</div>
 						<div class="card-body">
 							@if($order->payment_status === PaymentStatusEnum::PAID())
@@ -90,5 +95,3 @@
 		</div>
 	</div>
 </x-landing.layout>
-
-
