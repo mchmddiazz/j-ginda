@@ -62,7 +62,6 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-
     return redirect('/');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
@@ -74,6 +73,8 @@ Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
     return back()->with('success', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
 
 Route::prefix("products")->name("products.")->controller(ExternalProductController::class)->group(function () {
     Route::get('/modal/{id}', 'getData');
@@ -113,7 +114,6 @@ Route::prefix('cart')->name("cart.")->controller(CartController::class)->group(f
     Route::post('/update', 'update');
     Route::get('/clearAll', 'clearAll');
 });
-
 
 
 
