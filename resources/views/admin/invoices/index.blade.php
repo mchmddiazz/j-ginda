@@ -291,7 +291,7 @@
 				@endphp
 				<tr>
 					<td><span>{{ $item->product?->name ?? "-" }}</span></td>
-					<td><span> {{ "Rp " . number_format($item->product->price, 0, ",", ".") }}</span>
+					<td><span> {{ "Rp " . number_format($item->product?->price??0, 0, ",", ".") }}</span>
 					</td>
 					<td><span>{{ $item->quantity }}</span></td>
 					<td>
