@@ -24,7 +24,6 @@
 									</td>
 									<td class="product-price" data-title="Price">
 										{{ formatToRupiah($order->grand_total) }}</td>
-
 									<td class="product-subtotal">
 										{{$order->payment_status}}
 									</td>

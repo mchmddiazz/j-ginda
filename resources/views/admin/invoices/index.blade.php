@@ -282,28 +282,37 @@
 			</tr>
 			</thead>
 			<tbody>
+			@php
+				$finalTotal = 0;
+			@endphp
 			@foreach($order->items as $item)
+				@php
+					$finalTotal += $item->price;
+				@endphp
 				<tr>
 					<td><span>{{ $item->product?->name ?? "-" }}</span></td>
-					<td><span> {{ "Rp " . number_format($item->price, 0, ",", ".") }}</span>
+					<td><span> {{ "Rp " . number_format($item->product->price, 0, ",", ".") }}</span>
 					</td>
 					<td><span>{{ $item->quantity }}</span></td>
 					<td>
-						<span>{{ "Rp " . number_format($item->price * $item->quantity, 0, ",", ".") }}</span>
+						<span>{{ formatToRupiah($item->price) }}</span>
 					</td>
-
 				</tr>
 			@endforeach
 			</tbody>
 		</table>
 		<table class="balance">
 			<tr>
-				<th><span contenteditable>Ongkos Kirim</span></th>
-				<td><span>{{ "Rp " . number_format($order->ongkir, 2, ',', '.') }}</span></td>
+				<th><span>Ongkos Kirim</span></th>
+				<td><span>{{ formatToRupiah($order->ongkir) }}</span></td>
 			</tr>
 			<tr>
-				<th><span contenteditable>Total</span></th>
-				<td><span>{{ "Rp " . number_format($order->grand_total, 2, ',', '.') }}</span></td>
+				<th><span>Sub Total</span></th>
+				<td><span>{{ formatToRupiah($finalTotal) }}</span></td>
+			</tr>
+			<tr>
+				<th><span>Total</span></th>
+				<td><span>{{ formatToRupiah($finalTotal + $order->ongkir) }}</span></td>
 			</tr>
 			</tr>
 		</table>
