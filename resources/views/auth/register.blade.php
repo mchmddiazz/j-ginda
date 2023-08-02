@@ -61,7 +61,7 @@
 								<select name="province_id" id="province_id">
 									<option value="-" selected disabled>Pilih Salah Satu</option>
 									@foreach ($provinces as $key => $province)
-										<option value="{{ $key }}">{{ $province->name }}</option>
+										<option value="{{ $province->id }}">{{ $province->name }}</option>
 									@endforeach
 								</select>
 							</div>
