@@ -100,7 +100,7 @@ class ProductController extends Controller
                         <div
                             class="single-product-thumbnail product-large-thumbnail axil-product thumbnail-badge zoom-gallery">
                             <div class="thumbnail thumbnail slick-slide slick-current slick-active">
-                                <img src="' . asset('storage/product/' . $modal->image) . '"
+                                <img src="' . asset('storage/products/' . $modal->image) . '"
                                     alt="Product Images" id="imageProduct">
                                 <div class="product-quick-view position-view">
                                     <a href="' . route('products.show', $modal->id) . '"

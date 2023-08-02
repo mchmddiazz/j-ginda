@@ -52,8 +52,14 @@
                     @foreach($cart as $item)
                     <li class="cart-item">
                         <div class="item-img">
-                            <a href="#"><img src="{{ asset('product/'. $item->attributes->image) }}"
-                                    alt="Commodo Blown Lamp"></a>
+                            <a href="#">
+                                @if($item->attributes->image !== null && $item->attributes->image !== '')
+                                    <img src="{{ asset('storage/products/'. $item->attributes->image) }}"
+                                         alt="Commodo Blown Lamp x5">
+                                @else
+                                    <img alt="Placeholder" src="https://via.placeholder.com/150" height="100px">
+                                @endif
+                            </a>
 
                             <button class="close-btn"><a href="#" data-id="{{ base64_encode($item->id) }}"
                                     id="buton_delete_troli"><i class="fal fa-times"></i></a></button>

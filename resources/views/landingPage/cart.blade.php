@@ -34,9 +34,16 @@ Abon Alfitri | Cart
                             <tr>
                                 <td class="product-remove"><a
                                         href="#"
-                                        class="remove-wishlist" data-id="{{ base64_encode($item->id) }}"  id="buton_delete"><i class="fal fa-times"></i></a></td>
-                                <td class="product-thumbnail"><img src="{{ asset('product/'. $item->attributes->image) }}"
-                                        alt="Digital Product"></td>
+                                        class="remove-wishlist" data-id="{{ $item->id }}"  id="buton_delete"><i class="fal fa-times"></i></a></td>
+                                <td class="product-thumbnail">
+                                    @if($item->attributes->image && $item->attributes->image!== '')
+                                        <img height="100px"
+                                             src="{{asset('storage/products/'.$item->attributes->image)}}">
+                                    @else
+                                        <img src="https://via.placeholder.com/150"
+                                             height="100px">
+                                    @endif
+                                </td>
                                 <td class="product-title"><a href="#">{{ $item->name }}</a>
                                 </td>
                                 <td class="product-price" data-title="Price">

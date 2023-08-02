@@ -21,7 +21,7 @@ Abon Alfitri | Beranda
                                 <div class="col-12 mb--20">
                                     <div class="single-product-thumbnail axil-product thumbnail-grid">
                                         <div class="thumbnail">
-                                            <img class="img-fluid product-image" src="{{ asset('product/'. $productDetail->image)}}"
+                                            <img class="img-fluid product-image" src="{{ asset('storage/products/'. $productDetail->image)}}"
                                                 alt="Product Images">
                                         </div>
                                     </div>
@@ -102,7 +102,7 @@ Abon Alfitri | Beranda
                                 <div class="axil-product">
                                     <div class="thumbnail">
                                         <a href="{{ route('products.show', $item->id) }}">
-                                            <img src="{{ asset('product/'. $item->image)}}" alt="Product Images" style="width:255px; height:339px;">
+                                            <img src="{{ asset('storage/products/'. $item->image)}}" alt="Product Images" style="width:255px; height:339px;">
                                             
                                         </a>
                                         <div class="product-hover-action">

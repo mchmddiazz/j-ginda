@@ -9,18 +9,18 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Product;
 use App\Models\AboutUs;
+
 class CartController extends Controller
 {
     protected $productRepository;
 
     public function index(Request $request)
     {
-        if(Auth::check())
-        {
+        if (Auth::check()) {
             $data = [
                 'cart' => \Cart::session(Auth::user()->id)->getContent(),
                 'product' => (new \App\Repositories\ProductRepository())->getAllData(),
-                'about_us' =>  AboutUs::limit(1)->orderBy('created_at', 'DESC')->get()
+                'about_us' => AboutUs::limit(1)->orderBy('created_at', 'DESC')->get()
             ];
             return view('landingPage/cart')->with($data);
         } else {
@@ -30,12 +30,10 @@ class CartController extends Controller
 
     public function buy($id, Request $request)
     {
-        if(Auth::check())
-        {
+        if (Auth::check()) {
             $product = Product::whereId($request->id)->first();
 
-            if($request->quantity <= $product->quantity)
-            {
+            if ($request->quantity <= $product->quantity) {
                 $cart = \Cart::session(Auth::user()->id)->add([
                     'id' => base64_decode($id),
                     'name' => $request->name,
@@ -46,74 +44,79 @@ class CartController extends Controller
                         'weight' => $request->weight,
                     )
                 ]);
-        
+
                 $output = "";
                 $total = 0;
-    
+
                 $header = "";
-                
+
                 $carts = \Cart::session(Auth::user()->id)->getContent();
-                if(!empty($carts))
-                {
+                if (!empty($carts)) {
                     foreach ($carts as $key => $item) {
+                        if ($item->attributes->image !== null && $item->attributes->image !== '') {
+                            $productImage = '<img src="' . asset('/storage/products/' . $item->attributes->image) . '"
+                                                alt="Commodo Blown Lamp x2">';
+                        } else {
+                            $productImage = '<img alt="placeholder" src="https://via.placeholder.com/150" height="100px">';
+                        }
                         $output .= '<div class="cart-body">
                             <ul class="cart-item-list">
                                 <li class="cart-item">
                                     <div class="item-img">
-                                        <a href="#"><img src="'.asset('product/'. $item->attributes->image).'"
-                                                alt="Commodo Blown Lamp"></a>
+                                        <a href="#">
+                                            ' . $productImage . '
+                                        </a>
             
-                                        <button class="close-btn"><a href="#" data-id="'.base64_encode($item->id).'"
+                                        <button class="close-btn"><a href="#" data-id="' . base64_encode($item->id) . '"
                                                 id="buton_delete_troli"><i class="fal fa-times"></i></a></button>
                                     </div>
                                     <div class="item-content">
-                                        <h3 class="item-title"><a href="#">'.$item->name.'</a></h3>
-                                        <div class="item-price">'."Rp " . number_format($item->price, 0, ",", ".").'
+                                        <h3 class="item-title"><a href="#">' . $item->name . '</a></h3>
+                                        <div class="item-price">' . "Rp " . number_format($item->price, 0, ",", ".") . '
                                         </div>
                                         <div class="pro-qty item-quantity">
-                                            <input type="number" class="quantity-input" value="'.$item->quantity.'" name="quantity"
+                                            <input type="number" class="quantity-input" value="' . $item->quantity . '" name="quantity"
                                                 min="1">
                                         </div>
                                     </div>
                                 </li>
                             </ul>
                         </div>
-                    '; }
-        
+                    ';
+                    }
+
                     $output .= '
                     <div class="cart-footer">
                         <h3 class="cart-subtotal">
                             <span class="subtotal-title">Subtotal:</span>
-                            <span class="subtotal-amount">'."Rp. " . number_format(\Cart::session(Auth::user()->id)->getTotal(), 0, ",", ".").'</span>
+                            <span class="subtotal-amount">' . "Rp. " . number_format(\Cart::session(Auth::user()->id)->getTotal(), 0, ",", ".") . '</span>
                         </h3>
                         <div class="group-btn">
-                            <a href="'.url('cart').'" class="axil-btn btn-bg-primary viewcart-btn">Lihat Keranjang</a>
-                            <a href="'.url('checkout').'" class="axil-btn btn-bg-secondary checkout-btn">Checkout</a>
+                            <a href="' . url('cart') . '" class="axil-btn btn-bg-primary viewcart-btn">Lihat Keranjang</a>
+                            <a href="' . url('checkout') . '" class="axil-btn btn-bg-secondary checkout-btn">Checkout</a>
                         </div>
                     </div>';
-                    
+
                     $header = \Cart::session(Auth::user()->id)->getTotalQuantity();
                     return response()->json(['body' => $output, 'total' => $header], 201);
-                } 
+                }
             } else {
                 return response()->json(["status" => 3, "message" => "Jumlah melebihi stok yang ada, sisa stok ($product->quantity)"], 201);
             }
-          
+
         } else {
             return response()->json(['status' => 2], 201);
         }
-       
+
     }
 
     public function buyView($id)
     {
-        if(Auth::check())
-        {
+        if (Auth::check()) {
             $product = Product::whereId(base64_decode($id))->first();
 
             $quan = 1;
-            if($quan <= $product->quantity)
-            {
+            if ($quan <= $product->quantity) {
                 $cart = \Cart::session(Auth::user()->id)->add([
                     'id' => base64_decode($id),
                     'name' => $product->name,
@@ -124,73 +127,79 @@ class CartController extends Controller
                         'weight' => $product->weight,
                     )
                 ]);
-        
+
                 $output = "";
                 $total = 0;
-    
+
                 $header = "";
-                
+
                 $carts = \Cart::session(Auth::user()->id)->getContent();
-                if(!empty($carts))
-                {
+
+                if (!empty($carts)) {
                     foreach ($carts as $key => $item) {
+                        if ($item->attributes->image !== null && $item->attributes->image !== '') {
+                            $productImage = '<img src="' . asset('/storage/products/' . $item->attributes->image) . '"
+                                                alt="Commodo Blown Lamp x1">';
+                        } else {
+                            $productImage = '<img alt="placeholder" src="https://via.placeholder.com/150" height="100px">';
+                        }
                         $output .= '<div class="cart-body">
                             <ul class="cart-item-list">
                                 <li class="cart-item">
                                     <div class="item-img">
-                                        <a href="#"><img src="'.asset('product/'. $item->attributes->image).'"
-                                                alt="Commodo Blown Lamp"></a>
+                                        <a href="#">
+                                        '.$productImage.'
+                                            </a>
             
-                                        <button class="close-btn"><a href="#" data-id="'.base64_encode($item->id).'"
+                                        <button class="close-btn"><a href="#" data-id="' . $item->id . '"
                                                 id="buton_delete_troli"><i class="fal fa-times"></i></a></button>
                                     </div>
                                     <div class="item-content">
-                                        <h3 class="item-title"><a href="#">'.$item->name.'</a></h3>
-                                        <div class="item-price">'."Rp " . number_format($item->price, 0, ",", ".").'
+                                        <h3 class="item-title"><a href="#">' . $item->name . '</a></h3>
+                                        <div class="item-price">' . "Rp " . number_format($item->price, 0, ",", ".") . '
                                         </div>
                                         <div class="pro-qty item-quantity">
-                                            <input type="number" class="quantity-input" value="'.$item->quantity.'" name="quantity"
+                                            <input type="number" class="quantity-input" value="' . $item->quantity . '" name="quantity"
                                                 min="1">
                                         </div>
                                     </div>
                                 </li>
                             </ul>
                         </div>
-                    '; }
-        
+                    ';
+                    }
+
                     $output .= '
                     <div class="cart-footer">
                         <h3 class="cart-subtotal">
                             <span class="subtotal-title">Subtotal:</span>
-                            <span class="subtotal-amount">'."Rp. " . number_format(\Cart::session(Auth::user()->id)->getTotal(), 0, ",", ".").'</span>
+                            <span class="subtotal-amount">' . "Rp. " . number_format(\Cart::session(Auth::user()->id)->getTotal(), 0, ",", ".") . '</span>
                         </h3>
                         <div class="group-btn">
-                            <a href="'.url('cart').'" class="axil-btn btn-bg-primary viewcart-btn">Lihat Keranjang</a>
-                            <a href="'.url('checkout').'" class="axil-btn btn-bg-secondary checkout-btn">Checkout</a>
+                            <a href="' . url('cart') . '" class="axil-btn btn-bg-primary viewcart-btn">Lihat Keranjang</a>
+                            <a href="' . url('checkout') . '" class="axil-btn btn-bg-secondary checkout-btn">Checkout</a>
                         </div>
                     </div>';
-                    
+
                     $header = \Cart::session(Auth::user()->id)->getTotalQuantity();
                     return response()->json(['body' => $output, 'total' => $header], 201);
-                } 
+                }
             } else {
                 return response()->json(["status" => 3, "message" => "Jumlah melebihi stok yang ada, sisa stok ($product->quantity)"], 201);
             }
-          
+
         } else {
             return response()->json(['status' => 2], 201);
         }
-       
+
     }
 
     public function buyButton(Request $request)
     {
-        if(Auth::check())
-        {
+        if (Auth::check()) {
             $product = Product::whereId($request->id)->first();
 
-            if($request->quantity <= $product->quantity)
-            {
+            if ($request->quantity <= $product->quantity) {
                 $cart = \Cart::session(Auth::user()->id)->add([
                     'id' => $request->id,
                     'name' => $request->name,
@@ -201,71 +210,78 @@ class CartController extends Controller
                         'weight' => $request->weight,
                     )
                 ]);
-        
+
                 $output = "";
                 $total = 0;
-    
+
                 $header = "";
-                
+
                 $carts = \Cart::session(Auth::user()->id)->getContent();
-                if(!empty($carts))
-                {
+                if (!empty($carts)) {
                     foreach ($carts as $key => $item) {
+                        if ($item->attributes->image !== null && $item->attributes->image !== '') {
+                            $productImage = '<img src="' . asset('/storage/products/' . $item->attributes->image) . '"
+                                                alt="Commodo Blown Lamp x3">';
+                        } else {
+                            $productImage = '<img alt="placeholder"   src="https://via.placeholder.com/150" height="100px">';
+                        }
+
                         $output .= '<div class="cart-body">
                             <ul class="cart-item-list">
                                 <li class="cart-item">
                                     <div class="item-img">
-                                        <a href="#"><img src="'.asset('product/'. $item->attributes->image).'"
-                                                alt="Commodo Blown Lamp"></a>
+                                        <a href="#">
+                                        '.$productImage.'
+                                                </a>
             
-                                        <button class="close-btn"><a href="#" data-id="'.base64_encode($item->id).'"
+                                        <button class="close-btn"><a href="#" data-id="' . base64_encode($item->id) . '"
                                                 id="buton_delete_troli"><i class="fal fa-times"></i></a></button>
                                     </div>
                                     <div class="item-content">
-                                        <h3 class="item-title"><a href="#">'.$item->name.'</a></h3>
-                                        <div class="item-price">'."Rp " . number_format($item->price, 0, ",", ".").'
+                                        <h3 class="item-title"><a href="#">' . $item->name . '</a></h3>
+                                        <div class="item-price">' . "Rp " . number_format($item->price, 0, ",", ".") . '
                                         </div>
                                         <div class="pro-qty item-quantity">
-                                            <input type="number" class="quantity-input" value="'.$item->quantity.'" name="quantity"
+                                            <input type="number" class="quantity-input" value="' . $item->quantity . '" name="quantity"
                                                 min="1">
                                         </div>
                                     </div>
                                 </li>
                             </ul>
                         </div>
-                    '; }
-        
+                    ';
+                    }
+
                     $output .= '
                     <div class="cart-footer">
                         <h3 class="cart-subtotal">
                             <span class="subtotal-title">Subtotal:</span>
-                            <span class="subtotal-amount">'."Rp. " . number_format(\Cart::session(Auth::user()->id)->getTotal(), 0, ",", ".").'</span>
+                            <span class="subtotal-amount">' . "Rp. " . number_format(\Cart::session(Auth::user()->id)->getTotal(), 0, ",", ".") . '</span>
                         </h3>
                         <div class="group-btn">
-                            <a href="'.url('cart').'" class="axil-btn btn-bg-primary viewcart-btn">Lihat Keranjang</a>
-                            <a href="'.url('checkout').'" class="axil-btn btn-bg-secondary checkout-btn">Checkout</a>
+                            <a href="' . url('cart') . '" class="axil-btn btn-bg-primary viewcart-btn">Lihat Keranjang</a>
+                            <a href="' . url('checkout') . '" class="axil-btn btn-bg-secondary checkout-btn">Checkout</a>
                         </div>
                     </div>';
-                    
+
                     $header = \Cart::session(Auth::user()->id)->getTotalQuantity();
                     return response()->json(['body' => $output, 'total' => $header], 201);
                 }
             } else {
-                
+
                 return response()->json(["status" => 3, "message" => "Jumlah melebihi stok yang ada, sisa stok ($product->quantity)"], 201);
             }
-             
+
         } else {
             return response()->json(['status' => 2, 'message' => 'Authentication'], 201);
         }
-       
+
     }
 
     public function remove($id, Request $request)
     {
-        if(Auth::check())
-        {
-            \Cart::session(Auth::user()->id)->remove(base64_decode($id));      
+        if (Auth::check()) {
+            \Cart::session(Auth::user()->id)->remove(base64_decode($id));
             return response()->json(['status' => 1], 201);
         } else {
             return response()->json(['status' => 2], 201);
@@ -274,60 +290,67 @@ class CartController extends Controller
 
     public function removeTroli($id, Request $request)
     {
-            \Cart::session(Auth::user()->id)->remove(base64_decode($id));
-            $output = "";
-            $total = 0;
+        \Cart::session(Auth::user()->id)->remove(base64_decode($id));
+        $output = "";
+        $total = 0;
 
-            $header = "";
-            
-            $carts = \Cart::session(Auth::user()->id)->getContent();
-            if(!empty($carts))
-            {
-                foreach ($carts as $key => $item) {
-                    $output .= '<div class="cart-body">
+        $header = "";
+
+        $carts = \Cart::session(Auth::user()->id)->getContent();
+        if (!empty($carts)) {
+            foreach ($carts as $key => $item) {
+                if ($item->attributes->image !== null && $item->attributes->image !== '') {
+                    $productImage = '<img src="' . asset('/storage/products/' . $item->attributes->image) . '"
+                                                alt="Commodo Blown Lamp x1">';
+                } else {
+                    $productImage = '<img alt="placeholder" src="https://via.placeholder.com/150" height="100px">';
+                }
+
+                $output .= '<div class="cart-body">
                         <ul class="cart-item-list">
                             <li class="cart-item">
                                 <div class="item-img">
-                                    <a href="#"><img src="'.asset('product/'. $item->attributes->image).'"
-                                            alt="Commodo Blown Lamp"></a>
-        
-                                    <button class="close-btn"><a href="#" data-id="'.base64_encode($item->id).'"
+                                    <a href="#">
+                                        ' . $productImage . '
+                                    </a>
+                                    <button class="close-btn"><a href="#" data-id="' . $item->id . '"
                                             id="buton_delete_troli"><i class="fal fa-times"></i></a></button>
                                 </div>
                                 <div class="item-content">
                                     <div class="product-rating">
                                     
                                     </div>
-                                    <h3 class="item-title"><a href="#">'.$item->name.'</a></h3>
-                                    <div class="item-price">'."Rp " . number_format($item->price, 0, ",", ".").'
+                                    <h3 class="item-title"><a href="#">' . $item->name . '</a></h3>
+                                    <div class="item-price">' . "Rp " . number_format($item->price, 0, ",", ".") . '
                                     </div>
                                     <div class="pro-qty item-quantity">
-                                        <input type="number" class="quantity-input" value="'.$item->quantity.'" name="quantity"
+                                        <input type="number" class="quantity-input" value="' . $item->quantity . '" name="quantity"
                                             min="1">
                                     </div>
                                 </div>
                             </li>
                         </ul>
                     </div>
-                '; }
-    
-                $output .= '
+                ';
+            }
+
+            $output .= '
                 <div class="cart-footer">
                     <h3 class="cart-subtotal">
                         <span class="subtotal-title">Subtotal:</span>
-                        <span class="subtotal-amount">'."Rp. " . number_format(\Cart::session(Auth::user()->id)->getTotal(), 0, ",", ".").'</span>
+                        <span class="subtotal-amount">' . "Rp. " . number_format(\Cart::session(Auth::user()->id)->getTotal(), 0, ",", ".") . '</span>
                     </h3>
                     <div class="group-btn">
-                        <a href="'.url('cart').'" class="axil-btn btn-bg-primary viewcart-btn">Lihat Keranjang</a>
-                        <a href="'.url('checkout').'" class="axil-btn btn-bg-secondary checkout-btn">Checkout</a>
+                        <a href="' . url('cart') . '" class="axil-btn btn-bg-primary viewcart-btn">Lihat Keranjang</a>
+                        <a href="' . url('checkout') . '" class="axil-btn btn-bg-secondary checkout-btn">Checkout</a>
                     </div>
                 </div>';
-                
-                $header = \Cart::session(Auth::user()->id)->getTotalQuantity();
-                return response()->json(['body' => $output, 'total' => $header], 201);
-            } else {
-                return response()->json(['status' => 2], 201);
-            }    
+
+            $header = \Cart::session(Auth::user()->id)->getTotalQuantity();
+            return response()->json(['body' => $output, 'total' => $header], 201);
+        } else {
+            return response()->json(['status' => 2], 201);
+        }
     }
 
     public function update(Request $request)
@@ -341,7 +364,7 @@ class CartController extends Controller
                 ],
             ]
         );
-        
+
         return response()->json(['status' => 1], 201);
     }
 
@@ -350,6 +373,6 @@ class CartController extends Controller
         \Cart::session(Auth::user()->id)->clear();
         return redirect('/cart');
     }
-    
-   
+
+
 }
