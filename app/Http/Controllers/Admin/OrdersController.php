@@ -48,6 +48,7 @@ class OrdersController extends Controller
      * @param OrderService $service
      * @param int $id
      * @param string $status
+     * @param UpdateStatusPaymentRequest $request
      * @return RedirectResponse
      */
     public function updatePaymentStatus(OrderService $service, int $id, string $status, UpdateStatusPaymentRequest $request): RedirectResponse

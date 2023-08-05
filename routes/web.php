@@ -175,23 +175,19 @@ Route::middleware(["auth", "verified"])->group(function () {
             Route::delete("/{id}", "destroy")->name("destroy")->middleware("permission:".PermissionEnum::USERS_DESTROY());
         });
 
+//        Route::prefix("finance-transactions")->name("finance.transactions.")->controller(FinanceTransactionController::class)->group(function () {
+//            Route::get("/", "index")->name("index")->middleware("permission:".PermissionEnum::ADMIN_FINANCE_TRANSACTIONS_INDEX());
+//        });
 
-        Route::prefix("finance-transactions")->name("finance.transactions.")->controller(FinanceTransactionController::class)->group(function () {
-            Route::get("/", "index")->name("index")->middleware("permission:".PermissionEnum::ADMIN_FINANCE_TRANSACTIONS_INDEX());
-        });
+//        Route::prefix("/expenses")->name("expenses.")->controller(ExpenseController::class)->group(function () {
+//            Route::get("/create", "create")->name("create")->middleware("permission:".PermissionEnum::ADMIN_EXPENSES_CREATE());
+//            Route::post("/", "store")->name("store")->middleware("permission:".PermissionEnum::ADMIN_EXPENSES_STORE());
+//        });
 
-        Route::prefix("/expenses")->name("expenses.")->controller(ExpenseController::class)->group(function () {
-            Route::get("/create", "create")->name("create")->middleware("permission:".PermissionEnum::ADMIN_EXPENSES_CREATE());
-            Route::post("/", "store")->name("store")->middleware("permission:".PermissionEnum::ADMIN_EXPENSES_STORE());
-        });
-
-
-        Route::prefix("/reports")->name("reports.")->controller(FinancialReportController::class)->group(function (){
-            Route::get("/", "show")->name("show")->middleware("permission:".PermissionEnum::ADMIN_FINANCE_TRANSACTION_REPORTS());
-            Route::get("/generate", "generateReport")->name("generate.report")->middleware("permission:".PermissionEnum::ADMIN_FINANCE_TRANSACTION_REPORTS());
-
-
-        });
+//        Route::prefix("/reports")->name("reports.")->controller(FinancialReportController::class)->group(function (){
+//            Route::get("/", "show")->name("show")->middleware("permission:".PermissionEnum::ADMIN_FINANCE_TRANSACTION_REPORTS());
+//            Route::get("/generate", "generateReport")->name("generate.report")->middleware("permission:".PermissionEnum::ADMIN_FINANCE_TRANSACTION_REPORTS());
+//        });
     });
 
 

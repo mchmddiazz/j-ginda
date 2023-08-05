@@ -91,15 +91,15 @@ enum PermissionEnum: string
     case ADMIN_ORDER_TRANSACTIONS = "admin.order.transactions";
 
 
-    #[Description("can show form add new expense from admin")] #[FeatureGroup("expenses")]
-    case ADMIN_EXPENSES_CREATE = "admin.expenses.create";
-    #[Description("can add new expense from admin")] #[FeatureGroup("expenses")]
-    case ADMIN_EXPENSES_STORE = "admin.expenses.store";
+//    #[Description("can show form add new expense from admin")] #[FeatureGroup("expenses")]
+//    case ADMIN_EXPENSES_CREATE = "admin.expenses.create";
+//    #[Description("can add new expense from admin")] #[FeatureGroup("expenses")]
+//    case ADMIN_EXPENSES_STORE = "admin.expenses.store";
 
 
-    #[Description("can show all data finance transactions from admin")] #[FeatureGroup("finance transactions")]
-    case ADMIN_FINANCE_TRANSACTIONS_INDEX = "admin.finance.transactions.index";
-
-    #[Description("can generate report for finance transaction")] #[FeatureGroup("finance transactions")]
-    case ADMIN_FINANCE_TRANSACTION_REPORTS = "admin.finance.transaction.reports";
+//    #[Description("can show all data finance transactions from admin")] #[FeatureGroup("finance transactions")]
+//    case ADMIN_FINANCE_TRANSACTIONS_INDEX = "admin.finance.transactions.index";
+//
+//    #[Description("can generate report for finance transaction")] #[FeatureGroup("finance transactions")]
+//    case ADMIN_FINANCE_TRANSACTION_REPORTS = "admin.finance.transaction.reports";
 }

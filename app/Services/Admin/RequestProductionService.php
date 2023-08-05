@@ -88,7 +88,7 @@ class RequestProductionService extends BaseService
                         $requestProduction->save();
                     } else {
                         if ($requestedData["actual_quantities"][$key]) {
-                            if ($requestedData["actual_quantities"][$key] < $requestProduction->request_quantity) {
+                            if ($requestedData["actual_quantities"][$key] <= $requestProduction->request_quantity) {
                                 $requestProduction->fill([
                                     "status" => ProductionStatus::DONE(),
                                     "actual_quantity" => $requestedData["actual_quantities"][$key],
