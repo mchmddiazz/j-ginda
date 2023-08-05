@@ -43,6 +43,8 @@
 												<span class="price-amount">{{ formatToRupiah($product->price)  }}</span>
 											@endif
 
+											<p>{{$product->description ?? "-"}}</p>
+
 											<ul class="product-meta">
 												@if ($product->quantity > 0)
 													<li>

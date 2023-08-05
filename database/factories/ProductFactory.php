@@ -16,6 +16,7 @@ class ProductFactory extends Factory
     {
         return [
             "name" => "Abon " . Str::random(3),
+            "description" => "Description " . $this->faker->text,
             "price" => $this->faker->numberBetween(10000,100000),
             "priceDisc" => $this->faker->numberBetween(10000,100000),
             "quantity" => $this->faker->numberBetween(1,1000),

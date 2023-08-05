@@ -19,6 +19,7 @@ class CreateProductTable extends Migration
             $table->id();
             $table->string('name');
             $table->double('price');
+            $table->text('description')->nullable();
             $table->double('priceDisc')->nullable();
             $table->integer('quantity')->default(0);
             $table->integer('quantity_threshold')->default(0);

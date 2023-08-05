@@ -37,6 +37,7 @@
 														<tr>
 															<th scope="col">No</th>
 															<th scope="col">Nama Produk</th>
+															<th scope="col text-wrap" >Deskripsi Produk</th>
 															<th scope="col">Kuantitas Gudang</th>
 															<th scope="col">Ambang Batas Kuantitas</th>
 															<th scope="col">Kondisi Stok</th>
@@ -50,6 +51,11 @@
 															<tr>
 																<td>{{$products->firstItem() + $key}}</td>
 																<td>{{$product->name}}</td>
+																<td>
+																	<div class="text-wrap" style="width: 10rem;">
+																		{{$product->description ?? ""}}
+																	</div>
+																</td>
 																<td>{{$product->quantity . " pcs"}}</td>
 																<td>{{$product->quantity_threshold . " pcs"}}</td>
 																<td>
@@ -117,6 +123,20 @@
 																       placeholder="Enter a name product.." required>
 																<div class="invalid-feedback">
 																	Please Enter a Product Name.
+																</div>
+															</div>
+														</div>
+														<div class="mb-3">
+															<label class="text-label form-label"
+																   for="validationDescription">Deskripsi</label>
+															<div class="input-group">
+                                                        <span class="input-group-text"> <i class="fa fa-list-alt"></i>
+                                                        </span>
+																<input type="text" name="description" class="form-control"
+																	   id="validationDescription"
+																	   placeholder="Enter a description product..">
+																<div class="invalid-feedback">
+																	Please Enter a Product Description.
 																</div>
 															</div>
 														</div>
@@ -233,7 +253,6 @@
 																	Please Enter a Image.
 																</div>
 															</div>
-
 														</div>
 														<div class="mb-3">
 															<img id="modal-preview"

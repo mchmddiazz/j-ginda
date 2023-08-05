@@ -31,6 +31,21 @@
 												</div>
 											</div>
 										</div>
+
+										<div class="mb-3">
+											<label class="text-label form-label"
+												   for="description">Deskripsi</label>
+											<div class="input-group">
+                                                        <span class="input-group-text"> <i class="fa fa-list-alt"></i>
+                                                        </span>
+												<input type="text" name="description" class="form-control"
+													   id="description"
+													   placeholder="Enter a name product.." value="{{$product->description}}">
+												<div class="invalid-feedback">
+													Please Enter a Product Description.
+												</div>
+											</div>
+										</div>
 										<div class="mb-3">
 											<label class="text-label form-label" for="price">Harga
 												*</label>
