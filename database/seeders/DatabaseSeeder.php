@@ -19,10 +19,10 @@ class DatabaseSeeder extends Seeder
             AboutUsSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
-            ProductSeeder::class,
+//            ProductSeeder::class,
 //            TransactionSeeder::class,
 //            RequestProductionSeeder::class,
-        OrderSeeder::class,
+//              OrderSeeder::class,
             LocationsSeeder::class,
         ]);
     }
