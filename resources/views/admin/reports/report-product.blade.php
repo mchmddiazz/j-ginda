@@ -84,11 +84,11 @@
 		<table class="transaksi">
 			<thead>
 			<tr>
-				<th><span>Nomor</span></th>
-				<th style="width: 20%"><span>Nama</span></th>
-				<th style="width: 20%"><span>Deskripsi</span></th>
-				<th style="width: 20%"><span>Stok</span></th>
-				<th style="width: 20%"><span>Batas Minimal Stok</span></th>
+				<th style="width: 5%"><span>Nomor</span></th>
+				<th style="width: 12%"><span>Nama</span></th>
+				<th><span>Deskripsi</span></th>
+				<th style="width: 10%"><span>Stok</span></th>
+				<th style="width: 10%"><span>Batas Minimal Stok</span></th>
 			</tr>
 			</thead>
 			<tbody>
