@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
 //            TransactionSeeder::class,
 //            RequestProductionSeeder::class,
+        OrderSeeder::class,
             LocationsSeeder::class,
         ]);
     }

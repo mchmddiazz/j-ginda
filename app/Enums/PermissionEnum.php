@@ -108,4 +108,7 @@ enum PermissionEnum: string
 
     #[Description("can generate report for product")] #[FeatureGroup("report order")]
     case REPORT_PRODUCTS = "admin.reports.product";
+
+    #[Description("can show offline order")] #[FeatureGroup("offline order")]
+    case ADMIN_OFFLINE_ORDER = "admin.offline.order";
 }

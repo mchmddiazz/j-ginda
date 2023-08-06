@@ -21,6 +21,7 @@ class CreateOrdersTable extends Migration
             $table->string('order_number')->unique();
             $table->foreignId('user_id');
             $table->enum('status', OrderStatus::values())->default(OrderStatus::PENDING());
+            $table->enum('type', ["online", "offline"])->default("online");
             $table->decimal('grand_total', 20, 2)->default(0);
             $table->unsignedInteger('item_count')->default(0);
             $table->enum('payment_status', PaymentStatusEnum::values())->default(PaymentStatusEnum::WAITING());

@@ -38,7 +38,7 @@ class OrderService extends \Iqbalatma\LaravelServiceRepo\BaseService
         return [
             "title" => "Order",
             "cardTitle" => "Order",
-            "orders" => $this->repository->getAllDataPaginated(),
+            "orders" => $this->repository->orderBy(["created_at" => "created_at"], "created_at", "DESC")->getAllDataPaginated(),
         ];
     }
 

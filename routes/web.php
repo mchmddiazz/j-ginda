@@ -125,6 +125,11 @@ Route::middleware(["auth", "verified"])->group(function () {
             Route::get("orders/generate", "generateOrder")->name("generate.order");
         });
 
+        Route::prefix("offline-store")->name("offline.store.")->controller(\App\Http\Controllers\Admin\OfflineStoreController::class)->group(function (){
+            Route::get("/", "create")->name("create");
+            Route::post("/", "store")->name("store");
+        });
+
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::get("/permissions", PermissionController::class)->name("permissions.index")->middleware("permission:".PermissionEnum::PERMISSIONS_INDEX());

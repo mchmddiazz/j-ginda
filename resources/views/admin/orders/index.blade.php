@@ -43,6 +43,7 @@
 										<th>No</th>
 										<th>Order Number</th>
 										<th>Pelanggan</th>
+										<th>Tipe</th>
 										<th>Total Harga</th>
 										<th>Jumlah</th>
 										@if(request()->query("status", "") === OrderStatus::COMPLETED())
@@ -61,6 +62,7 @@
 											<td>{{$orders->firstItem()+$key}}</td>
 											<td>{{$order->order_number}}</td>
 											<td>{{$order->user?->name}}</td>
+											<td>{{$order->type}}</td>
 											<td>{{ formatToRupiah($order->grand_total)}}</td>
 											<td>{{"$order->item_count order"}}</td>
 											@if(request()->query("status", "") === OrderStatus::COMPLETED())
