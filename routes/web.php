@@ -121,6 +121,7 @@ Route::middleware(["auth", "verified"])->group(function () {
     Route::prefix('admin')->name("admin.")->group(function () {
         Route::prefix("reports")->name("reports.")->controller(\App\Http\Controllers\Admin\ReportController::class)->group(function (){
             Route::get("orders", "showOrder")->name("show.order");
+            Route::get("products", "showProduct")->name("show.product");
             Route::get("orders/generate", "generateOrder")->name("generate.order");
         });
 

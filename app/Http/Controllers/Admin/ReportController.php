@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Repositories\OrderRepository;
+use App\Repositories\ProductRepository;
 use App\Repositories\TransactionRepository;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -35,6 +36,17 @@ class ReportController extends Controller
         ]);
 
         return $pdf->stream();
+    }
 
+    public function showProduct():Response
+    {
+        $products = (new ProductRepository())
+            ->getAllData();
+
+        $pdf = Pdf::loadView('admin.reports.report-product', [
+            'products' => $products,
+        ]);
+
+        return $pdf->stream();
     }
 }
