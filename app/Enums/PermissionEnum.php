@@ -102,4 +102,7 @@ enum PermissionEnum: string
 //
 //    #[Description("can generate report for finance transaction")] #[FeatureGroup("finance transactions")]
 //    case ADMIN_FINANCE_TRANSACTION_REPORTS = "admin.finance.transaction.reports";
+
+    #[Description("can generate report for order")] #[FeatureGroup("report order")]
+    case REPORT_ORDERS = "admin.reports.order";
 }

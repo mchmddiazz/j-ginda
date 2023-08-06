@@ -119,6 +119,11 @@ Route::prefix('cart')->name("cart.")->controller(CartController::class)->group(f
 
 Route::middleware(["auth", "verified"])->group(function () {
     Route::prefix('admin')->name("admin.")->group(function () {
+        Route::prefix("reports")->name("reports.")->controller(\App\Http\Controllers\Admin\ReportController::class)->group(function (){
+            Route::get("orders", "showOrder")->name("show.order");
+            Route::get("orders/generate", "generateOrder")->name("generate.order");
+        });
+
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::get("/permissions", PermissionController::class)->name("permissions.index")->middleware("permission:".PermissionEnum::PERMISSIONS_INDEX());
