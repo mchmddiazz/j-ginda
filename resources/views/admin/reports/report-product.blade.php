@@ -101,7 +101,6 @@
 					<td><span>{{$product->description ?? "-"}}</span></td>
 					<td><span>{{ $product->quantity ?? 0 }}</span></td>
 					<td><span>{{ $product->quantity_threshold ?? 0 }}</span></td>
-
 				</tr>
 			@endforeach
 			</tbody>

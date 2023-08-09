@@ -116,11 +116,19 @@
 				@endphp
 			@endforeach
 			<tr>
-				<td><span>Total Debit</span></td>
+				<td><span>Total Penjualan</span></td>
 				<td colspan="7"><spa>{{formatToRupiah($totalPenjualan)}}</spa></td>
 			</tr>
 			</tbody>
 		</table>
+		<br>
+
+		<p style="text-align: right; margin-right: 200px;">TTD</p>
+		<br>
+		<br>
+		<br>
+		<br>
+		<p style="text-align: right; margin-right: 190px;">Owner</p>
 	</article>
 
 </header>
