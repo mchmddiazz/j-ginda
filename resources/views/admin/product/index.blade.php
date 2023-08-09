@@ -38,8 +38,8 @@
 															<th scope="col">No</th>
 															<th scope="col">Nama Produk</th>
 															<th scope="col text-wrap" >Deskripsi Produk</th>
-															<th scope="col">Kuantitas Gudang</th>
-															<th scope="col">Ambang Batas Kuantitas</th>
+															<th scope="col">Stok</th>
+															<th scope="col">Minimum Stok</th>
 															<th scope="col">Kondisi Stok</th>
 															<th scope="col">Berat (gram)</th>
 															<th scope="col">Gambar</th>
