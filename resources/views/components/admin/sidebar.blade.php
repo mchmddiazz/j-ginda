@@ -289,7 +289,7 @@
 											      fill="#90959F"/>
 										</svg>
 									</div>
-									<span class="nav-text">Laporan Transaksi</span>
+									<span class="nav-text">Laporan Penjualan</span>
 								</a>
 							</li>
 						@endcan

@@ -2,7 +2,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Laporan Keuangan</title>
+	<title>Laporan Barang</title>
 	<style>
         * {
             border: 0;
@@ -75,7 +75,9 @@
 
 <body>
 <header>
-	<h1 style="padding-top: 5rem">Laporan Keuangan</h1>
+	<h1 style="padding-top: 5rem">Laporan Barang</h1>
+	<p style="text-align: center;">Tanggal Cetak : {{now()}}</p>
+
 	<address>
 
 	</address>
