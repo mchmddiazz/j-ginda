@@ -17,7 +17,7 @@
                                         <label for="product" class="form-label">Produk</label>
                                         <select name="product_ids[]" class="form-select">
                                             @foreach($products as $product)
-                                                <option value="{{$product->id}}">{{$product->name . " | Rp " . $product->price}}</option>
+                                                <option value="{{$product->id}}">{{$product->name . " | Rp " . $product->price . " | " . $product->quantity . " pcs"}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -53,7 +53,7 @@
                     products.forEach(function (item){
                         console.log(item)
                         options += `
-                            <option value="${item.id}">${item.name} | Rp ${item.price}</option>
+                            <option value="${item.id}">${item.name} | Rp ${item.price} | ${item.quantity} pcs</option>
                         `
                     })
                     $("#form-container").append(`
