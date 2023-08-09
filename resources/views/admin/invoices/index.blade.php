@@ -268,7 +268,7 @@
 			@if ($order->tracking_number)
 				<tr>
 					<th><span>Resi</span></th>
-					<td><span>{{ $order->tracking_number }} Gram</span></td>
+					<td><span>{{ $order->tracking_number }}</span></td>
 				</tr>
 			@endif
 		</table>
