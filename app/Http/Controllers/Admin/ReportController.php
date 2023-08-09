@@ -6,6 +6,7 @@ use App\Enums\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
+use App\Repositories\RequestProductionRepository;
 use App\Repositories\TransactionRepository;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -48,5 +49,17 @@ class ReportController extends Controller
         ]);
 
         return $pdf->stream();
+    }
+
+    public function showRequestProduction():Response
+    {
+        $requestProducts = (new RequestProductionRepository())->where("status", "done")->getAllData();
+
+        $pdf = Pdf::loadView('admin.reports.request-production', [
+            'request_products' => $requestProducts,
+        ]);
+
+        return $pdf->stream();
+
     }
 }
