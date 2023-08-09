@@ -13,5 +13,6 @@ enum OrderStatus:string
     case PENDING = "pending";
     case PROCESSING = "processing";
     case COMPLETED = "completed";
+    case SENDING = "sending";
     case DECLINE = "decline";
 }

@@ -24,6 +24,10 @@
 							   href="{{route('admin.orders.index', ['status' => 'processing'])}}">Processing</a>
 						</li>
 						<li class="nav-item">
+							<a class="nav-link {{ request()->fullUrl() === route('admin.orders.index', ['status' => 'sending']) ? 'active' : '' }}"
+							   href="{{route('admin.orders.index', ['status' => 'sending'])}}">Sending</a>
+						</li>
+						<li class="nav-item">
 							<a class="nav-link {{ request()->fullUrl() === route('admin.orders.index', ['status' => 'completed']) ? 'active' : '' }}"
 							   href="{{route('admin.orders.index', ['status' => 'completed'])}}">Completed</a>
 						</li>
@@ -46,7 +50,7 @@
 										<th>Tipe</th>
 										<th>Total Harga</th>
 										<th>Jumlah</th>
-										@if(request()->query("status", "") === OrderStatus::COMPLETED())
+										@if(request()->query("status", "") === OrderStatus::COMPLETED() || request()->query("status", "") === OrderStatus::SENDING())
 											<th>Nomor Resi</th>
 										@endif
 										<th>Status</th>
@@ -65,12 +69,14 @@
 											<td>{{$order->type}}</td>
 											<td>{{ formatToRupiah($order->grand_total)}}</td>
 											<td>{{"$order->item_count order"}}</td>
-											@if(request()->query("status", "") === OrderStatus::COMPLETED())
+											@if(request()->query("status", "") === OrderStatus::COMPLETED() || request()->query("status", "") === OrderStatus::SENDING() )
 												<td>{{$order->tracking_number}}</td>
 											@endif
 											<td>
 												@if($order->status === OrderStatus::PENDING())
 													<span class="badge bg-warning">Tertunda</span>
+												@elseif($order->status === OrderStatus::SENDING())
+													<span class="badge bg-success">Sedang Dikirim</span>
 												@elseif($order->status === OrderStatus::DECLINE())
 													<span class="badge bg-danger">Ditolak</span>
 												@elseif($order->status === OrderStatus::PROCESSING())
@@ -106,12 +112,20 @@
 														        type="button">Tolak Pesanan
 														</button>
 													@endif
+													@if($order->status === OrderStatus::SENDING())
+														<button class="btn btn-danger btn-sm btn-completed2"
+																data-id="{{$order->id}}" data-status="completed"
+																type="button">Pesanan Diterima
+														</button>
+													@endif
+
+
 
 													@if($order->status === OrderStatus::PROCESSING())
 														<button type="button"
 														        class="btn btn-success btn-sm btn-completed"
 														        data-bs-toggle="modal" data-id="{{$order->id}}"
-														        data-status="completed"
+														        data-status="sending"
 														        data-bs-target="#completed-payment">
 															Kirim Pesanan
 														</button>
@@ -198,6 +212,16 @@
 
             let defaultUpdateStatusPaymentUrl = $("#form-update-status-payment").attr("action");
 
+			$(".btn-completed2").on("click", function () {
+				const id = $(this).data("id");
+				const status = $(this).data("status");
+				let newUrl = defaultUpdateStatusPaymentUrl.replace(":id", id).replace(":status", status);
+				$("#form-update-status-payment").attr("action", newUrl);
+
+				alertConfirm(() => {
+					$("#form-update-status-payment").trigger("submit");
+				})
+			});
             $(".btn-accept").on("click", function () {
                 const id = $(this).data("id");
                 const status = $(this).data("status");

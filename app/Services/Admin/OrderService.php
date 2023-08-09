@@ -75,10 +75,14 @@ class OrderService extends \Iqbalatma\LaravelServiceRepo\BaseService
             $this->checkData($id);
             DB::beginTransaction();
 
-            if ($status === OrderStatus::COMPLETED()) {
+            if ($status === OrderStatus::SENDING()) {
                 $this->getServiceEntity()->fill([
                     "status" => $status,
                     "tracking_number" => $requestedData["tracking_number"]
+                ])->save();
+            } elseif($status === OrderStatus::COMPLETED()){
+                $this->getServiceEntity()->fill([
+                    "status" => $status,
                 ])->save();
             } else {
                 $order = $this->getServiceEntity();
