@@ -40,8 +40,8 @@
 												<th scope="col">Aksi</th>
 											@endif
 											<th scope="col">Nama Produk</th>
-											<th scope="col">Kuantitas Gudang</th>
-											<th scope="col">Ambang Batas Kuantitas</th>
+											<th scope="col">Stok</th>
+											<th scope="col">Minimal Stok</th>
 											<th scope="col">Permintaan Produksi</th>
 											<th scope="col">Produksi Terpenuhi</th>
 											<th scope="col">Berat (gram)</th>

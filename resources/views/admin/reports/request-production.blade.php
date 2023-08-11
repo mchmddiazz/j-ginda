@@ -91,6 +91,7 @@
 				<th><span>Produk</span></th>
 				<th><span>Jumlah Permintaan</span></th>
 				<th><span>Jumlah Pemenuhan</span></th>
+				<th><span>Tanggal Permintaan</span></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -101,10 +102,20 @@
 					<td><span>{{$requestProduct->product->name ?? "-"}}</span></td>
 					<td><span>{{$requestProduct->request_quantity ?? "-"}}</span></td>
 					<td><span>{{$requestProduct->actual_quantity ?? "-"}}</span></td>
+					<td><span>{{$requestProduct->created_at ?? "-"}}</span></td>
 				</tr>
 			@endforeach
 			</tbody>
 		</table>
+
+		<br>
+
+		<p style="text-align: right; margin-right: 200px;">TTD</p>
+		<br>
+		<br>
+		<br>
+		<br>
+		<p style="text-align: right; margin-right: 190px;">Owner</p>
 	</article>
 
 </header>

@@ -93,6 +93,7 @@
 				<th><span>Ongkir</span></th>
 				<th><span>Ekspedisi</span></th>
 				<th><span>Berat Barang</span></th>
+				<th><span>Tanggal Transaksi</span></th>
 
 			</tr>
 			</thead>
@@ -110,6 +111,7 @@
 					<td><span>{{ formatToRupiah($order->ongkir ?? 0) }}</span></td>
 					<td><span>{{$order->expedisi ?? "-"}}</span></td>
 					<td><span>{{ ($order->weight ?? 0) . " grams"}}</span></td>
+					<td><span>{{ $order->created_at}}</span></td>
 				</tr>
 				@php
 					$totalPenjualan += $order->grand_total ?? 0;
@@ -117,7 +119,7 @@
 			@endforeach
 			<tr>
 				<td><span>Total Penjualan</span></td>
-				<td colspan="7"><spa>{{formatToRupiah($totalPenjualan)}}</spa></td>
+				<td colspan="8"><spa>{{formatToRupiah($totalPenjualan)}}</spa></td>
 			</tr>
 			</tbody>
 		</table>

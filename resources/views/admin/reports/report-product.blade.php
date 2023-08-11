@@ -105,6 +105,15 @@
 			@endforeach
 			</tbody>
 		</table>
+
+		<br>
+
+		<p style="text-align: right; margin-right: 200px;">TTD</p>
+		<br>
+		<br>
+		<br>
+		<br>
+		<p style="text-align: right; margin-right: 190px;">Owner</p>
 	</article>
 
 </header>

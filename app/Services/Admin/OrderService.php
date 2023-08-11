@@ -95,7 +95,6 @@ class OrderService extends \Iqbalatma\LaravelServiceRepo\BaseService
                         "amount" => $order->grand_total,
                         "type" => "debit",
                         "order_id" => $order->id,
-                        "saldo" => $latestTransaction->saldo + $order->grand_total,
                     ]);
 
                     $order->fill([
