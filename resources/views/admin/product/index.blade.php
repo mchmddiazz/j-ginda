@@ -255,6 +255,18 @@
 															</div>
 														</div>
 														<div class="mb-3">
+															<label class="text-label form-label" for="dz-password2">Second Photo
+																*</label>
+															<div class="input-group transparent-append">
+																<input id="image2" type="file" name="image2"
+																       accept="image/*"
+																       onchange="readURL(this);">
+																<div class="invalid-feedback">
+																	Please Enter a Image.
+																</div>
+															</div>
+														</div>
+														<div class="mb-3">
 															<img id="modal-preview"
 															     src="https://via.placeholder.com/150"
 															     alt="Preview" class="form-group hidden" width="100"

@@ -43,6 +43,13 @@ class ProductService extends \Iqbalatma\LaravelServiceRepo\BaseService
                 $requestedData["image"] = Str::random(10) . $file->getClientOriginalName();
                 Storage::putFileAs("public/products", $file, $requestedData["image"]);
             }
+
+            if(request()->hasFile("image2")){
+                $file2 = request()->file("image2");
+                $requestedData["image2"] = Str::random(10) . $file2->getClientOriginalName();
+                Storage::putFileAs("public/products", $file2, $requestedData["image2"]);
+            }
+
             $this->repository->addNewData($requestedData);
 
             $response = [
@@ -93,6 +100,12 @@ class ProductService extends \Iqbalatma\LaravelServiceRepo\BaseService
                 $file = request()->file("image");
                 $requestedData["image"] = Str::random(10) . $file->getClientOriginalName();
                 Storage::putFileAs("public/products", $file, $requestedData["image"]);
+            }
+
+            if(request()->hasFile("image2")){
+                $file2 = request()->file("image2");
+                $requestedData["image2"] = Str::random(10) . $file2->getClientOriginalName();
+                Storage::putFileAs("public/products", $file2, $requestedData["image2"]);
             }
 
             $product->fill($requestedData)->save();

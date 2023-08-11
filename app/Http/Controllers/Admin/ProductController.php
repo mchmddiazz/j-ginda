@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -46,7 +47,7 @@ class ProductController extends Controller
     {
         $response = $service->addNewData($request->validated());
         if ($this->isError($response)) return $this->getErrorResponse();
-
+        
         return redirect()->route("admin.products.index")->with("success", ucfirst("Tambah data produk berhasil !"));
     }
 
@@ -59,7 +60,7 @@ class ProductController extends Controller
     public function edit(ProductService $service, int $id):Response|RedirectResponse
     {
         $response = $service->getEditData($id);
-
+        
         if ($this->isError($response)) return $this->getErrorResponse();
         viewShare($response);
         return response()->view("admin.product.edit");

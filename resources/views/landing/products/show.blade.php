@@ -12,9 +12,20 @@
 										<div class="single-product-thumbnail axil-product thumbnail-grid">
 											<div class="thumbnail">
 												@if($product->image && $product->image !== "")
+													@if($product->image2 && $product->image2 !== "")
+													<div class="slider-product owl-carousel owl-theme">
+													@endif
 													<img class="img-fluid product-image"
 													     src="{{ asset('/storage/products/'. $product->image)}}"
 													     alt="Product Images">
+													@if($product->image2 && $product->image2 !== "")
+													<img class="img-fluid product-image"
+													     src="{{ asset('/storage/products/'. $product->image2)}}"
+													     alt="Product Images">
+													@endif
+													@if($product->image2 && $product->image2 !== "")
+													</div>
+													@endif
 												@else
 													<img src="https://via.placeholder.com/150">
 												@endif

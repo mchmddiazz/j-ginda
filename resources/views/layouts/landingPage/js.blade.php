@@ -19,7 +19,6 @@
 <script src="{{ asset('assets/js/vendor/isotope.pkgd.min.js')}}"></script>
 <script src="{{ asset('assets/js/vendor/counterup.js')}}"></script>
 <script src="{{ asset('assets/js/vendor/waypoints.min.js')}}"></script>
-
 <script src="{{ asset('alert/js/sweetalert.js') }}"></script>
 <script>
     $(document).ready(function () {
