@@ -71,10 +71,17 @@
 <script src="{{ asset('assets/js/vendor/isotope.pkgd.min.js')}}"></script>
 <script src="{{ asset('assets/js/vendor/counterup.js')}}"></script>
 <script src="{{ asset('assets/js/vendor/waypoints.min.js')}}"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
 <script src="{{ asset('alert/js/sweetalert.js') }}"></script>
 <script>
     $(document).ready(function () {
+
+        $('.slider-product').owlCarousel({
+            items: 1
+        })
 
 
         $(this).on('click', '#header-search-icon', function (e) {

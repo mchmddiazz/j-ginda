@@ -102,6 +102,12 @@ class ProductService extends \Iqbalatma\LaravelServiceRepo\BaseService
                 Storage::putFileAs("public/products", $file, $requestedData["image"]);
             }
 
+            if(request()->hasFile("image2")){
+                $file2 = request()->file("image2");
+                $requestedData["image2"] = Str::random(10) . $file2->getClientOriginalName();
+                Storage::putFileAs("public/products", $file2, $requestedData["image2"]);
+            }
+
             $product->fill($requestedData)->save();
 
             $response = [
