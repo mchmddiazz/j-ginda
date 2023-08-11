@@ -32,7 +32,8 @@ class StoreProductRequest extends FormRequest
             "weight" => "numeric",
             "description" => "max:1000",
             "slideActive" => "boolean",
-            "image"=> "image|mimes:jpeg,png,jpg|max:2048"
+            "image"=> "image|mimes:jpeg,png,jpg|max:2048",
+            "image2"=> "image|mimes:jpeg,png,jpg|max:2048"
         ];
     }
 }
