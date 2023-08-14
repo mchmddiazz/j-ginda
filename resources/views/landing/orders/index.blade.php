@@ -17,7 +17,7 @@
 							</tr>
 							</thead>
 							<tbody>
-							@foreach ($orders as $order)
+							@foreach ($orders->reverse() as $order)
 								<tr>
 									<td class="product-title">
 										{{ $order->order_number }}
