@@ -47,7 +47,7 @@
 											<div class="product-price-variant">
 												@if ($product->price > 0 && ($product->priceDisc == 0))
 												<span class="price current-price">{{ formatToRupiah($product->price) }}</span>
-												@else if ($product->price > 0 && ($product->priceDisc > 0))
+												@elseif ($product->price > 0 && ($product->priceDisc > 0))
 												<span class="price current-price">{{ formatToRupiah($product->priceDisc) }}</span>
 												<span class="price old-price">{{ formatToRupiah($product->price) }}</span>
 												@endif

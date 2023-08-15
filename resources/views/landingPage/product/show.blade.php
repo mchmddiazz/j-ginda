@@ -65,7 +65,7 @@ Abon Alfitri | Beranda
 
                                             <input type="hidden" value="{{ $productDetail->id }}" name="id">
                                             <input type="hidden" value="{{ $productDetail->name }}" name="name">
-                                            @if ($productDetail->price > $productDetail->priceDisc)
+                                            @if ($productDetail->price > 0 && ($productDetail->priceDisc == 0))
                                             <input type="hidden" value="{{ $productDetail->price }}"name="priceDisc">
                                             @else if ($productDetail->priceDisc > 0 && $productDetail->price > 0)
                                             <input type="hidden" value="{{ $productDetail->priceDisc }}"name="priceDisc">
@@ -118,7 +118,7 @@ Abon Alfitri | Beranda
                                             <div class="product-price-variant">
                                                 @if ($item->price > 0 && ($item->priceDisc == 0))
                                                 <span class="price current-price">{{  formatToRupiah($item->price) }}</span>
-                                                @else if ($item->price > 0 && ($item->priceDisc > 0))
+                                                @elseif ($item->price > 0 && ($item->priceDisc > 0))
                                                 <span class="price current-price">{{formatToRupiah($item->priceDisc) }}</span>
                                                 <span class="price old-price">{{  formatToRupiah($item->price) }}</span>
                                                 @endif
