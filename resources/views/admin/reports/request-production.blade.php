@@ -86,12 +86,13 @@
 		<table class="transaksi">
 			<thead>
 			<tr>
-				<th style="width: 5%"><span>Nomor</span></th>
+				<th><span>Nomor</span></th>
 				<th style="width: 12%"><span>Nama</span></th>
 				<th><span>Produk</span></th>
 				<th><span>Jumlah Permintaan</span></th>
 				<th><span>Jumlah Pemenuhan</span></th>
 				<th><span>Tanggal Permintaan</span></th>
+				<th><span>Tanggal Pemenuhan</span></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -103,6 +104,7 @@
 					<td><span>{{$requestProduct->request_quantity ?? "-"}}</span></td>
 					<td><span>{{$requestProduct->actual_quantity ?? "-"}}</span></td>
 					<td><span>{{$requestProduct->created_at ?? "-"}}</span></td>
+					<td><span>{{$requestProduct->updated_at ?? "-"}}</span></td>
 				</tr>
 			@endforeach
 			</tbody>
