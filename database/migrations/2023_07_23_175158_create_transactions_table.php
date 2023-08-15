@@ -21,7 +21,6 @@ class CreateTransactionsTable extends Migration
             $table->unsignedInteger("order_id")->nullable();
             $table->string("description")->nullable();
             $table->decimal("amount", 20, 2)->default(0);
-            $table->decimal("saldo", 20, 2);
             $table->enum("type", FinancialTransactionTypeEnum::values());
             $table->timestamps();
         });

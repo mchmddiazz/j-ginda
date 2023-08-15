@@ -17,7 +17,6 @@ class TransactionFactory extends Factory
         return [
             "description" => $this->faker->randomElement(["penjualan", "bahan baku", "gaji", "listrik"]),
             "type" => $this->faker->randomElement(FinancialTransactionTypeEnum::values()),
-            "saldo" => 0,
             "amount" => $this->faker->numberBetween(100,1000),
         ];
     }
