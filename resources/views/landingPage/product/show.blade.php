@@ -39,11 +39,11 @@ Abon Alfitri | Beranda
                                 <div class="single-product-content">
                                     <div class="inner">
                                         <h2 class="product-title">{{ $productDetail->name }}</h2>
-                                        @if ($productDetail->price > $productDetail->priceDisc)
+                                        <!-- @if ($productDetail->price > $productDetail->priceDisc)
                                         <span class="price-amount">{{ "Rp " . number_format($productDetail->priceDisc, 0, ",", ".")  }} <strike>{{ "Rp " . number_format($productDetail->price, 0, ",", ".")  }}</strike></span>
                                         @else if ($productDetail->pricedisc >= 0 && $productDetail->price > 0)
+                                        @endif -->
                                         <span class="price-amount">{{ "Rp " . number_format($productDetail->price, 0, ",", ".")  }}</span>
-                                        @endif
 
                                         <ul class="product-meta">
                                             @if ($productDetail->quantity > 0)
