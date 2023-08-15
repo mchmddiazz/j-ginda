@@ -73,9 +73,9 @@
 
 												<input type="hidden" value="{{ $product->id }}" name="id">
 												<input type="hidden" value="{{ $product->name }}" name="name">
-												@if ($product->price > $product->priceDisc)
+												@if ($product->price > 0 && ($product->priceDisc == 0))
 												<input type="hidden" value="{{ $product->price }}"name="priceDisc">
-												@else if ($product->priceDisc > 0 && $product->price > 0)
+												@elseif ($product->priceDisc > 0 && $product->price > 0)
 												<input type="hidden" value="{{ $product->priceDisc }}"name="priceDisc">
 												@endif
 												<input type="hidden" value="{{ $product->image }}" name="image">
@@ -133,7 +133,7 @@
 														<div class="product-price-variant">
 															@if ($item->price > 0 && ($item->priceDisc == 0))
 															<span class="price current-price">{{  formatToRupiah($item->price) }}</span>
-															@else if ($item->price > 0 && ($item->priceDisc > 0))
+															@elseif ($item->price > 0 && ($item->priceDisc > 0))
 															<span class="price current-price">{{formatToRupiah($item->priceDisc) }}</span>
 															<span class="price old-price">{{  formatToRupiah($item->price) }}</span>
 															@endif
