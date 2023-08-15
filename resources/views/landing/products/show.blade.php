@@ -45,14 +45,14 @@
 									<div class="single-product-content">
 										<div class="inner">
 											<h2 class="product-title">{{ $product->name }}</h2>
-											@if ($product->priceDisc && ($product->price > $product->priceDisc))
+											<!-- @if ($product->priceDisc && ($product->price > $product->priceDisc))
 												<span class="price-amount">
 													<strike>{{ "Rp " . formatToRupiah($product->price)  }}</strike> <br>
 													{{  formatToRupiah($product->priceDisc)  }}
 												</span>
 											@else
-												<span class="price-amount">{{ formatToRupiah($product->price)  }}</span>
-											@endif
+											@endif -->
+											<span class="price-amount">{{ formatToRupiah($product->price)  }}</span>
 
 											<p>{{$product->description ?? "-"}}</p>
 
