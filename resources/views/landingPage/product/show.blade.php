@@ -39,11 +39,12 @@ Abon Alfitri | Beranda
                                 <div class="single-product-content">
                                     <div class="inner">
                                         <h2 class="product-title">{{ $productDetail->name }}</h2>
-                                        <!-- @if ($productDetail->price > $productDetail->priceDisc)
-                                        <span class="price-amount">{{ "Rp " . number_format($productDetail->priceDisc, 0, ",", ".")  }} <strike>{{ "Rp " . number_format($productDetail->price, 0, ",", ".")  }}</strike></span>
+                                        @if ($productDetail->price > $productDetail->priceDisc)
+                                        <strike>{{ formatToRupiah($product->price)  }}</strike>
+                                        <span class="price-amount">{{  formatToRupiah($product->priceDisc)  }}</span>
                                         @else if ($productDetail->pricedisc >= 0 && $productDetail->price > 0)
-                                        @endif -->
                                         <span class="price-amount">{{ "Rp " . number_format($productDetail->price, 0, ",", ".")  }}</span>
+                                        @endif
 
                                         <ul class="product-meta">
                                             @if ($productDetail->quantity > 0)
@@ -64,8 +65,11 @@ Abon Alfitri | Beranda
 
                                             <input type="hidden" value="{{ $productDetail->id }}" name="id">
                                             <input type="hidden" value="{{ $productDetail->name }}" name="name">
-                                            <input type="hidden" value="{{ $productDetail->priceDisc }}"
-                                                name="priceDisc">
+                                            @if ($productDetail->price > $productDetail->priceDisc)
+                                            <input type="hidden" value="{{ $productDetail->price }}"name="priceDisc">
+                                            @else if ($productDetail->priceDisc > 0 && $productDetail->price > 0)
+                                            <input type="hidden" value="{{ $productDetail->priceDisc }}"name="priceDisc">
+                                            @endif
                                             <input type="hidden" value="{{ $productDetail->image }}" name="image">
                                             <input type="hidden" value="{{ $productDetail->weight }}" name="weight">
                                             <!-- Start Product Action  -->

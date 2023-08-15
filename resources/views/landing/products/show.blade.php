@@ -45,14 +45,12 @@
 									<div class="single-product-content">
 										<div class="inner">
 											<h2 class="product-title">{{ $product->name }}</h2>
-											<!-- @if ($product->priceDisc && ($product->price > $product->priceDisc))
-												<span class="price-amount">
-													<strike>{{ "Rp " . formatToRupiah($product->price)  }}</strike> <br>
-													{{  formatToRupiah($product->priceDisc)  }}
-												</span>
+											@if ($product->priceDisc && ($product->price > $product->priceDisc))
+											<strike>{{ formatToRupiah($product->price)  }}</strike>
+											<span class="price-amount">{{  formatToRupiah($product->priceDisc)  }}</span>
 											@else
-											@endif -->
 											<span class="price-amount">{{ formatToRupiah($product->price)  }}</span>
+											@endif
 
 											<p>{{$product->description ?? "-"}}</p>
 
@@ -75,8 +73,11 @@
 
 												<input type="hidden" value="{{ $product->id }}" name="id">
 												<input type="hidden" value="{{ $product->name }}" name="name">
-												<input type="hidden" value="{{ $product->priceDisc }}"
-												       name="priceDisc">
+												@if ($product->price > $product->priceDisc)
+												<input type="hidden" value="{{ $product->price }}"name="priceDisc">
+												@else if ($product->priceDisc > 0 && $product->price > 0)
+												<input type="hidden" value="{{ $product->priceDisc }}"name="priceDisc">
+												@endif
 												<input type="hidden" value="{{ $product->image }}" name="image">
 												<input type="hidden" value="{{ $product->weight }}" name="weight">
 												<!-- Start Product Action  -->
