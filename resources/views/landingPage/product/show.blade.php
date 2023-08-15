@@ -109,15 +109,6 @@ Abon Alfitri | Beranda
                                             <img src="{{ asset('storage/products/'. $item->image)}}" alt="Product Images" style="width:255px; height:339px;">
                                             
                                         </a>
-                                        <div class="product-hover-action">
-                                            <ul class="cart-action">
-                                                <li class="select-option"><a href="#" data-id="{{ base64_encode($item->id) }}" id="button_create_troli_detail">Add To Cart</a></li>
-                                                <li class="quickview"><a href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#quick-view-modal"
-                                                        data-id="{{ base64_encode($item->id) }}" id="button_add"><i
-                                                            class="far fa-eye"></i></a></li>
-                                            </ul>
-                                        </div>
                                     </div>
                                     <div class="product-content">
                                         <div class="inner">
@@ -125,10 +116,12 @@ Abon Alfitri | Beranda
                                                     href="{{ route('products.show',$item->id) }}">{{ $item->name }}</a>
                                             </h5>
                                             <div class="product-price-variant">
-                                                <span
-                                                    class="price old-price">{{ "Rp " . number_format($item->price, 0, ",", ".")  }}</span>
-                                                <span
-                                                    class="price current-price">{{ "Rp " . number_format($item->priceDisc, 0, ",", ".")  }}</span>
+                                                @if ($item->price > 0 && ($item->priceDisc == 0))
+                                                <span class="price current-price">{{  formatToRupiah($item->price) }}</span>
+                                                @else if ($item->price > 0 && ($item->priceDisc > 0))
+                                                <span class="price current-price">{{formatToRupiah($item->priceDisc) }}</span>
+                                                <span class="price old-price">{{  formatToRupiah($item->price) }}</span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
