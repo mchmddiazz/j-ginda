@@ -37,29 +37,6 @@
 											     height="100px">
 										@endif
 									</a>
-									<div class="product-hover-action">
-										<ul class="cart-action">
-											<li class="select-option">
-												<a href="#" data-id="{{ base64_encode($item->id) }}"
-												   id="button_create_troli_detail">Add To Cart
-												</a>
-											</li>
-											<li class="quickview">
-												<a href="{{ route('products.show', $item->id) }}"
-												   data-bs-toggle="modal"
-												   data-bs-target="#quick-view-modal"
-												   data-id="{{ $item->id }}"
-												   id="button_add">
-													<i class="far fa-eye"></i>
-												</a>
-											</li>
-										</ul>
-										<input type="hidden" value="{{ $item->id }}" name="id">
-										<input type="hidden" value="{{ $item->name }}" name="name">
-										<input type="hidden" value="{{ $item->priceDisc }}" name="priceDisc">
-										<input type="hidden" value="{{ $item->image }}" name="image">
-										<input type="hidden" value="1" name="quantity">
-									</div>
 								</div>
 								<div class="product-content">
 									<div class="inner">
@@ -67,8 +44,13 @@
 											<a href="{{ route('products.show', $item->id) }}">{{ $item->name }}</a>
 										</h5>
 										<div class="product-price-variant">
+											@if ($item->price > 0 && ($item->priceDisc == 0))
+											<span class="price current-price">{{  formatToRupiah($item->price) }}</span>
+											@else if ($item->price > 0 && ($item->priceDisc > 0))
 											<span class="price current-price">{{formatToRupiah($item->priceDisc) }}</span>
 											<span class="price old-price">{{  formatToRupiah($item->price) }}</span>
+											@endif
+											
 										</div>
 									</div>
 								</div>
