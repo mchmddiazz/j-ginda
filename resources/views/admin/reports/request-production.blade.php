@@ -2,7 +2,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Laporan Permintaan Produksi</title>
+	<title>Laporan Pemenuhan Produk</title>
 	<style>
         * {
             border: 0;
@@ -75,7 +75,7 @@
 
 <body>
 <header>
-	<h1 style="padding-top: 5rem">Laporan Permintaan Produksi</h1>
+	<h1 style="padding-top: 5rem">Laporan Pemenuhan Produk</h1>
 	<p style="text-align: center;">Tanggal Cetak : {{now()}}</p>
 
 	<address>

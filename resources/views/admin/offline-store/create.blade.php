@@ -4,7 +4,7 @@
         <div class="col-lg-12">
             <div class="card dz-card">
                 <div class="card-header flex-wrap border-0" id="default-tab">
-                    <h4 class="card-title">{{$cardTitle ?? "About Us"}}</h4>
+                    <h4 class="card-title">{{$cardTitle ?? "Offline Store"}}</h4>
                 </div>
                 <div class="card-body pt-0">
                     <div class="p-4">

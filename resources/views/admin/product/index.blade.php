@@ -59,7 +59,7 @@
 																<td>{{$product->quantity . " pcs"}}</td>
 																<td>{{$product->quantity_threshold . " pcs"}}</td>
 																<td>
-																	@if($product->quantity > $product->quantity_threshold)
+																	@if($product->quantity >= $product->quantity_threshold)
 																		<span class="badge rounded-pill bg-success">Stok Terpenuhi</span>
 																	@elseif($product->quantity === 0)
 																		<span class="badge rounded-pill bg-danger">Stok Habis</span>
